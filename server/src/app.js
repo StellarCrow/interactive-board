@@ -6,14 +6,18 @@ const cors = require('cors');
 const createError = require('http-errors');
 
 let indexRouter = require('../routes/index');
+let usersRouter = require('../routes/users');
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
 app.use('/', indexRouter);
+app.use('/users/', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

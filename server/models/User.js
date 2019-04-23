@@ -8,12 +8,18 @@ let UserSchema = new Schema ({
         unique: true,
         required: true
     },
+    firstName: String,
+    lastName: String,
     password: {
         type: String,
         required: true
     },
     boards: [{type: Schema.Types.ObjectId, ref: 'Board'}],
-    email: String
+    email: {
+        type: String,
+        required: true
+    },
+    description: String
 });
 
 module.exports = mongoose.model('User', UserSchema);
