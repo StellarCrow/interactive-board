@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-2">
-        <button v-on:click="isVisible = !isVisible">Регистрация</button>
+        <button v-on:click="isVisible = !isVisible">Войти</button>
       </div>
     </div>
     <div v-if="isVisible" class="row justify-content-center">
@@ -12,19 +12,7 @@
             <input type="text" placeholder="Username" class="form__input" v-model="username" required>
           </div>
           <div class="form-group">
-            <input type="text" placeholder="Имя" class="form__input" v-model="firstName" >
-          </div>
-          <div class="form-group">
-            <input type="text" placeholder="Фамилия" class="form__input" v-model="lastName" >
-          </div>
-          <div class="form-group">
-            <input type="email" placeholder="Email" class="form__input" v-model="email" required>
-          </div>
-          <div class="form-group">
             <input type="password" placeholder="Пароль" class="form__input" v-model="password" required>
-          </div>
-          <div class="form-group">
-            <input type="password" placeholder="Повторите пароль" class="form__input" v-model="repeatPassword" required>
           </div>
           <button v-on:click="register" type="submit">Подтвердить</button>
         </form>
@@ -37,7 +25,7 @@
   import AuthenticationService from '../services/AuthenticationService'
 
   export default {
-    name: "Register",
+    name: "Login",
     data() {
       return {
         username: '',
@@ -51,8 +39,8 @@
     },
     methods: {
       async register() {
-        await AuthenticationService.register({
-          email: this.email,
+        await AuthenticationService.login({
+          username: this.username,
           password: this.password
         });
       }

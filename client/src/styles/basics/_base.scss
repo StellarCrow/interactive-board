@@ -1,3 +1,43 @@
 @import "../setup/normalize.scss";
 @import "../setup/variables.scss";
 @import "../setup/mixins.scss";
+
+@import "~compass-mixins/lib/compass/css3";
+
+button {
+  @include border-radius(25px);
+  @include transition();
+  background: transparent;
+  padding: 1em 1.5em;
+  outline: none;
+  font-weight: $light;
+  border: 1px solid $accent-color;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $accent-color;
+  }
+}
+
+input {
+  display: inline-block;
+  outline: none;
+  font-size: $text;
+  padding: 1em 1.5em;
+  border: 1px solid #ffffff;
+  border-bottom: 1px solid $gray-color--light;
+  color: $gray-color;
+  font-weight: $light;
+
+  &:focus {
+    border-bottom: 1px solid $accent-color;
+  }
+
+  &::placeholder {
+    font-weight: $light;
+    color: $gray-color;
+  }
+}
