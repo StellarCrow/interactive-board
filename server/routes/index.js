@@ -9,14 +9,18 @@ mongoose.connect('mongodb://localhost/test-board',  { useNewUrlParser: true });
 
 let User = require('../models/User');
 
+
 process.env.SECRET_KEY = 'secret';
+
+function jwtSignUser(user) {
+    const ONE_WEEK = 60 * 60 * 24 * 7;
+    return jwt.sign(user, process.env.SECRET_KEY, {
+        expiresIn: ONE_WEEK
+    });
+}
 
 router.get('/', function(req, res) {
     res.send("Hallo!");
-});
-
-router.post('/register', function (req, res) {
-    res.send(`${req.body.email} Registered!`);
 });
 
 router.post('/registration', function (req, res) {
@@ -36,7 +40,8 @@ router.post('/registration', function (req, res) {
                 userData.password = hash;
                 User.create(userData)
                     .then(user => {
-                        res.json({status: user.email + " registered"});
+                        return res.status(200).send(user.email + " registered")
+                        //res.json({status: user.email + " registered"});
                     })
                     .catch(err => {
                         res.send("Error: " + err)
@@ -62,12 +67,14 @@ router.post("/login", function (req, res) {
                 const payload = {
                     _id: user._id,
                     username: user.username,
-                    email: user.email
+                    email: user.email,
+                    password: user.password
                 };
-                let token = jwt.sign(payload, process.env.SECRET_KEY, {
-                    expiresIn: 1440
+                let token = jwtSignUser(payload);
+                res.send({
+                    user: payload,
+                    token: token
                 });
-                res.send(token);
             }
             else {
                 res.json({error: "User doesn't exist"})

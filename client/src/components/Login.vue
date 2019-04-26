@@ -29,20 +29,21 @@
     data() {
       return {
         username: '',
-        email: '',
         password: '',
-        repeatPassword: '',
-        firstName: '',
-        lastName: '',
-        isVisible: false
+        isVisible: false,
+        error: null
       }
     },
     methods: {
       async register() {
-        await AuthenticationService.login({
-          username: this.username,
-          password: this.password
-        });
+        try {
+          await AuthenticationService.login({
+            username: this.username,
+            password: this.password
+          });
+        } catch (error) {
+          this.error = error.response.data.error;
+        }
       }
     }
   }

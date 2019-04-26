@@ -7,15 +7,15 @@
     </div>
     <div v-if="isVisible" class="row justify-content-center">
       <div class="col-6">
-        <form action="" method="post" class="form">
+        <form class="form" autocomplete="off">
           <div class="form-group">
             <input type="text" placeholder="Username" class="form__input" v-model="username" required>
           </div>
           <div class="form-group">
-            <input type="text" placeholder="Имя" class="form__input" v-model="firstName" >
+            <input type="text" placeholder="Имя" class="form__input" v-model="firstName">
           </div>
           <div class="form-group">
-            <input type="text" placeholder="Фамилия" class="form__input" v-model="lastName" >
+            <input type="text" placeholder="Фамилия" class="form__input" v-model="lastName">
           </div>
           <div class="form-group">
             <input type="email" placeholder="Email" class="form__input" v-model="email" required>
@@ -26,8 +26,13 @@
           <div class="form-group">
             <input type="password" placeholder="Повторите пароль" class="form__input" v-model="repeatPassword" required>
           </div>
-          <button v-on:click="register" type="submit">Подтвердить</button>
+          <button v-on:click="register">Подтвердить</button>
         </form>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-4">
+        {{error}}
       </div>
     </div>
   </div>
@@ -46,15 +51,39 @@
         repeatPassword: '',
         firstName: '',
         lastName: '',
-        isVisible: false
+        isVisible: false,
+        error: null
       }
     },
     methods: {
       async register() {
-        await AuthenticationService.register({
-          email: this.email,
-          password: this.password
-        });
+        try {
+          await AuthenticationService.register({
+            email: this.email,
+            username: this.username,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            password: this.password
+          }).then(response => {
+          }).catch(error => {
+            if(error.response) {
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+              // The request was made but no response was received
+              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log(error.request);
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log('Error', error.message);
+            }
+            console.log(error.config);
+          })
+        } catch (error) {
+          this.error = error.response.data.error;
+        }
       }
     }
   }

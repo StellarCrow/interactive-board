@@ -15,6 +15,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(async (req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    next();
+});
 
 app.use('/', indexRouter);
 app.use('/users/', usersRouter);
