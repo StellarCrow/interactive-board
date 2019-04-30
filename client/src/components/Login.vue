@@ -14,7 +14,7 @@
           <div class="form-group">
             <input type="password" placeholder="Пароль" class="form__input" v-model="password" required>
           </div>
-          <button v-on:click="register">Подтвердить</button>
+          <button v-on:click="login">Подтвердить</button>
         </form>
       </div>
     </div>
@@ -35,12 +35,14 @@
       }
     },
     methods: {
-       async register() {
+       async login() {
         try {
-           await AuthenticationService.login({
+           const response = await AuthenticationService.login({
             username: this.username,
             password: this.password
           });
+           this.$store.dispatch('setToken', response.data.token)
+           this.$store.dispatch('setUser', response.data.user)
         } catch (error) {
           this.error = error.response.data.error;
         }

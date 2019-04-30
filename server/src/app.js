@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const createError = require('http-errors');
-const history = require('connect-history-api-fallback');
+// const history = require('connect-history-api-fallback');
 
 let indexRouter = require('../routes/index');
 let usersRouter = require('../routes/users');
@@ -23,13 +23,13 @@ app.use(async (req, res, next) => {
     next();
 });
 
-const staticFileMiddleware = express.static('./client/index.html');
-app.use(staticFileMiddleware);
-app.use(history({
-    disableDotRule: true,
-    verbose: true
-}));
-app.use(staticFileMiddleware);
+// const staticFileMiddleware = express.static('./client/index.html');
+// app.use(staticFileMiddleware);
+// app.use(history({
+//     disableDotRule: true,
+//     verbose: true
+// }));
+// app.use(staticFileMiddleware);
 
 app.use('/', indexRouter);
 app.use('/users/', usersRouter);
