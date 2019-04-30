@@ -4,7 +4,10 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-mongoose.connect('mongodb://localhost/test-board',  { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/test-board',  { useNewUrlParser: true });
+
+console.log(mongoose.connection.readyState);
+
 
 
 let User = require('../models/User');

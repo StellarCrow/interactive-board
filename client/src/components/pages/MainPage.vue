@@ -7,7 +7,7 @@
             <div class="header">
               <ul class="">
                 <li>
-                  <router-link to="/register">Регистрация</router-link>
+                  <router-link to="/registration">Регистрация</router-link>
                 </li>
                 <li>
                   <router-link to="/login">Войти</router-link>
