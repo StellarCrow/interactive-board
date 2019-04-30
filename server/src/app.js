@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 //const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const cors = require('cors');
+//const cors = require('cors');
 const createError = require('http-errors');
 
 let indexRouter = require('../routes/index');
@@ -14,13 +14,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
-app.use(cors());
-app.use(async (req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    next();
-});
+//app.use(cors());
+// app.use(async (req, res) => {
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+//     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+// });
 
 app.use('/', indexRouter);
 app.use('/users/', usersRouter);

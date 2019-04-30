@@ -56,9 +56,9 @@
       }
     },
     methods: {
-      async register() {
+      register() {
         try {
-          await AuthenticationService.register({
+           AuthenticationService.register({
             email: this.email,
             username: this.username,
             firstName: this.firstName,

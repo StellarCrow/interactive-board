@@ -7,14 +7,14 @@
     </div>
     <div v-if="isVisible" class="row justify-content-center">
       <div class="col-6">
-        <form action="" method="post" class="form">
+        <form class="form">
           <div class="form-group">
             <input type="text" placeholder="Username" class="form__input" v-model="username" required>
           </div>
           <div class="form-group">
             <input type="password" placeholder="Пароль" class="form__input" v-model="password" required>
           </div>
-          <button v-on:click="register" type="submit">Подтвердить</button>
+          <button v-on:click="register">Подтвердить</button>
         </form>
       </div>
     </div>
@@ -35,9 +35,9 @@
       }
     },
     methods: {
-      async register() {
+       async register() {
         try {
-          await AuthenticationService.login({
+           await AuthenticationService.login({
             username: this.username,
             password: this.password
           });

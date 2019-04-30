@@ -1,0 +1,100 @@
+@import "../basics/base";
+
+
+body {
+  font-family: 'Alegreya Sans SC', sans-serif;
+}
+
+header {
+  height: 100vh;
+  background: url("../../assets/images/bg.jpg") no-repeat center center / cover;
+}
+
+.about, .functions {
+  padding: 5% 0;
+}
+
+
+.header {
+  padding: 2em 0;
+}
+
+.header-title h1{
+  font-weight: $bold;
+  font-size: $header;
+  color: $gray-color--light;
+  margin-bottom: 0.5em;
+}
+
+.horizontal-line {
+  width: 100%;
+  border: 1px solid white;
+}
+
+.line-container {
+  height: 25vh;
+}
+
+.vertical-line {
+  height: 100%;
+  width: 1px;
+  margin: 0 auto;
+  border-right: 5px dashed $gray-color--dark;
+}
+
+
+
+.heading {
+  font-size: $section-title;
+  font-weight: $bold;
+  color: $gray-color--dark;
+  letter-spacing: 0.1em;
+}
+
+.section-description {
+  @include text-light($text, $text-color);
+}
+
+.activity {
+  &__image {
+    margin-bottom: 1em;
+    img {
+      width: 50%;
+      height: auto;
+      margin: 0 auto;
+    }
+  }
+
+  &__title {
+    font-weight: $medium;
+    color: $gray-color--dark;
+    font-size: $subtitle;
+    margin-bottom: 0.5em;
+  }
+
+  &__desc {
+    @include text-light($text, $text-color)
+  }
+}
+
+.image-row:before{
+  content: "";
+  display: block;
+  padding-top: 100%;  /* initial ratio of 1:1*/
+}
+
+.image-row-1 {
+  background: url("../../assets/images/image-pink.jpg") no-repeat center top /cover;
+}
+
+.image-row-2 {
+  background: url("../../assets/images/image-white.jpg") no-repeat center top /cover;
+}
+
+.image-row-3 {
+  background: url("../../assets/images/image-green.jpg") no-repeat center top /cover;
+}
+
+.image-row-4 {
+  background: url("../../assets/images/image-yellow.jpg") no-repeat center top /cover;
+}

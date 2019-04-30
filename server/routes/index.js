@@ -59,6 +59,7 @@ router.post('/registration', function (req, res) {
 });
 
 router.post("/login", function (req, res) {
+    console.log("USERNAME: " + req.body.username);
     User.findOne({
         username: req.body.username
     }).then(user => {
@@ -77,7 +78,7 @@ router.post("/login", function (req, res) {
                 });
             }
             else {
-                res.json({error: "User doesn't exist"})
+                res.json({error: "Wrong password"})
             }
         } else {
             res.json({error: "User doesn't exist"})

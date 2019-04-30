@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:100,300,400,700,800,900|Alice|Neucha|Philosopher:400,700|Poiret+One&subset=cyrillic');
+
+//font-family: 'Poiret One', cursive;
+//font-family: 'Neucha', cursive;
+//font-family: 'Philosopher', sans-serif;
+//font-family: 'Alice', serif;
+//font-family: 'Alegreya Sans SC', sans-serif;
+
+
 //FONT-WEIGHT
 $extra-light: 200;
 $light: 300;
@@ -9,26 +18,24 @@ $extra-bold: 800;
 
 $main-font: 'Poppins', sans-serif;
 
-
 //FONT-SIZE
-$header: 6.25em;//100px;
-$header-subtitle: 2.25em;//36px;
-$section-title: 5em;//80px;
-$subtitle: 1.125em;//18px;
-$text: 0.875em;//14px;
-$title: 1.5em;//24px;
-$button-text: 0.75em;//12px;
+$header: 3em;
+$header-subtitle: 2.25em;
+$section-title: 2.8em;
+$subtitle: 1.125em;
+$text: 0.875em;
+$title: 1.5em;
+$button-text: 0.75em;
 
-$icons: 1.5em; //24px
+$icons: 1.5em;
 
 //COLORS
+$main-color: #7bf3d8;
+$secondary-color: #f37bae;
+$tertiary-color: #f3bc7b;
 $accent-color: #7443ff;
-$main-color: #2a2d2e;
-$secondary-color: #fff;
 $text-color: #72787a;
-$bg-color: #202129;
-$bg-testimonials: #f0fafd;
 
-
+$gray-color--dark: #474747;
 $gray-color: #72787a;
-$gray-color--light: #818586;
+$gray-color--light: #bebebe;

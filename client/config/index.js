@@ -14,10 +14,6 @@ module.exports = {
       '/': {
         target: "http://localhost:8081/",
         changeOrigin: true
-      },
-      '/login': {
-        target: "http://localhost:8081/",
-        changeOrigin: true
       }
     },
 

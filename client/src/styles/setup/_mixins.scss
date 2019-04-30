@@ -1,0 +1,6 @@
+@mixin text-light ($font-size, $color) {
+  font-size: $font-size;
+  font-weight: $light;
+  line-height: 1.3em;
+  color: $color;
+}
