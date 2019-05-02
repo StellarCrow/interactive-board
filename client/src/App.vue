@@ -1,12 +1,15 @@
 <template>
   <div id="app">
+    <toolbar v-if="this.$store.state.isUserLoggedIn"></toolbar>
     <router-view/>
   </div>
 </template>
 
 <script>
+  import Toolbar from "./components/Toolbar";
 export default {
-  name: 'App'
+  name: 'App',
+  components: {Toolbar}
 }
 </script>
 

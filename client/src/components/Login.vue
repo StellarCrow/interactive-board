@@ -35,14 +35,15 @@
       }
     },
     methods: {
-       async login() {
+      async login() {
         try {
-           const response = await AuthenticationService.login({
+          const response = await AuthenticationService.login({
             username: this.username,
             password: this.password
           });
-           this.$store.dispatch('setToken', response.data.token)
-           this.$store.dispatch('setUser', response.data.user)
+          this.$store.commit('setToken', response.data.token)
+          this.$store.commit('setUser', response.data.user)
+          this.$router.push({ path: `/user/${response.data.user._id}` });
         } catch (error) {
           this.error = error.response.data.error;
         }

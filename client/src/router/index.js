@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import MainPage from '../components/pages/MainPage'
+import UserPage from '../components/pages/UserPage'
 import Register from '../components/Register'
 import Login from '../components/Login'
 
@@ -23,6 +24,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/user/:id',
+      name: 'UserPage',
+      component: UserPage
     }
   ]
 })

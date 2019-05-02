@@ -7,10 +7,10 @@
             <div class="header">
               <ul class="">
                 <li>
-                  <router-link to="/registration">Регистрация</router-link>
+                  <router-link to="/registration" v-if="!this.$store.state.isUserLoggedIn">Регистрация</router-link>
                 </li>
                 <li>
-                  <router-link to="/login">Войти</router-link>
+                  <router-link to="/login" v-if="!this.$store.state.isUserLoggedIn">Войти</router-link>
                 </li>
               </ul>
             </div>

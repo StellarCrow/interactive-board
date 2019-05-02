@@ -2,10 +2,10 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-2">
-        <button v-on:click="isVisible = !isVisible">Регистрация</button>
+        <h1>Регистрация</h1>
       </div>
     </div>
-    <div v-if="isVisible" class="row justify-content-center">
+    <div class="row justify-content-center">
       <div class="col-6">
         <form class="form" autocomplete="off">
           <div class="form-group">
@@ -67,6 +67,7 @@
           })
           this.$store.dispatch('setToken', response.data.token)
           this.$store.dispatch('setUser', response.data.user)
+          this.$router.push({name: 'UserPage', params: response.data.user._id});
         } catch (error) {
           this.error = error.response.data.error;
         }

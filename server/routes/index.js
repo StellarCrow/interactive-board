@@ -43,7 +43,17 @@ router.post('/registration', function (req, res) {
                 userData.password = hash;
                 User.create(userData)
                     .then(user => {
-                        return res.status(200).send(user.email + " registered")
+                        const payload = {
+                            _id: user._id,
+                            username: user.username,
+                            email: user.email,
+                            password: user.password
+                        };
+                        let token = jwtSignUser(payload);
+                        return res.send({
+                            user: payload,
+                            token: token
+                        });
                         //res.json({status: user.email + " registered"});
                     })
                     .catch(err => {
