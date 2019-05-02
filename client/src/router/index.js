@@ -4,6 +4,7 @@ import MainPage from '../components/pages/MainPage'
 import UserPage from '../components/pages/UserPage'
 import Register from '../components/Register'
 import Login from '../components/Login'
+import Board from '../components/Board'
 
 Vue.use(Router)
 
@@ -28,7 +29,13 @@ export default new Router({
     {
       path: '/user/:id',
       name: 'UserPage',
-      component: UserPage
+      component: UserPage,
+      meta: {requiresAuth: true}
+    },
+    {
+      path: '/user/:id/board/:idb',
+      name: 'Board',
+      component: Board
     }
   ]
 })

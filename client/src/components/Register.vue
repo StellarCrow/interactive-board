@@ -65,8 +65,8 @@
             lastName: this.lastName,
             password: this.password
           })
-          this.$store.dispatch('setToken', response.data.token)
-          this.$store.dispatch('setUser', response.data.user)
+          this.$store.commit('setToken', response.data.token)
+          this.$store.commit('setUser', response.data.user)
           this.$router.push({name: 'UserPage', params: response.data.user._id});
         } catch (error) {
           this.error = error.response.data.error;
