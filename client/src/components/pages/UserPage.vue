@@ -2,23 +2,23 @@
   <div>
     <div class="container">
       <div class="row justify-content-center">
-        <col-5>
+        <div class="col-5">
           <h1>Мой профиль</h1>
           <div class="user-info">
             <div class="user-info__avatar">
               <img src="" alt="Avatar">
             </div>
             <div class="user-info__username">
-              {{username}}
+              {{user.username}}
             </div>
             <div class="user-info__fullname">
-              {{firstName + secondName}}
+              {{user.firstName + user.lastName}}
             </div>
             <div class="user-info__description">
-              {{description}}
+              {{user.description}}
             </div>
           </div>
-        </col-5>
+        </div>
       </div>
       <div class="row justify-content-center">
         <div class="col-10 text-center">
@@ -28,9 +28,9 @@
                   <div class="boards__name">
                     {{board.name}}
                   </div>
-                  <router-link>
+                  <a v-on:click="navigateTo({name: 'Board', params: {id: user._id, idb: board._id}})">
                     <img src="" alt="Board-image" class="boards__image">
-                  </router-link>
+                  </a>
               </div>
             <button class="add" v-on:click="navigateTo()">+</button>
           </div>
@@ -47,11 +47,7 @@
     name: "UserPage",
     data() {
       return {
-        username: "",
-        firstName: "",
-        secondName: "",
-        description: "",
-        avatar:"",
+        user: null,
         boards: null
       }
     },
@@ -61,7 +57,11 @@
       }
     },
    async mounted () {
-      this.boards = await BoardService.getBoards()
+      const uid = this.$store.state.route.params.id;
+      const response = await BoardService.getBoards(uid);
+      console.log(response);
+      this.boards = response.data.boards;
+      this.user = response.data.user;
     }
   }
 </script>

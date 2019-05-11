@@ -27,13 +27,13 @@ export default new Router({
       component: Login
     },
     {
-      path: '/user/:id',
+      path: '/users/:id',
       name: 'UserPage',
       component: UserPage,
       meta: {requiresAuth: true}
     },
     {
-      path: '/user/:id/board/:idb',
+      path: '/users/:id/board/:idb',
       name: 'Board',
       component: Board
     }
