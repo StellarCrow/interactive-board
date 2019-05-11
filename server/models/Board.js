@@ -4,16 +4,11 @@ let Schema = mongoose.Schema;
 
 let BoardSchema = new Schema({
     name: {
-        type: String,
-        required: true
+        type: String
     },
     author: {
         type: Schema.Types.ObjectId,
         ref: 'UserSchema',
-        required: true
-    },
-    creationDate: {
-        type: Date,
         required: true
     },
     is_public: {

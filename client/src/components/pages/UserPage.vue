@@ -26,13 +26,15 @@
           <div class="boards">
               <div v-for="board in boards">
                   <div class="boards__name">
+                    Название
                     {{board.name}}
                   </div>
                   <a v-on:click="navigateTo({name: 'Board', params: {id: user._id, idb: board._id}})">
+                    Cсыль на доску
                     <img src="" alt="Board-image" class="boards__image">
                   </a>
               </div>
-            <button class="add" v-on:click="navigateTo()">+</button>
+            <button class="add" v-on:click="createBoard()">+</button>
           </div>
         </div>
       </div>
@@ -54,6 +56,12 @@
     methods: {
       navigateTo (router) {
         this.$router.push(router)
+      },
+      async createBoard () {
+        let userId = this.$store.state.user._id;
+        const newId = await BoardService.createBoard(userId);
+        console.log(newId.data.boardId);
+        this.$router.push({name: 'Board', params: {id: userId, idb: newId}});
       }
     },
    async mounted () {
