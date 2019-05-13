@@ -11,6 +11,7 @@ console.log(mongoose.connection.readyState);
 
 
 let User = require('../models/User');
+let Board = require('../models/Board');
 
 
 process.env.SECRET_KEY = 'secret';
@@ -100,6 +101,26 @@ router.post("/login", function (req, res) {
         .catch(err => {
             res.send("error: " + err);
         })
+});
+
+router.post("/deleteBoard/:id", function (req, res, next) {
+    let bid = req.params.id;
+    Board.findOne({_id: bid}, function (err, board) {
+        if(err) return next(err);
+        if(board) {
+            let author = board.author;
+            User.update({_id: author}, {$pull : {boards: board._id}}, function (err) {
+                if(err) return next(err);
+            });
+            let deleted = board;
+            board.delete();
+            board.save();
+            return res.send(deleted);
+        }
+        else {
+            return res.send({board: "Deletion error"});
+        }
+    })
 });
 
 module.exports = router;

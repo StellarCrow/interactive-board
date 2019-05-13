@@ -1,2 +1,54 @@
 @import "../basics/base";
 
+.user-page {
+  padding: 2% 0;
+}
+
+
+.user-info {
+  &__avatar img {
+    @include border-radius(50%);
+    border: 1px solid $main-color;
+    width: 25%;
+    height: auto;
+    padding: 2%;
+  }
+}
+
+
+.board {
+  @include border-radius(0.5em);
+  margin-left: 2em;
+  border: 1px solid $gray-color--light;
+
+  &__top {
+    border-bottom: 1px solid $gray-color--light;
+    padding: 2% 1%;
+  }
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &__name {
+    font-weight: $bold;
+  }
+
+  &__public {
+    font-weight: $light;
+    color: $gray-color--light;
+    font-size: $text;
+  }
+
+  &__image {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.button-add {
+  @include border-radius(50%);
+  padding: 1em;
+  margin-left: 2em;
+}
+

@@ -6,5 +6,8 @@ export default {
   },
   createBoard(userId) {
     return Api().post(`/users/${userId}/createBoard`);
+  },
+  deleteBoard(boardId) {
+    return Api().post(`/deleteBoard/${boardId}`);
   }
 }
