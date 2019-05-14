@@ -40,14 +40,14 @@ input {
   display: inline-block;
   outline: none;
   font-size: $text;
-  padding: 1em 1.5em;
-  border: 1px solid #ffffff;
+  padding: 1em 1em;
+  border: none;
   border-bottom: 1px solid $gray-color--light;
   color: $gray-color;
   font-weight: $light;
 
   &:focus {
-    border-bottom: 1px solid $accent-color;
+    border-bottom: 1px solid $tertiary-color;
   }
 
   &::placeholder {

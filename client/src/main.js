@@ -5,12 +5,14 @@ import App from './App'
 import router from './router'
 import { sync } from 'vuex-router-sync'
 import BootstrapVue from 'bootstrap-vue'
+import VueKonva from 'vue-konva'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import store from './store/store'
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
+Vue.use(VueKonva)
 
 sync(store, router)
 

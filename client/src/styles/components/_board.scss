@@ -1,0 +1,47 @@
+@import "../basics/base";
+
+.vertical-align {
+  position: relative;
+  top: 50%;
+  transform: perspective(1px) translateY(-50%);
+}
+
+$steps: 5;
+$gradient-color: $secondary-color;
+$amount: 10;
+
+@for $i from 0 through $steps {
+  .menu__item:nth-child(#{$i}){
+    background-color: #{darken($gradient-color, $i * $amount)};
+  }
+}
+
+@for $i from 0 through $steps {
+  .hue, .menu__item:nth-child(#{$i}){
+    background-color: #{adjust-hue($gradient-color, $i * 8)};
+  }
+}
+
+.menu {
+  font-weight: $light;
+
+  &__item {
+    @include transition(0.3);
+    padding: 0.5em 1em;
+    color: white;
+
+    &:hover {
+      color: black;
+    }
+  }
+}
+
+.input-large {
+  text-align: center;
+  font-size: $header-subtitle;
+  padding: 0;
+}
+
+.konva-container {
+  box-shadow: 0 0 1px #ddd, 0 2px 2px
+}
