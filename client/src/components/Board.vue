@@ -11,7 +11,7 @@
       <div class="row p-0">
         <div class="col-2 p-0">
           <ul class="menu">
-            <li class="menu__item hue"><a>Добавить заметку</a></li>
+            <li class="menu__item hue"><a v-on:click="noteModal = true">Добавить заметку</a></li>
             <li class="menu__item hue"><a>Добавить фото</a></li>
             <li class="menu__item hue"><a>Добавить аудио</a></li>
             <li class="menu__item hue"><a>Добавить документ</a></li>
@@ -19,11 +19,7 @@
         </div>
         <div class="col-8">
           <div class="konva-container" ref="container" v-bind:style="{height: '70vh'}">
-            <v-stage :config="stageSize" ref="myStage">
-              <v-layer>
-                <v-circle :config="configCircle"></v-circle>
-              </v-layer>
-            </v-stage>
+            <v-stage :config="stageSize" ref="stage"></v-stage>
           </div>
         </div>
         <div class="col-2">
@@ -46,51 +42,30 @@
         </div>
       </div>
     </div>
+    <note-modal v-show="noteModal" @close="createNote"></note-modal>
   </div>
 </template>
 
 <script>
+  import NoteModal from './NoteModal';
   //import BoardService from '../../services/BoardService';
+
+
   let width = window.innerWidth;
   let height = window.innerHeight;
   export default {
     name: "Board",
+    components: { NoteModal},
     data() {
       return {
         bname: 'Без названия',
         is_public: false,
+        noteModal: false,
         filter: 'all',
+        notes: [],
         stageSize: {
           width: width,
           height: height
-        },
-        configCircle: {
-          x: 100,
-          y: 100,
-          radius: 70,
-          fill: 'red',
-          stroke: 'black',
-          strokeWidth: 4,
-          draggable: true,
-          dragBoundFunc(pos) {
-            console.log(pos);
-
-            let newY, newX;
-            if(pos.y < 0){
-              newY = 0;
-            } else
-              newY = pos.y;
-
-            if(pos.x < 0){
-              newX = 0;
-            } else
-              newX = pos.x;
-
-            return {
-              x: newX,
-              y: newY,
-            }
-          }
         }
       }
     },
@@ -110,6 +85,74 @@
         console.log(height, width);
         this.stageSize.width = width;
         this.stageSize.height = height;
+      },
+      boundaries: function (pos) {
+        const stage = this.$refs.stage.getNode();
+
+        let newY, newX;
+        if(pos.y < 0){
+          newY = 0;
+        } else if(pos.y > stage.height()) {
+          newY = stage.height()
+        } else
+          newY = pos.y;
+
+        if(pos.x < 0){
+          newX = 0;
+        }else if(pos.x > stage.width()) {
+          newX = stage.width()
+        } else
+          newX = pos.x;
+
+        return {
+          x: newX,
+          y: newY,
+        }
+
+      },
+      createNote: function (data) {
+        this.noteModal = data.noteModal;
+        if(data.text !== "") {
+          console.log(data.text + " Color: " + data.color);
+        } else return;
+
+        const stage = this.$refs.stage.getNode();
+        let layer = new Konva.Layer();
+        let group = new Konva.Group({
+          draggable: true
+        });
+
+        let noteText = new Konva.Text({
+          x: 20,
+          y: 60,
+          text: data.text,
+          fontSize: 14,
+          fontStyle: 200,
+          fontFamily: 'Calibri',
+          fill: '#000',
+          width: 150,
+          padding: 20,
+          align: 'center'
+        });
+
+        let rect = new Konva.Rect({
+          x: 20,
+          y: 60,
+          stroke: "#e5e5e5",
+          strokeWidth: 1,
+          fill: data.color,
+          width: noteText.width(),
+          height: noteText.height(),
+          shadowColor: '#e5e5e5',
+          shadowBlur: 5,
+          shadowOpacity: 0.5
+        });
+
+        group.add(rect);
+        group.add(noteText);
+        layer.add(group);
+        this.notes.push(layer);
+        stage.add(layer);
       }
     },
     async mounted() {
