@@ -18,9 +18,9 @@
           </ul>
         </div>
         <div class="col-8">
-          <div class="konva-container">
-            <v-stage :config="configKonva">
-              <v-layer ref="layer">
+          <div class="konva-container" ref="container" v-bind:style="{height: '70vh'}">
+            <v-stage :config="stageSize" ref="myStage">
+              <v-layer>
                 <v-circle :config="configCircle"></v-circle>
               </v-layer>
             </v-stage>
@@ -51,8 +51,8 @@
 
 <script>
   //import BoardService from '../../services/BoardService';
-  let width = 800;
-  let height = 400;
+  let width = window.innerWidth;
+  let height = window.innerHeight;
   export default {
     name: "Board",
     data() {
@@ -60,8 +60,7 @@
         bname: 'Без названия',
         is_public: false,
         filter: 'all',
-        configKonva: {
-          container: "konva-container",
+        stageSize: {
           width: width,
           height: height
         },
@@ -72,19 +71,57 @@
           fill: 'red',
           stroke: 'black',
           strokeWidth: 4,
-          draggable: true
+          draggable: true,
+          dragBoundFunc(pos) {
+            console.log(pos);
+
+            let newY, newX;
+            if(pos.y < 0){
+              newY = 0;
+            } else
+              newY = pos.y;
+
+            if(pos.x < 0){
+              newX = 0;
+            } else
+              newX = pos.x;
+
+            return {
+              x: newX,
+              y: newY,
+            }
+          }
         }
       }
     },
+    created: function () {
+      window.addEventListener('resize', this.changeRect);
+      this.changeRect();
+    },
+    methods: {
+      changeRect: function () {
+        const container = this.$refs.container;
+        if(!container)
+          return;
+
+        const height = container.offsetHeight;
+        const width = container.offsetWidth;
+
+        console.log(height, width);
+        this.stageSize.width = width;
+        this.stageSize.height = height;
+      }
+    },
     async mounted() {
-      // let stage = this.$ref.stage.getStage();
-      // stage.style.border = '1px solid black';
+      this.changeRect();
       // const id = this.$store.state.route.params.idb;
       // const boardData = BoardService.getBoardData(id);
       // this.bname = boardData.name;
       // this.is_public = boardData.is_public;
     },
-    computed: {}
+    computed: {
+
+    }
   }
 </script>
 
