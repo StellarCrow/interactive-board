@@ -9,5 +9,11 @@ export default {
   },
   deleteBoard(boardId) {
     return Api().post(`/deleteBoard/${boardId}`);
+  },
+  getBoardData(boardId) {
+    return Api().get(`/boards/${boardId}/getData`);
+  },
+  createNote(data) {
+    return Api().post(`/boards/createNote`, data);
   }
 }

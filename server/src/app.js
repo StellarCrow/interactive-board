@@ -8,6 +8,7 @@ const createError = require('http-errors');
 
 let indexRouter = require('../routes/index');
 let usersRouter = require('../routes/users');
+let boardsRouter = require('../routes/boards');
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(async (req, res, next) => {
 
 app.use('/', indexRouter);
 app.use('/users/', usersRouter);
+app.use('/boards/', boardsRouter);
 
 
 

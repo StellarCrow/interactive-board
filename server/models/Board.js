@@ -15,7 +15,19 @@ let BoardSchema = new Schema({
         type: Boolean,
         default: false,
         required: true
-    }
+    },
+    notes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Media'
+    }],
+    images: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Media'
+    }],
+    audios: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Media'
+    }]
 });
 
 module.exports = mongoose.model('Board', BoardSchema);

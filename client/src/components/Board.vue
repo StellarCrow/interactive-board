@@ -37,17 +37,18 @@
               Публичная:
               <input type="checkbox" v-model="is_public">
             </div>
-            <button>Сохранить</button>
+            <button @click="saveBoard">Сохранить</button>
           </div>
         </div>
       </div>
     </div>
-    <note-modal v-show="noteModal" @close="createNote"></note-modal>
+    <note-modal v-show="noteModal" @close="noteDataFromModal"></note-modal>
   </div>
 </template>
 
 <script>
   import NoteModal from './NoteModal';
+  import BoardService from "../services/BoardService";
   //import BoardService from '../../services/BoardService';
 
 
@@ -74,6 +75,9 @@
       this.changeRect();
     },
     methods: {
+      saveBoard() {
+
+      },
       changeRect: function () {
         const container = this.$refs.container;
         if(!container)
@@ -110,21 +114,36 @@
         }
 
       },
-      createNote: function (data) {
+      noteDataFromModal: function(data) {
         this.noteModal = data.noteModal;
-        if(data.text !== "") {
-          console.log(data.text + " Color: " + data.color);
-        } else return;
+        if(data.text === "") return;
+        let noteData = {
+          text: data.text,
+          color: data.color,
+          coordinates: [20, 20]
+        };
+        this.createNote(noteData);
 
+        const id = this.$store.state.route.params.idb;
+        const newNote = BoardService.createNote({
+          boardId: id,
+          text: data.text,
+          color: data.color,
+          coordinates: [20, 20]
+        })
+      },
+      createNote: function (data) {
         const stage = this.$refs.stage.getNode();
         let layer = new Konva.Layer();
         let group = new Konva.Group({
-          draggable: true
+          draggable: true,
+          name: 'noteGroup'
         });
 
         let noteText = new Konva.Text({
-          x: 20,
-          y: 60,
+          x: data.coordinates[0],
+          y: data.coordinates[1],
+          name: 'noteText',
           text: data.text,
           fontSize: 14,
           fontStyle: 200,
@@ -136,8 +155,9 @@
         });
 
         let rect = new Konva.Rect({
-          x: 20,
-          y: 60,
+          x: data.coordinates[0],
+          y: data.coordinates[1],
+          name: 'noteRect',
           stroke: "#e5e5e5",
           strokeWidth: 1,
           fill: data.color,
@@ -148,19 +168,31 @@
           shadowOpacity: 0.5
         });
 
+        //let tr = new Konva.Transformer();
+
         group.add(rect);
         group.add(noteText);
+        //tr.attachTo(group);
         layer.add(group);
+        //layer.add(tr);
         this.notes.push(layer);
         stage.add(layer);
+      },
+      parseDataFromServer: function (data) {
+        //Just Notes Array arr[obj, obj]
+        const stage = this.$refs.stage.getNode();
+        for(let i = 0; i < data.length; i++) {
+          this.createNote(data[i]);
+        }
+
       }
     },
     async mounted() {
       this.changeRect();
-      // const id = this.$store.state.route.params.idb;
-      // const boardData = BoardService.getBoardData(id);
-      // this.bname = boardData.name;
-      // this.is_public = boardData.is_public;
+      const id = this.$store.state.route.params.idb;
+      const boardData = await BoardService.getBoardData(id);
+      //Just Notes for now
+      this.parseDataFromServer(boardData.data);
     },
     computed: {
 

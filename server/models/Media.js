@@ -3,15 +3,17 @@ const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let MediaSchema = new Schema({
-    name: String,
     board: {
         type: Schema.Types.ObjectId,
-        ref: 'BoardSchema',
+        ref: 'Board',
         required: true
     },
-    link: String,
     date: Date,
-    type: String,
+    type: {
+        type: Schema.Types.ObjectId,
+        ref: 'Note' || 'Image' || 'Audio',
+        required: true
+    },
     coordinates: {
         type: [Number, Number],
         required: true
