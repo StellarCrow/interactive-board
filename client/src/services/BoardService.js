@@ -10,6 +10,9 @@ export default {
   deleteBoard(boardId) {
     return Api().post(`/deleteBoard/${boardId}`);
   },
+  saveBoard(data) {
+    return Api().post(`/boards/saveBoard`, data);
+  },
   getBoardData(boardId) {
     return Api().get(`/boards/${boardId}/getData`);
   },

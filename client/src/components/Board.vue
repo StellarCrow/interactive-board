@@ -75,8 +75,16 @@
       this.changeRect();
     },
     methods: {
-      saveBoard() {
+      async saveBoard() {
+        const id = this.$store.state.route.params.idb;
+        let data = {
+          idb: id,
+          is_public: this.is_public,
+          name: this.bname,
+        };
 
+        const response = await BoardService.saveBoard(data);
+        console.log(response.data);
       },
       changeRect: function () {
         const container = this.$refs.container;
@@ -179,10 +187,13 @@
         stage.add(layer);
       },
       parseDataFromServer: function (data) {
-        //Just Notes Array arr[obj, obj]
-        const stage = this.$refs.stage.getNode();
-        for(let i = 0; i < data.length; i++) {
-          this.createNote(data[i]);
+        let notes = data.notesArray;
+        let board = data.board;
+        this.bname = board.bname;
+        this.is_public = board.is_public;
+        //Notes
+        for(let i = 0; i < notes.length; i++) {
+          this.createNote(notes[i]);
         }
 
       }
@@ -191,6 +202,7 @@
       this.changeRect();
       const id = this.$store.state.route.params.idb;
       const boardData = await BoardService.getBoardData(id);
+      console.log(boardData);
       //Just Notes for now
       this.parseDataFromServer(boardData.data);
     },

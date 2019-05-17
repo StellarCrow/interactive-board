@@ -5,6 +5,20 @@ let Note = require('../models/Note');
 let Media = require('../models/Media');
 let Board = require('../models/Board');
 
+router.post('/saveBoard', function (req, res, next) {
+    let id = req.body.idb;
+
+    Board.findOneAndUpdate({_id: id}, {
+        name: req.body.name,
+        is_public: req.body.is_public
+    }, function (err, board) {
+        if(err) return next(err);
+        if(board) {
+            res.status(200);
+        }
+    })
+});
+
 router.post('/createNote', function (req, res, next) {
     let bid = req.body.boardId;
     let coord = req.body.coordinates;
@@ -43,6 +57,15 @@ router.post('/createNote', function (req, res, next) {
 router.get('/:id/getData', function (req, res, next) {
     let bid = req.params.id;
     let notesArray = [];
+    let data = {};
+
+    Board.findOne({_id: bid}, function (err, board) {
+        if(err) return next(err);
+        if(board) {
+            data.bname = board.name;
+            data.is_public = board.is_public;
+        }
+    });
 
      Board.findOne({_id: bid}).distinct('notes', function (err, notes) {
         if (err) return next(err);
@@ -65,7 +88,7 @@ router.get('/:id/getData', function (req, res, next) {
 
                             if(i === notes.length - 1) {
                                 console.log("NA: " + notesArray);
-                                return res.send(notesArray);
+                                return res.send({notesArray: notesArray, board: data});
                             }
                         }
                     })

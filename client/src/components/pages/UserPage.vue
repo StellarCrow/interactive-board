@@ -38,7 +38,6 @@
             <div class="board" v-for="(board, index) in boards" v-bind:key="board._id">
               <div class="d-flex justify-content-between board__top">
                 <div class="board__name">
-                  Название
                   {{board.name}}
                   <span class="board__public" v-if="board.is_public">
                     (Публичная)
