@@ -7,6 +7,7 @@ let Board = require('../models/Board');
 
 router.post('/saveBoard', function (req, res, next) {
     let id = req.body.idb;
+    let notesUpdated = req.body.notes; //Array[obj, obj]
 
     Board.findOneAndUpdate({_id: id}, {
         name: req.body.name,
@@ -14,7 +15,17 @@ router.post('/saveBoard', function (req, res, next) {
     }, function (err, board) {
         if(err) return next(err);
         if(board) {
-            res.status(200);
+            for(let i = 0; i < notesUpdated.length; i++) {
+                Media.findOneAndUpdate({_id: notesUpdated[i].id}, {
+                    coordinates: notesUpdated[i].coordinates
+                }, function (err) {
+                    if(err) return next(err);
+                });
+
+                if(i === notesUpdated.length - 1) {
+                    return res.send({message: "Successfully updated."});
+                }
+            }
         }
     })
 });
@@ -47,7 +58,7 @@ router.post('/createNote', function (req, res, next) {
                         if (err) return next(err);
                     });
 
-                    return res.send(200);
+                    return res.send({id: media._id});
                 }
             });
         })
@@ -65,6 +76,9 @@ router.get('/:id/getData', function (req, res, next) {
             data.bname = board.name;
             data.is_public = board.is_public;
         }
+        else {
+            return res.send({board: null});
+        }
     });
 
      Board.findOne({_id: bid}).distinct('notes', function (err, notes) {
@@ -76,6 +90,7 @@ router.get('/:id/getData', function (req, res, next) {
                 if (err) return next(err);
                 if (media) {
                     objNote.coordinates = media.coordinates;
+                    objNote.id = media._id;
                     Note.findOne({_id: media.type}, function (err, note) {
                         if (err) return next(err);
                         if (note) {

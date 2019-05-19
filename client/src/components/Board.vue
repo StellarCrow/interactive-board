@@ -38,6 +38,7 @@
               <input type="checkbox" v-model="is_public">
             </div>
             <button @click="saveBoard">Сохранить</button>
+            <button @click="test">TestCoordinates</button>
           </div>
         </div>
       </div>
@@ -56,7 +57,7 @@
   let height = window.innerHeight;
   export default {
     name: "Board",
-    components: { NoteModal},
+    components: {NoteModal},
     data() {
       return {
         bname: 'Без названия',
@@ -64,6 +65,7 @@
         noteModal: false,
         filter: 'all',
         notes: [],
+        notesLayer: null,
         stageSize: {
           width: width,
           height: height
@@ -75,12 +77,29 @@
       this.changeRect();
     },
     methods: {
+      test() {
+        const stage = this.$refs.stage.getNode();
+        this.notes.forEach(function (note) {
+          console.log(note.getAttr('x'), note.getAttr('y'));
+          console.log(note.id());
+        })
+      },
       async saveBoard() {
+        let notesUpdated = [];
         const id = this.$store.state.route.params.idb;
+
+        this.notes.forEach(function (note) {
+          let updatedNote = {};
+          updatedNote.coordinates = [note.getAttr('x'), note.getAttr('y')];
+          updatedNote.id = note.id();
+          notesUpdated.push(updatedNote);
+        });
+
         let data = {
           idb: id,
           is_public: this.is_public,
           name: this.bname,
+          notes: notesUpdated
         };
 
         const response = await BoardService.saveBoard(data);
@@ -88,7 +107,7 @@
       },
       changeRect: function () {
         const container = this.$refs.container;
-        if(!container)
+        if (!container)
           return;
 
         const height = container.offsetHeight;
@@ -102,16 +121,16 @@
         const stage = this.$refs.stage.getNode();
 
         let newY, newX;
-        if(pos.y < 0){
+        if (pos.y < 0) {
           newY = 0;
-        } else if(pos.y > stage.height()) {
+        } else if (pos.y > stage.height()) {
           newY = stage.height()
         } else
           newY = pos.y;
 
-        if(pos.x < 0){
+        if (pos.x < 0) {
           newX = 0;
-        }else if(pos.x > stage.width()) {
+        } else if (pos.x > stage.width()) {
           newX = stage.width()
         } else
           newX = pos.x;
@@ -122,30 +141,34 @@
         }
 
       },
-      noteDataFromModal: function(data) {
+      noteDataFromModal: async function (data) {
         this.noteModal = data.noteModal;
-        if(data.text === "") return;
-        let noteData = {
-          text: data.text,
-          color: data.color,
-          coordinates: [20, 20]
-        };
-        this.createNote(noteData);
+        if (data.text === "") return;
 
         const id = this.$store.state.route.params.idb;
-        const newNote = BoardService.createNote({
+        const newNote = await BoardService.createNote({
           boardId: id,
           text: data.text,
           color: data.color,
           coordinates: [20, 20]
-        })
+        });
+        console.log(newNote.data);
+        let noteData = {
+          id: newNote.data.id,
+          text: data.text,
+          color: data.color,
+          coordinates: [20, 20]
+        };
+
+        this.createNote(noteData);
       },
       createNote: function (data) {
         const stage = this.$refs.stage.getNode();
-        let layer = new Konva.Layer();
+        let layer = this.notesLayer;
         let group = new Konva.Group({
           draggable: true,
-          name: 'noteGroup'
+          name: 'noteGroup',
+          id: data.id
         });
 
         let noteText = new Konva.Text({
@@ -183,7 +206,7 @@
         //tr.attachTo(group);
         layer.add(group);
         //layer.add(tr);
-        this.notes.push(layer);
+        this.notes.push(group);
         stage.add(layer);
       },
       parseDataFromServer: function (data) {
@@ -192,7 +215,11 @@
         this.bname = board.bname;
         this.is_public = board.is_public;
         //Notes
-        for(let i = 0; i < notes.length; i++) {
+
+        this.notesLayer = new Konva.Layer();
+
+        for (let i = 0; i < notes.length; i++) {
+          console.log('Length: ' + notes.length);
           this.createNote(notes[i]);
         }
 
@@ -202,13 +229,12 @@
       this.changeRect();
       const id = this.$store.state.route.params.idb;
       const boardData = await BoardService.getBoardData(id);
+      if(boardData.data.board == null) return;
       console.log(boardData);
       //Just Notes for now
       this.parseDataFromServer(boardData.data);
     },
-    computed: {
-
-    }
+    computed: {}
   }
 </script>
 
