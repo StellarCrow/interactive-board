@@ -80,7 +80,8 @@
       test() {
         const stage = this.$refs.stage.getNode();
         this.notes.forEach(function (note) {
-          console.log(note.getAttr('x'), note.getAttr('y'));
+          console.log(note.children[0].getAbsolutePosition().x, note.children[0].getAbsolutePosition().y);
+          //console.log(note.getAttr('x'), note.getAttr('y'));
           console.log(note.id());
         })
       },
@@ -90,7 +91,7 @@
 
         this.notes.forEach(function (note) {
           let updatedNote = {};
-          updatedNote.coordinates = [note.getAttr('x'), note.getAttr('y')];
+          updatedNote.coordinates = [note.children[0].getAbsolutePosition().x, note.children[0].getAbsolutePosition().y];
           updatedNote.id = note.id();
           notesUpdated.push(updatedNote);
         });
