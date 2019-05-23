@@ -16,6 +16,10 @@ let BoardSchema = new Schema({
         default: false,
         required: true
     },
+    background: {
+        type: String,
+        default: "#fff"
+    },
     notes: [{
         type: Schema.Types.ObjectId,
         ref: 'Media'

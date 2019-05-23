@@ -64,7 +64,7 @@
           noteModal: false,
           text: this.text,
           color: this.colorNote
-        })
+        });
 
         this.text = "";
       }
@@ -74,6 +74,7 @@
 
 <style lang="scss" scoped>
   @import "../styles/basics/base";
+  @import "../styles/components/board";
 
   .note-modal {
     position: fixed;
@@ -100,23 +101,6 @@
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
     transition: all .3s ease;
-  }
-
-  .color-label {
-    @include border-radius(50%, 50%);
-    width: 30px;
-    height: 30px;
-    margin-left: 0.5em;
-    border: 1px solid black;
-
-    :first-child {
-      margin-left: 0;
-    }
-
-    &:hover {
-      cursor: pointer;
-      filter: grayscale(50%);
-    }
   }
 
 </style>

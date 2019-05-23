@@ -45,3 +45,37 @@ $amount: 10;
 .konva-container {
   box-shadow: 0 0 1px #ddd, 0 2px 2px;
 }
+
+
+.color-label {
+  @include border-radius(50%, 50%);
+  width: 2em;
+  height: 2em;
+  margin-left: 0.5em;
+  border: 1px solid black;
+
+  :first-child {
+    margin-left: 0;
+  }
+
+  &:hover {
+    cursor: pointer;
+    filter: grayscale(50%);
+  }
+}
+
+.color-label--dots {
+  background: url("../assets/textures/dots.jpg") center top / cover;
+}
+
+.color-label--dots2 {
+  background: url("../assets/textures/dots2.jpg") center top / cover;
+}
+
+.color-label--line {
+  background: url("../assets/textures/line.jpg") center top / cover;
+}
+
+.color-label--grid {
+  background: url("../assets/textures/grid.png") center top / cover;
+}

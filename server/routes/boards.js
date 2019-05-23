@@ -11,7 +11,8 @@ router.post('/saveBoard', function (req, res, next) {
 
     Board.findOneAndUpdate({_id: id}, {
         name: req.body.name,
-        is_public: req.body.is_public
+        is_public: req.body.is_public,
+        background: req.body.background
     }, function (err, board) {
         if(err) return next(err);
         if(board) {
@@ -75,6 +76,7 @@ router.get('/:id/getData', function (req, res, next) {
         if(board) {
             data.bname = board.name;
             data.is_public = board.is_public;
+            data.background = board.background;
         }
         else {
             return res.send({board: null});
