@@ -16,6 +16,7 @@ a{
 ul {
   list-style-type: none;
   padding: 0;
+  margin-bottom: 0;
 }
 
 button {
@@ -49,7 +50,7 @@ input {
   display: inline-block;
   outline: none;
   font-size: $text;
-  padding: 1em 1em;
+  padding: 0.5em 1em;
   border: none;
   border-bottom: 1px solid $gray-color--light;
   color: $gray-color;

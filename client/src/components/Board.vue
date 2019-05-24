@@ -19,19 +19,19 @@
         <div class="col-3">
           <ul class="d-flex justify-content-center pt-4 mb-0">
             <li>
-              <input type="radio" id="color-dots" v-model="colorStage" :value="'@/assets/textures/dots.jpg'">
+              <input type="radio" id="color-dots" v-model="colorStage" :value="'../assets/textures/dots.jpg'">
               <label class="color-label color-label--dots" for="color-dots"></label>
             </li>
             <li>
-              <input type="radio" id="color-dots2" v-model="colorStage" :value="'@/assets/textures/dots2.jpg'">
+              <input type="radio" id="color-dots2" v-model="colorStage" :value="'../assets/textures/dots2.jpg'">
               <label class="color-label color-label--dots2" for="color-dots2"></label>
             </li>
             <li>
-              <input type="radio" id="color-grid" v-model="colorStage" :value="'@/assets/textures/grid.png'">
+              <input type="radio" id="color-grid" v-model="colorStage" :value="'../assets/textures/grid.png'">
               <label class="color-label color-label--grid" for="color-grid"></label>
             </li>
             <li>
-              <input type="radio" id="color-line" v-model="colorStage" :value="'@/assets/textures/line.jpg'">
+              <input type="radio" id="color-line" v-model="colorStage" :value="'../assets/textures/line.jpg'">
               <label class="color-label color-label--line" for="color-line"></label>
             </li>
           </ul>
@@ -41,13 +41,13 @@
         <div class="col-2 p-0">
           <ul class="menu">
             <li class="menu__item hue"><a v-on:click="noteModal = true">Добавить заметку</a></li>
-            <li class="menu__item hue"><a>Добавить фото</a></li>
+            <li class="menu__item hue"><a v-on:click="imageModal = true">Добавить фото</a></li>
             <li class="menu__item hue"><a>Добавить аудио</a></li>
             <li class="menu__item hue"><a>Добавить документ</a></li>
           </ul>
         </div>
         <div class="col-8">
-          <div class="konva-container" ref="container" v-bind:style="{height: '70vh', background: colorStage }">
+          <div class="konva-container" ref="container" v-bind:style="stageStyle">
             <v-stage :config="stageSize" ref="stage" @mousedown="handleStageMouseDown">
             </v-stage>
           </div>
@@ -75,18 +75,20 @@
       </div>
     </div>
     <note-modal v-show="noteModal" @close="noteDataFromModal"></note-modal>
+    <image-modal v-show="imageModal" @close="imageDataFromModal"></image-modal>
   </div>
 </template>
 
 <script>
   import NoteModal from './NoteModal';
+  import ImageModal from './ImageModal'
   import BoardService from "../services/BoardService";
 
   let width = window.innerWidth;
   let height = window.innerHeight;
   export default {
     name: "Board",
-    components: {NoteModal},
+    components: {NoteModal, ImageModal},
     data() {
       return {
         bname: 'Без названия',
@@ -101,6 +103,7 @@
         ],
         is_public: false,
         noteModal: false,
+        imageModal: false,
         filter: 'all',
         savedMessage: "",
         notes: [],
@@ -115,6 +118,15 @@
     created: function () {
       window.addEventListener('resize', this.changeRect);
       this.changeRect();
+    },
+    computed: {
+      stageStyle: function () {
+        if(this.colorStage.length > 8) {
+          console.log('url("' + this.colorStage + '")');
+          return {height: '70vh', background: `url("${this.colorStage}")`}
+        }
+        else return {height: '70vh', background: this.colorStage }
+      }
     },
     methods: {
       test() {
@@ -216,6 +228,9 @@
 
         this.createNote(noteData);
       },
+      async imageDataFromModal(data) {
+        this.imageModal = data.imageModal;
+      },
       createNote(data) {
         const stage = this.$refs.stage.getNode();
         let layer = this.notesLayer;
@@ -305,8 +320,7 @@
       console.log(boardData);
       //Just Notes for now
       this.parseDataFromServer(boardData.data);
-    },
-    computed: {}
+    }
   }
 </script>
 
