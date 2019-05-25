@@ -16,9 +16,9 @@
               <input type="text" placeholder="Название" maxlength="20" v-model="name">
             </div>
             <div class="col-6">
-              <input type="file" :name="uploadFileName" :disabled="isSaving" accept="image/jpeg" class="input-file"
+              <input type="file" :name="uploadFileName" accept="image/jpeg" class="input-file"
                      id="input-file"
-                     @change="onFileChange($event.target.name, $event.target.files)">
+                     @change="onFileChange($event.target.files)">
               <label for="input-file">Выбрать файл</label>
               <h5>{{errorText}}</h5>
             </div>
@@ -88,9 +88,6 @@
 </template>
 
 <script>
-
-  const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED = 3;
-
   export default {
     name: "ImageModal",
     data() {
@@ -108,58 +105,57 @@
           {id: "17", color: "blue", num: "#33ccff"}
         ],
         uploadFileName: "photo",
-        uploadedFile: null,
-        uploadError: null,
-        currentStatus: null,
         errorText: "",
         errorDialog: null,
-        maxSize: 1024
+        maxSize: 5120,
+        formData: null
       }
     },
     props: {
       // Use "value" here to enable compatibility with v-model
       value: Object,
     },
-    computed: {
-      isInitial() {
-        return this.currentStatus === STATUS_INITIAL;
-      },
-      isSaving() {
-        return this.currentStatus === STATUS_SAVING;
-      },
-      isSuccess() {
-        return this.currentStatus === STATUS_SUCCESS;
-      },
-      isFailed() {
-        return this.currentStatus === STATUS_FAILED;
-      }
-    },
     methods: {
+      reset() {
+        // reset form to initial state
+        this.errorText = "";
+        this.formData = null;
+        this.errorDialog = null;
+        this.image = null;
+      },
       save: function () {
         this.$emit('close', {
           imageModal: false,
+          formData: this.formData,
+          imageType: this.imageType,
+          color: this.colorFrame,
+          name: this.name
         });
       },
-      onFileChange(fieldName, file) {
-        const {maxSize} = this
+      onFileChange(file) {
+        const {maxSize} = this;
         let imageFile = file[0];
 
         //check if user actually selected a file
         if (file.length > 0) {
-          let size = imageFile.size / maxSize / maxSize
+          let size = imageFile.size / maxSize / maxSize;
           if (size > 1) {
             // check whether the size is greater than the size limit
-            this.errorDialog = true
-            this.errorText = 'Your file is too big! Please select an image under 1MB'
+            this.errorDialog = true;
+            this.errorText = 'Your file is too big! Please select an image under 5MB'
           } else {
             // Append file into FormData & turn file into image URL
-            let formData = new FormData()
-            let imageURL = URL.createObjectURL(imageFile)
-            formData.append(fieldName, imageFile);
+            let formData = new FormData();
+            let imageURL = URL.createObjectURL(imageFile);
+            formData.append('photo', imageFile);
+            this.formData = formData;
             this.image = imageURL;
           }
         }
       }
+    },
+    mounted() {
+      this.reset();
     }
   }
 </script>

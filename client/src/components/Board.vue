@@ -13,7 +13,8 @@
         </div>
         <div class="col-4 text-center">
           <div class="board-name">
-            <input type="text" class="input-large" name="board-name" maxlength="25" :placeholder="bname"  v-model="bname">
+            <input type="text" class="input-large" name="board-name" maxlength="25" :placeholder="bname"
+                   v-model="bname">
           </div>
         </div>
         <div class="col-3">
@@ -121,20 +122,20 @@
     },
     computed: {
       stageStyle: function () {
-        if(this.colorStage.length > 8) {
+        if (this.colorStage.length > 8) {
           console.log('url("' + this.colorStage + '")');
           return {height: '70vh', background: `url("${this.colorStage}")`}
         }
-        else return {height: '70vh', background: this.colorStage }
+        else return {height: '70vh', background: this.colorStage}
       }
     },
     methods: {
       test() {
         const stage = this.$refs.stage.getNode();
         this.notes.forEach(function (note) {
-          console.log(note.children[0].getAbsolutePosition().x, note.children[0].getAbsolutePosition().y);
+          // console.log(note.children[0].getAbsolutePosition().x, note.children[0].getAbsolutePosition().y);
           //console.log(note.getAttr('x'), note.getAttr('y'));
-          console.log(note.id());
+          console.log(Date.now().toString());
         })
       },
       async saveBoard() {
@@ -229,7 +230,24 @@
         this.createNote(noteData);
       },
       async imageDataFromModal(data) {
+        const id = this.$store.state.route.params.idb;
+        const uid = this.$store.state.route.params.id;
+
         this.imageModal = data.imageModal;
+        if (data.formData == null) return;
+        let image = {};
+        image.imageType = data.imageType;
+        image.color = data.color;
+        image.name = data.name;
+
+        // const newImage = await BoardService.createImage({
+        //   imageProp: image,
+        //   photo: data.formData,
+        //   bid: id,
+        //   coordinates: [40, 20],
+        // }, config);
+
+        const newImage = await BoardService.uploadImage(data.formData, uid);
       },
       createNote(data) {
         const stage = this.$refs.stage.getNode();

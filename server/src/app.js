@@ -2,6 +2,8 @@ const express = require('express');
 const morgan = require('morgan');
 //const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const busboy = require('connect-busboy');
+const busboyBodyParser = require('busboy-body-parser');
 const cors = require('cors');
 const createError = require('http-errors');
 // const history = require('connect-history-api-fallback');
@@ -13,6 +15,8 @@ let boardsRouter = require('../routes/boards');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(busboy());
+app.use(busboyBodyParser());
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
