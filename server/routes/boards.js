@@ -21,14 +21,14 @@ function uploadToS3(file, board) {
         secretAccessKey: IAM_USER_SECRET,
         Bucket: BUCKET_NAME,
     });
-        let params = {
-            Bucket: BUCKET_NAME,
-            Key: `${board._id}/${Date.now().toString()}.jpg`,
-            Body: file.data,
-        };
+    let params = {
+        Bucket: BUCKET_NAME,
+        Key: `${board._id}/${Date.now().toString()}.jpg`,
+        Body: file.data
+    };
 
-    let s3UploadPromise = new Promise(function(resolve, reject) {
-        s3bucket.upload(params, function(err, data) {
+    let s3UploadPromise = new Promise(function (resolve, reject) {
+        s3bucket.upload(params, function (err, data) {
             if (err) {
                 reject(err);
             } else {
@@ -83,7 +83,9 @@ router.post('/saveBoard', function (req, res, next) {
 
 router.get('/:id/getData', function (req, res, next) {
     let bid = req.params.id;
+    let notes, images;
     let notesArray = [];
+    let imagesArray = [];
     let data = {};
 
     Board.findOne({_id: bid}, function (err, board) {
@@ -98,35 +100,83 @@ router.get('/:id/getData', function (req, res, next) {
         }
     });
 
-    Board.findOne({_id: bid}).distinct('notes', function (err, notes) {
-        if (err) return next(err);
-        for (let i = 0; i < notes.length; i++) {
-            let objNote = {};
-            console.log(notes[i]);
-            Media.findOne({_id: notes[i]}, function (err, media) {
-                if (err) return next(err);
-                if (media) {
-                    objNote.coordinates = media.coordinates;
-                    objNote.id = media._id;
-                    Note.findOne({_id: media.type}, function (err, note) {
+
+    let findNotes = new Promise((resolve => {
+        Board.findOne({_id: bid}, function (err, board) {
+            if (err) return next(err);
+            if (board) {
+                notes = board.notes;
+                for (let i = 0; i < notes.length; i++) {
+                    let objNote = {};
+                    console.log(notes[i]);
+                    Media.findOne({_id: notes[i]}, function (err, media) {
                         if (err) return next(err);
-                        if (note) {
-                            objNote.color = note.color;
-                            objNote.text = note.text;
+                        if (media) {
+                            objNote.coordinates = media.coordinates;
+                            objNote.id = media._id;
+                            Note.findOne({_id: media.type}, function (err, note) {
+                                if (err) return next(err);
+                                if (note) {
+                                    objNote.color = note.color;
+                                    objNote.text = note.text;
 
-                            notesArray.push(objNote);
-                            console.log("ObjNote " + objNote);
-                            console.log("noteArray " + notesArray);
+                                    notesArray.push(objNote);
 
-                            if (i === notes.length - 1) {
-                                console.log("NA: " + notesArray);
-                                return res.send({notesArray: notesArray, board: data});
-                            }
+                                    if (i === notes.length - 1) {
+                                        console.log("NA: " + notesArray);
+                                        resolve(notesArray);
+                                        //return res.send({notesArray: notesArray, board: data});
+                                    }
+                                }
+                            })
                         }
                     })
                 }
-            })
-        }
+            }
+        });
+    }));
+
+
+    let findImages = new Promise((resolve => {
+        Board.findOne({_id: bid}, function (err, board) {
+            if (err) return next(err);
+            if (board) {
+                images = board.images;
+                console.log("IMAGES L: " + images.length);
+                for (let j = 0; j < images.length; j++) {
+                    let objImage = {};
+                    Media.findOne({_id: images[j]}, function (err, media) {
+                        if (err) return next(err);
+                        if (media) {
+                            objImage.coordinates = media.coordinates;
+                            objImage.id = media._id;
+                            Image.findOne({_id: media.type}, function (err, image) {
+                                if (err) return next(err);
+                                if (image) {
+                                    objImage.color = image.color;
+                                    objImage.name = image.name;
+                                    objImage.type = image.type;
+                                    objImage.link = image.link;
+
+                                    imagesArray.push(objImage);
+
+                                    if (j === images.length - 1) {
+                                        console.log("IA " + imagesArray);
+                                        resolve(imagesArray);
+                                    }
+                                }
+                            })
+                        }
+                    })
+                }
+            }
+        });
+    }));
+
+    return Promise.all([findNotes, findImages])
+        .then(array => {
+            console.log(array[1]);
+            return res.send({notesArray: array[0], imagesArray: array[1], board: data});
     });
 });
 
@@ -194,17 +244,8 @@ router.post('/createImage', function (req, res, next) {
         board: bid,
         coordinates: image.coordinates
     }, function (err, media) {
-        if(err) return next(err);
-        if(media) {
-            Image.findOneAndUpdate({_id: iid}, {
-                media: media._id,
-                color: image.color,
-                name: image.name,
-                type: image.imageType
-            }, function (err) {
-                if(err) return next(err);
-            });
-
+        if (err) return next(err);
+        if (media) {
             Board.findOne({_id: bid}, function (err, board) {
                 if (err) return next(err);
                 if (board) {
@@ -212,8 +253,18 @@ router.post('/createImage', function (req, res, next) {
                     board.save(function (err) {
                         if (err) return next(err);
                     });
+                }
+            });
 
-                    return res.send({id: media._id});
+            Image.findOneAndUpdate({_id: iid}, {
+                media: media._id,
+                color: image.color,
+                name: image.name,
+                type: image.imageType
+            }, function (err, imageInst) {
+                if (err) return next(err);
+                if (imageInst) {
+                    return res.send({imageLink: imageInst.link, media: media._id});
                 }
             });
         }

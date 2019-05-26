@@ -75,6 +75,8 @@
         </div>
       </div>
     </div>
+
+    <img :src="link" alt="Image">
     <note-modal v-show="noteModal" @close="noteDataFromModal"></note-modal>
     <image-modal v-show="imageModal" @close="imageDataFromModal"></image-modal>
   </div>
@@ -108,12 +110,15 @@
         filter: 'all',
         savedMessage: "",
         notes: [],
+        images: [],
         notesLayer: null,
+        imagesLayer: null,
         stageSize: {
           width: width,
           height: height
         },
-        selectedShapeName: ''
+        selectedShapeName: '',
+        link: '',
       }
     },
     created: function () {
@@ -256,8 +261,13 @@
             })
           })
           .then((response) => {
-            console.log(response.data.id);
+            console.log(response.data.imageLink);
+            this.link = response.data.imageLink;
+            image.link = response.data.imageLink;
+            image.id = response.data.media;
           });
+
+        this.createImage(image);
       },
       createNote(data) {
         const stage = this.$refs.stage.getNode();
@@ -306,6 +316,35 @@
         this.notes.push(group);
         stage.add(layer);
       },
+      createImage(data) {
+        const stage = this.$refs.stage.getNode();
+        let layer = this.imagesLayer;
+        let newImage;
+        let group = new Konva.Group({
+          draggable: true,
+          name: 'imageGroup',
+          id: data.id
+        });
+
+        if(data.imageType === "simple") {
+          let imageObj = new Image();
+          imageObj.src = data.link;
+          newImage = new Konva.Image({
+            x: data.coordinates[0],
+            y: data.coordinates[1],
+            name: 'image',
+            image: imageObj,
+            borderSize: 5,
+            borderColor: 'red'
+          });
+          console.log(newImage);
+          group.add(newImage);
+        }
+
+        layer.add(group);
+        this.images.push(group);
+        stage.add(layer);
+      },
       parseDataFromServer(data) {
         let notes = data.notesArray;
         let board = data.board;
@@ -315,6 +354,7 @@
         //Notes
 
         this.notesLayer = new Konva.Layer();
+        this.imagesLayer = new Konva.Layer();
 
         for (let i = 0; i < notes.length; i++) {
           console.log('Length: ' + notes.length);
