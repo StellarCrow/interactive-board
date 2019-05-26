@@ -180,7 +180,6 @@
         const height = container.offsetHeight;
         const width = container.offsetWidth;
 
-        console.log(height, width);
         this.stageSize.width = width;
         this.stageSize.height = height;
       },
@@ -231,23 +230,34 @@
       },
       async imageDataFromModal(data) {
         const id = this.$store.state.route.params.idb;
-        const uid = this.$store.state.route.params.id;
-
-        this.imageModal = data.imageModal;
-        if (data.formData == null) return;
         let image = {};
+
         image.imageType = data.imageType;
         image.color = data.color;
         image.name = data.name;
+        image.coordinates = [40, 20];
 
-        // const newImage = await BoardService.createImage({
-        //   imageProp: image,
-        //   photo: data.formData,
-        //   bid: id,
-        //   coordinates: [40, 20],
-        // }, config);
+        this.imageModal = data.imageModal;
+        if (data.imageFile == null) return;
 
-        const newImage = await BoardService.uploadImage(data.formData, uid);
+        let formData = new FormData();
+        formData.append('photo', data.imageFile);
+
+        await BoardService.uploadImage(formData, id)
+          .then((response) => {
+            if(response.data.imageId === -1) {
+              return console.log("imageId -1 " + response.data.imageId);
+            }
+            console.log("image ID " + response.data.imageId);
+            return BoardService.createImage({
+              image: image,
+              bid: id,
+              imageId: response.data.imageId
+            })
+          })
+          .then((response) => {
+            console.log(response.data.id);
+          });
       },
       createNote(data) {
         const stage = this.$refs.stage.getNode();

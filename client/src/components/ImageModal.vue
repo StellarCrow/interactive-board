@@ -108,7 +108,7 @@
         errorText: "",
         errorDialog: null,
         maxSize: 5120,
-        formData: null
+        imageFile: null
       }
     },
     props: {
@@ -119,14 +119,14 @@
       reset() {
         // reset form to initial state
         this.errorText = "";
-        this.formData = null;
+        this.imageFile = null;
         this.errorDialog = null;
         this.image = null;
       },
       save: function () {
         this.$emit('close', {
           imageModal: false,
-          formData: this.formData,
+          imageFile: this.imageFile,
           imageType: this.imageType,
           color: this.colorFrame,
           name: this.name
@@ -144,11 +144,9 @@
             this.errorDialog = true;
             this.errorText = 'Your file is too big! Please select an image under 5MB'
           } else {
-            // Append file into FormData & turn file into image URL
-            let formData = new FormData();
+            //turn file into image URL
             let imageURL = URL.createObjectURL(imageFile);
-            formData.append('photo', imageFile);
-            this.formData = formData;
+            this.imageFile = imageFile;
             this.image = imageURL;
           }
         }

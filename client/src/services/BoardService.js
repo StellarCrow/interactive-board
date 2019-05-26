@@ -19,7 +19,10 @@ export default {
   createNote(data) {
     return Api().post(`/boards/createNote`, data);
   },
-  uploadImage(data, uid) {
-    return Api().post(`/boards/uploadImage/${uid}`, data);
+  uploadImage(data, id) {
+    return Api().post(`/boards/uploadImage/${id}`, data);
+  },
+  createImage(data) {
+    return Api().post(`/boards/createImage`, data);
   }
 }

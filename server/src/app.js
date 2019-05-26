@@ -14,7 +14,7 @@ let boardsRouter = require('../routes/boards');
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(busboy());
 app.use(busboyBodyParser());
 

@@ -10,8 +10,7 @@ let ImageSchema = new Schema({
     name: String,
     color: String,
     type: {
-        type: String,
-        required: true
+        type: String
     },
     link: {
         type: String,
