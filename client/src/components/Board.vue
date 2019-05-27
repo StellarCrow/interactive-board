@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="board-section">
     <div class="container-fluid">
       <div class="row justify-content-center mb-3">
         <div class="col-3">
@@ -75,8 +75,6 @@
         </div>
       </div>
     </div>
-
-    <img :src="link" alt="Image">
     <note-modal v-show="noteModal" @close="noteDataFromModal"></note-modal>
     <image-modal v-show="imageModal" @close="imageDataFromModal"></image-modal>
   </div>
@@ -95,9 +93,9 @@
     data() {
       return {
         bname: 'Без названия',
-        colorStage: "#fff",
+        colorStage: "#fcfcfc",
         colorsStage: [
-          {id: "6", color: "white", num: "#fff"},
+          {id: "6", color: "white", num: "#fcfcfc"},
           {id: "7", color: "black", num: "#000"},
           {id: "8", color: "green", num: "#7bf3d8"},
           {id: "9", color: "pink", num: "#f37bae"},
@@ -117,8 +115,7 @@
           width: width,
           height: height
         },
-        selectedShapeName: '',
-        link: '',
+        selectedShapeName: ''
       }
     },
     created: function () {
@@ -145,6 +142,7 @@
       },
       async saveBoard() {
         let notesUpdated = [];
+        let imagesUpdated = [];
         const id = this.$store.state.route.params.idb;
 
         this.notes.forEach(function (note) {
@@ -154,12 +152,20 @@
           notesUpdated.push(updatedNote);
         });
 
+        this.images.forEach(function (image) {
+          let updatedImage = {}
+          updatedImage.coordinates = [image.children[0].getAbsolutePosition().x, image.children[0].getAbsolutePosition().y];
+          updatedImage.id = image.id();
+          imagesUpdated.push(updatedImage);
+        });
+
         let data = {
           idb: id,
           is_public: this.is_public,
           name: this.bname,
           background: this.colorStage,
-          notes: notesUpdated
+          notes: notesUpdated,
+          images: imagesUpdated
         };
 
         const response = await BoardService.saveBoard(data);
@@ -250,7 +256,7 @@
 
         await BoardService.uploadImage(formData, id)
           .then((response) => {
-            if(response.data.imageId === -1) {
+            if (response.data.imageId === -1) {
               return console.log("imageId -1 " + response.data.imageId);
             }
             console.log("image ID " + response.data.imageId);
@@ -319,48 +325,96 @@
       createImage(data) {
         const stage = this.$refs.stage.getNode();
         let layer = this.imagesLayer;
-        let newImage;
+        let newImage, rect;
         let group = new Konva.Group({
           draggable: true,
           name: 'imageGroup',
           id: data.id
         });
 
-        if(data.imageType === "simple") {
-          let imageObj = new Image();
-          imageObj.src = data.link;
+        let imageObj = new Image();
+        imageObj.src = data.link;
+
+        if (data.imageType === "simple") {
           newImage = new Konva.Image({
             x: data.coordinates[0],
             y: data.coordinates[1],
             name: 'image',
             image: imageObj,
-            borderSize: 5,
-            borderColor: 'red'
+            width: 100,
+            height: 100
           });
           console.log(newImage);
+          group.add(newImage);
+        }
+        else if (data.imageType === 'polaroid') {
+
+          newImage = new Konva.Image({
+            x: data.coordinates[0] + 5,
+            y: data.coordinates[1] + 10,
+            name: 'image',
+            image: imageObj,
+            width: 100,
+            height: 100
+          });
+
+          let imageText = new Konva.Text({
+            x: data.coordinates[0],
+            y: data.coordinates[1] + newImage.height(),
+            name: 'imageText',
+            text: data.name,
+            fontSize: 14,
+            fontStyle: 200,
+            fontFamily: 'Calibri',
+            fill: '#000',
+            padding: 20,
+            align: 'center'
+          });
+
+          rect = new Konva.Rect({
+            x: data.coordinates[0],
+            y: data.coordinates[1],
+            name: 'imageBack',
+            stroke: "#e5e5e5",
+            strokeWidth: 1,
+            fill: data.color,
+            width: newImage.width() + 10,
+            height: newImage.height() + imageText.height()
+          });
+
+          imageText.width = rect.width;
+          group.add(rect);
+          group.add(newImage);
+          group.add(imageText);
+        }
+        else if(data.imageType === 'frame') {
+          newImage = new Konva.Image({
+            x: data.coordinates[0] + 10,
+            y: data.coordinates[1] + 10,
+            name: 'image',
+            image: imageObj,
+            width: 100,
+            height: 100
+          });
+
+          rect = new Konva.Rect({
+            x: data.coordinates[0],
+            y: data.coordinates[1],
+            name: 'imageBack',
+            stroke: "#e5e5e5",
+            strokeWidth: 1,
+            fill: data.color,
+            width: newImage.width() + 20,
+            height: newImage.height() + 20
+          });
+
+          group.add(rect);
           group.add(newImage);
         }
 
         layer.add(group);
         this.images.push(group);
         stage.add(layer);
-      },
-      parseDataFromServer(data) {
-        let notes = data.notesArray;
-        let board = data.board;
-        this.bname = board.bname;
-        this.is_public = board.is_public;
-        this.colorStage = board.background;
-        //Notes
-
-        this.notesLayer = new Konva.Layer();
-        this.imagesLayer = new Konva.Layer();
-
-        for (let i = 0; i < notes.length; i++) {
-          console.log('Length: ' + notes.length);
-          this.createNote(notes[i]);
-        }
-
       },
       handleStageMouseDown(e) {
         const stage = this.$refs.stage.getNode();
@@ -378,7 +432,27 @@
         let layer = e.target.getLayer();
         console.log(e.target.getLayer());
         layer.add(tr);
-      }
+      },
+      parseDataFromServer(data) {
+        let notes = data.notesArray;
+        let images = data.imagesArray;
+        let board = data.board;
+        this.bname = board.bname;
+        this.is_public = board.is_public;
+        this.colorStage = board.background;
+
+        this.notesLayer = new Konva.Layer();
+        this.imagesLayer = new Konva.Layer();
+
+        for (let i = 0; i < notes.length; i++) {
+          this.createNote(notes[i]);
+        }
+
+        for (let j = 0; j < images.length; j++) {
+          this.createImage(images[j]);
+        }
+
+      },
     },
     async mounted() {
       this.changeRect();
@@ -394,4 +468,6 @@
 
 <style lang="scss" scoped>
   @import "../styles/components/board";
+
+
 </style>

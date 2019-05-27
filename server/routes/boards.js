@@ -58,6 +58,9 @@ function uploadToS3(file, board) {
 router.post('/saveBoard', function (req, res, next) {
     let id = req.body.idb;
     let notesUpdated = req.body.notes; //Array[obj, obj]
+    let imagesUpdated = req.body.images;
+    let promiseNotes, promiseImages;
+
 
     Board.findOneAndUpdate({_id: id}, {
         name: req.body.name,
@@ -66,19 +69,44 @@ router.post('/saveBoard', function (req, res, next) {
     }, function (err, board) {
         if (err) return next(err);
         if (board) {
-            for (let i = 0; i < notesUpdated.length; i++) {
-                Media.findOneAndUpdate({_id: notesUpdated[i].id}, {
-                    coordinates: notesUpdated[i].coordinates
-                }, function (err) {
-                    if (err) return next(err);
-                });
 
-                if (i === notesUpdated.length - 1) {
-                    return res.send({message: "Successfully updated."});
+            promiseNotes = new Promise(resolve => {
+                if(notesUpdated.length === 0) resolve("There are no notes");
+                for (let i = 0; i < notesUpdated.length; i++) {
+                    Media.findOneAndUpdate({_id: notesUpdated[i].id}, {
+                        coordinates: notesUpdated[i].coordinates
+                    }, function (err) {
+                        if (err) return next(err);
+                    });
+
+                    if (i === notesUpdated.length - 1) {
+                        resolve("Notes updated");
+                    }
                 }
-            }
+            });
+
+            promiseImages = new Promise(resolve => {
+                if(imagesUpdated.length === 0) resolve("There are no images");
+                for(let j = 0; j < imagesUpdated.length; j++) {
+                    Media.findOneAndUpdate({_id: imagesUpdated[j].id}, {
+                        coordinates: imagesUpdated[j].coordinates
+                    }, function (err) {
+                        if(err) return next(err);
+                    });
+
+                    if(j === imagesUpdated.length - 1) {
+                        resolve("Images Updated");
+                    }
+                }
+
+                return Promise.all([promiseNotes, promiseImages])
+                    .then(array => {
+                        console.log("UPDATED " + array[0] + "  " + array[1]);
+                        return res.send({message: `${array[0]} and ${array[1]}`});
+                    })
+            });
         }
-    })
+    });
 });
 
 router.get('/:id/getData', function (req, res, next) {
@@ -100,12 +128,13 @@ router.get('/:id/getData', function (req, res, next) {
         }
     });
 
-
+    //REJECT EMPTY OBJCTS
     let findNotes = new Promise((resolve => {
         Board.findOne({_id: bid}, function (err, board) {
             if (err) return next(err);
             if (board) {
                 notes = board.notes;
+                if(notes.length === 0) return resolve(notesArray);
                 for (let i = 0; i < notes.length; i++) {
                     let objNote = {};
                     console.log(notes[i]);
@@ -142,6 +171,7 @@ router.get('/:id/getData', function (req, res, next) {
             if (err) return next(err);
             if (board) {
                 images = board.images;
+                if(images.length === 0) return resolve(imagesArray);
                 console.log("IMAGES L: " + images.length);
                 for (let j = 0; j < images.length; j++) {
                     let objImage = {};
@@ -155,7 +185,7 @@ router.get('/:id/getData', function (req, res, next) {
                                 if (image) {
                                     objImage.color = image.color;
                                     objImage.name = image.name;
-                                    objImage.type = image.type;
+                                    objImage.imageType = image.type;
                                     objImage.link = image.link;
 
                                     imagesArray.push(objImage);

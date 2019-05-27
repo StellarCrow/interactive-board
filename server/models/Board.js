@@ -4,7 +4,8 @@ let Schema = mongoose.Schema;
 
 let BoardSchema = new Schema({
     name: {
-        type: String
+        type: String,
+        default: "Без названия"
     },
     author: {
         type: Schema.Types.ObjectId,

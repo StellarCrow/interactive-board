@@ -1,5 +1,9 @@
 @import "../basics/base";
 
+.board-section {
+  //background: url('../assets/textures/bg-color-dots.jpg') repeat center top;
+}
+
 .vertical-align {
   position: relative;
   top: 50%;
@@ -43,7 +47,8 @@ $amount: 10;
 }
 
 .konva-container {
-  box-shadow: 0 0 1px #ddd, 0 2px 2px;
+  //box-shadow: 0 0 1px #ddd, 0 2px 2px;
+  border: 2px solid $gray-color--light;
 }
 
 
