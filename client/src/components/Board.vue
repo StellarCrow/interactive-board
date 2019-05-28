@@ -49,7 +49,7 @@
         </div>
         <div class="col-8">
           <div class="konva-container" ref="container" v-bind:style="stageStyle">
-            <v-stage :config="stageSize" ref="stage" @mousedown="handleStageMouseDown">
+            <v-stage :config="stageSize" ref="stage">
             </v-stage>
           </div>
         </div>
@@ -240,6 +240,9 @@
         this.createNote(noteData);
       },
       async imageDataFromModal(data) {
+        this.imageModal = data.imageModal;
+        if (data.imageFile == null) return;
+
         const id = this.$store.state.route.params.idb;
         let image = {};
 
@@ -247,9 +250,6 @@
         image.color = data.color;
         image.name = data.name;
         image.coordinates = [40, 20];
-
-        this.imageModal = data.imageModal;
-        if (data.imageFile == null) return;
 
         let formData = new FormData();
         formData.append('photo', data.imageFile);
@@ -281,7 +281,28 @@
         let group = new Konva.Group({
           draggable: true,
           name: 'noteGroup',
-          id: data.id
+          id: data.id,
+          dragBoundFunc: function (pos) {
+            let newY, newX;
+            if (pos.y < -50) {
+              newY = -50;
+            } else if (pos.y > stage.height()) {
+              newY = stage.height()
+            } else
+              newY = pos.y;
+
+            if (pos.x < -50) {
+              newX = -50;
+            } else if (pos.x > stage.width()) {
+              newX = stage.width()
+            } else
+              newX = pos.x;
+
+            return {
+              x: newX,
+              y: newY,
+            }
+          }
         });
 
         let noteText = new Konva.Text({

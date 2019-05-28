@@ -83,7 +83,7 @@
         let userId = this.$store.state.user._id;
         const newId = await BoardService.createBoard(userId);
         console.log(newId.data.boardId);
-        this.$router.push({name: 'Board', params: {id: userId, idb: newId}});
+        this.$router.push({name: 'Board', params: {id: userId, idb: newId.data.boardId}});
       },
       async deleteBoard(boardId, index) {
         this.boards.splice(index, 1);

@@ -78,7 +78,7 @@
           <div class="row justify-content-center">
             <div class="d-flex justify-content-center">
               <button @click="save">Сохранить</button>
-              <button @click="save" class="button-cancel ml-3">Закрыть</button>
+              <button @click="close" class="button-cancel ml-3">Закрыть</button>
             </div>
           </div>
         </div>
@@ -123,6 +123,12 @@
         this.errorDialog = null;
         this.image = null;
       },
+      close: function() {
+        this.$emit('close', {
+          imageModal: false,
+          imageFile: null
+        });
+      },
       save: function () {
         this.$emit('close', {
           imageModal: false,
@@ -145,6 +151,8 @@
             this.errorText = 'Your file is too big! Please select an image under 5MB'
           } else {
             //turn file into image URL
+            console.log(imageFile);
+
             let imageURL = URL.createObjectURL(imageFile);
             this.imageFile = imageFile;
             this.image = imageURL;

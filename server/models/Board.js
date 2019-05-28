@@ -19,7 +19,7 @@ let BoardSchema = new Schema({
     },
     background: {
         type: String,
-        default: "#fff"
+        default: "#fcfcfc"
     },
     notes: [{
         type: Schema.Types.ObjectId,

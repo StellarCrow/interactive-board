@@ -1,9 +1,11 @@
 const express = require('express');
 const AWS = require('aws-sdk');
-let multer = require('multer');
+const multer = require('multer');
 let upload = multer();
+const urlapi = require('url');
 const router = express.Router();
 
+let User = require('../models/User');
 let Note = require('../models/Note');
 let Image = require('../models/Image');
 let Media = require('../models/Media');
@@ -54,6 +56,114 @@ function uploadToS3(file, board) {
 
     return s3UploadPromise;
 }
+
+function deleteFromS3(path) {
+    let s3bucket = new AWS.S3({
+        accessKeyId: IAM_USER_KEY,
+        secretAccessKey: IAM_USER_SECRET,
+        Bucket: BUCKET_NAME,
+    });
+
+    let params = {
+        Bucket: BUCKET_NAME,
+        Key: path
+    };
+
+    let promiseDelete =  new Promise(function (resolve, reject) {
+        s3bucket.deleteObject(params, function (err, data) {
+            if (err) {
+                reject(err);
+            } else {
+                console.log('successfully deleted');
+                console.log(data);
+                resolve(data);
+            }
+        });
+    });
+
+    promiseDelete.then(result => {
+        console.log("DELETED FROM S3 " + result);
+        return result;
+    })
+}
+
+function parseUrl(url) {
+    let parsed = urlapi.parse(url);
+    console.log(parsed.hostname + '\n' + parsed.pathname + '\n');
+    return parsed.pathname;
+}
+
+router.post("/deleteBoard/:id", function (req, res, next) {
+    let bid = req.params.id;
+    let notes, images;
+    Board.findOne({_id: bid}, function (err, board) {
+        if(err) return next(err);
+        if(board) {
+            let author = board.author;
+            User.update({_id: author}, {$pull : {boards: board._id}}, function (err) {
+                if(err) return next(err);
+            });
+
+            let notesPromise = new Promise(resolve => {
+                if(board.notes.length === 0) return resolve("There are no notes to delete");
+                notes = board.notes;
+                for(let i = 0; i < notes.length; i++) {
+                    Media.findOne({_id: notes[i]}, function (err, media) {
+                        if(err) return next(err);
+                        if(media) {
+                            Note.remove({_id: media.type}, function (err) {
+                                if(err) return next(err);
+                            });
+                            media.delete();
+                        }
+                    });
+
+                    if(i === notes.length - 1) {
+                        resolve("Notes were deleted");
+                    }
+                }
+            });
+
+            let imagePromise = new Promise(resolve => {
+                if(board.images.length === 0) return resolve("There are no images to delete");
+                images = board.images;
+                for(let j = 0; j < images.length; j++) {
+                    Media.findOne({_id: images[j]}, function (err, media) {
+                        if(err) return next(err);
+                        if(media) {
+                            Image.findOneAndRemove({_id: media.type}, function (err, imageInst) {
+                                if(err) return next(err);
+                                if(imageInst) {
+                                    let path = parseUrl(imageInst.link);
+                                    deleteFromS3(path);
+                                }
+                            });
+                            media.delete();
+                        }
+                    });
+
+                    if(j === images.length - 1) {
+                        resolve("Notes were deleted");
+                    }
+                }
+            });
+
+            return Promise.all([notesPromise, imagePromise])
+                .then(array => {
+                    // let deleted = board;
+                    console.log("===DELETION===");
+                    console.log(array[0], array[1]);
+                    board.delete();
+                    board.save();
+                    return res.send(`${array[0]} and ${array[0]} and board deleted`);
+                });
+
+        }
+        else {
+            return res.send({board: "Deletion error"});
+        }
+    })
+});
 
 router.post('/saveBoard', function (req, res, next) {
     let id = req.body.idb;

@@ -8,7 +8,7 @@ export default {
     return Api().post(`/users/${userId}/createBoard`);
   },
   deleteBoard(boardId) {
-    return Api().post(`/deleteBoard/${boardId}`);
+    return Api().post(`/boards/deleteBoard/${boardId}`);
   },
   saveBoard(data) {
     return Api().post(`/boards/saveBoard`, data);
