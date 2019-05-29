@@ -17,7 +17,9 @@ let MediaSchema = new Schema({
     coordinates: {
         type: [Number, Number],
         required: true
-    }
+    },
+    rotation: Number,
+    scale: [Number, Number]
 });
 
 module.exports = mongoose.model('Media', MediaSchema);

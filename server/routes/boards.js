@@ -184,7 +184,9 @@ router.post('/saveBoard', function (req, res, next) {
                 if(notesUpdated.length === 0) resolve("There are no notes");
                 for (let i = 0; i < notesUpdated.length; i++) {
                     Media.findOneAndUpdate({_id: notesUpdated[i].id}, {
-                        coordinates: notesUpdated[i].coordinates
+                        coordinates: notesUpdated[i].coordinates,
+                        rotation: notesUpdated[i].rotation,
+                        scale: notesUpdated[i].scale
                     }, function (err) {
                         if (err) return next(err);
                     });
@@ -199,7 +201,9 @@ router.post('/saveBoard', function (req, res, next) {
                 if(imagesUpdated.length === 0) resolve("There are no images");
                 for(let j = 0; j < imagesUpdated.length; j++) {
                     Media.findOneAndUpdate({_id: imagesUpdated[j].id}, {
-                        coordinates: imagesUpdated[j].coordinates
+                        coordinates: imagesUpdated[j].coordinates,
+                        rotation: imagesUpdated[j].rotation,
+                        scale: imagesUpdated[j].scale
                     }, function (err) {
                         if(err) return next(err);
                     });
@@ -253,6 +257,8 @@ router.get('/:id/getData', function (req, res, next) {
                         if (media) {
                             objNote.coordinates = media.coordinates;
                             objNote.id = media._id;
+                            objNote.rotation = media.rotation;
+                            objNote.scale = media.scale;
                             Note.findOne({_id: media.type}, function (err, note) {
                                 if (err) return next(err);
                                 if (note) {
@@ -290,6 +296,8 @@ router.get('/:id/getData', function (req, res, next) {
                         if (media) {
                             objImage.coordinates = media.coordinates;
                             objImage.id = media._id;
+                            objImage.rotation = media.rotation;
+                            objImage.scale = media.scale;
                             Image.findOne({_id: media.type}, function (err, image) {
                                 if (err) return next(err);
                                 if (image) {

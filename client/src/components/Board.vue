@@ -137,9 +137,10 @@
       test() {
         const stage = this.$refs.stage.getNode();
         this.notes.forEach(function (note) {
-          // console.log(note.children[0].getAbsolutePosition().x, note.children[0].getAbsolutePosition().y);
-          //console.log(note.getAttr('x'), note.getAttr('y'));
-          console.log(Date.now().toString());
+          console.log(note.children[0].getAbsolutePosition().x, note.children[0].getAbsolutePosition().y);
+          console.log(note.getAttr('x'), note.getAttr('y'));
+          console.log(note.getAbsolutePosition());
+          console.log(note.rotation(), note.scaleX(), note.scaleY());
         })
       },
       async saveBoard() {
@@ -150,14 +151,18 @@
         this.notes.forEach(function (note) {
           let updatedNote = {};
           updatedNote.coordinates = [note.children[0].getAbsolutePosition().x, note.children[0].getAbsolutePosition().y];
+          updatedNote.rotation = note.rotation();
+          updatedNote.scale = [note.scaleX(), note.scaleY()];
           updatedNote.id = note.id();
           notesUpdated.push(updatedNote);
         });
 
         this.images.forEach(function (image) {
-          let updatedImage = {}
+          let updatedImage = {};
           updatedImage.coordinates = [image.children[0].getAbsolutePosition().x, image.children[0].getAbsolutePosition().y];
           updatedImage.id = image.id();
+          updatedImage.rotation = image.rotation();
+          updatedImage.scale = [image.scaleX(), image.scaleY()];
           imagesUpdated.push(updatedImage);
         });
 
@@ -205,14 +210,18 @@
           boardId: id,
           text: data.text,
           color: data.color,
-          coordinates: [20, 20]
+          coordinates: [20, 20],
+          rotation: 0,
+          scale: [1, 1]
         });
         console.log(newNote.data);
         let noteData = {
           id: newNote.data.id,
           text: data.text,
           color: data.color,
-          coordinates: [20, 20]
+          coordinates: [20, 20],
+          rotation: 0,
+          scale: [1, 1]
         };
 
         this.createNote(noteData);
@@ -228,6 +237,8 @@
         image.color = data.color;
         image.name = data.name;
         image.coordinates = [40, 20];
+        image.rotation = 0;
+        image.scale = [1, 1];
 
         let formData = new FormData();
         formData.append('photo', data.imageFile);
@@ -246,7 +257,6 @@
           })
           .then((response) => {
             console.log(response.data.imageLink);
-            this.link = response.data.imageLink;
             image.link = response.data.imageLink;
             image.id = response.data.media;
           });
@@ -257,35 +267,38 @@
         const stage = this.$refs.stage.getNode();
         let layer = this.stageLayer;
         let group = new Konva.Group({
+          x: data.coordinates[0],
+          y: data.coordinates[1],
           draggable: true,
           name: 'noteGroup',
           id: data.id,
-          dragBoundFunc: function (pos) {
-            let newY, newX;
-            if (pos.y < -50) {
-              newY = -50;
-            } else if (pos.y > stage.height()) {
-              newY = stage.height()
-            } else
-              newY = pos.y;
-
-            if (pos.x < -50) {
-              newX = -50;
-            } else if (pos.x > stage.width()) {
-              newX = stage.width()
-            } else
-              newX = pos.x;
-
-            return {
-              x: newX,
-              y: newY,
-            }
-          }
+          rotation: data.rotation,
+          scaleX: data.scale[0],
+          scaleY: data.scale[1]
+          // dragBoundFunc: function (pos) {
+          //   let newY, newX;
+          //   if (pos.y < -50) {
+          //     newY = -50;
+          //   } else if (pos.y > stage.height()) {
+          //     newY = stage.height()
+          //   } else
+          //     newY = pos.y;
+          //
+          //   if (pos.x < -50) {
+          //     newX = -50;
+          //   } else if (pos.x > stage.width()) {
+          //     newX = stage.width()
+          //   } else
+          //     newX = pos.x;
+          //
+          //   return {
+          //     x: newX,
+          //     y: newY,
+          //   }
+          // }
         });
 
         let noteText = new Konva.Text({
-          x: data.coordinates[0],
-          y: data.coordinates[1],
           name: 'noteText',
           text: data.text,
           fontSize: 14,
@@ -298,8 +311,6 @@
         });
 
         let rect = new Konva.Rect({
-          x: data.coordinates[0],
-          y: data.coordinates[1],
           name: 'noteRect',
           stroke: "#e5e5e5",
           strokeWidth: 1,
@@ -311,13 +322,10 @@
           shadowOpacity: 0.5
         });
 
-        //let tr = new Konva.Transformer();
 
         group.add(rect);
         group.add(noteText);
-        //tr.attachTo(group);
         layer.add(group);
-        //layer.add(tr);
         this.notes.push(group);
         stage.add(layer);
       },
@@ -326,9 +334,14 @@
         let layer = this.stageLayer;
         let newImage, rect;
         let group = new Konva.Group({
+          x: data.coordinates[0],
+          y: data.coordinates[1],
           draggable: true,
           name: 'imageGroup',
-          id: data.id
+          id: data.id,
+          rotation: data.rotation,
+          scaleX: data.scale[0],
+          scaleY: data.scale[1]
         });
 
         let imageObj = new Image();
@@ -336,8 +349,6 @@
 
         if (data.imageType === "simple") {
           newImage = new Konva.Image({
-            x: data.coordinates[0],
-            y: data.coordinates[1],
             name: 'image',
             image: imageObj,
             width: 100,
@@ -349,8 +360,8 @@
         else if (data.imageType === 'polaroid') {
 
           newImage = new Konva.Image({
-            x: data.coordinates[0] + 5,
-            y: data.coordinates[1] + 10,
+            x: 5,
+            y: 10,
             name: 'image',
             image: imageObj,
             stroke: "#72787a",
@@ -360,8 +371,7 @@
           });
 
           let imageText = new Konva.Text({
-            x: data.coordinates[0],
-            y: data.coordinates[1] + newImage.height(),
+            y: newImage.height(),
             name: 'imageText',
             text: data.name,
             fontSize: 14,
@@ -373,8 +383,6 @@
           });
 
           rect = new Konva.Rect({
-            x: data.coordinates[0],
-            y: data.coordinates[1],
             name: 'imageBack',
             stroke: "#e5e5e5",
             strokeWidth: 1,
