@@ -43,7 +43,7 @@
           <ul class="menu">
             <li class="menu__item hue"><a v-on:click="noteModal = true">Добавить заметку</a></li>
             <li class="menu__item hue"><a v-on:click="imageModal = true">Добавить фото</a></li>
-            <li class="menu__item hue"><a>Добавить аудио</a></li>
+            <li class="menu__item hue"><a v-on:click="audioModal = true">Добавить аудио</a></li>
             <li class="menu__item hue"><a>Добавить документ</a></li>
           </ul>
         </div>
@@ -80,19 +80,21 @@
     </div>
     <note-modal v-show="noteModal" @close="noteDataFromModal"></note-modal>
     <image-modal v-show="imageModal" @close="imageDataFromModal"></image-modal>
+    <audio-modal v-show="audioModal" @close="audioDataFromModal"></audio-modal>
   </div>
 </template>
 
 <script>
   import NoteModal from './NoteModal';
   import ImageModal from './ImageModal'
+  import AudioModal from './AudioModal'
   import BoardService from "../services/BoardService";
 
   let width = window.innerWidth;
   let height = window.innerHeight;
   export default {
     name: "Board",
-    components: {NoteModal, ImageModal},
+    components: {NoteModal, ImageModal, AudioModal},
     data() {
       return {
         bname: 'Без названия',
@@ -106,12 +108,14 @@
           {id: "11", color: "blue", num: "#33ccff"}
         ],
         is_public: false,
-        noteModal: false,
+        audioModal: false,
         imageModal: false,
+        noteModal: false,
         filter: 'all',
         savedMessage: "",
         notes: [],
         images: [],
+        audios: [],
         stageLayer: null,
         stageSize: {
           width: width,
@@ -262,6 +266,17 @@
           });
 
         this.createImage(image);
+      },
+      async audioDataFromModal(data) {
+        this.audioModal = data.audioModal;
+        if(data.audioFile === null) return;
+
+        const id = this.$store.state.route.params.idb;
+        let formData = new FormData();
+        formData.append('audio', data.audioFile);
+
+        let newAudio = await BoardService.uploadAudio(formData, id);
+        console.log(newAudio.data.audioId);
       },
       createNote(data) {
         const stage = this.$refs.stage.getNode();

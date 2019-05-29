@@ -8,6 +8,7 @@ const router = express.Router();
 let User = require('../models/User');
 let Note = require('../models/Note');
 let Image = require('../models/Image');
+let Audio = require('../models/Audio');
 let Media = require('../models/Media');
 let Board = require('../models/Board');
 
@@ -17,17 +18,28 @@ const BUCKET_NAME = 'interactive-board';
 const IAM_USER_KEY = config.iamUser;
 const IAM_USER_SECRET = config.iamSecret;
 
-function uploadToS3(file, board) {
+function uploadToS3(file, board, type) {
+    let params;
+
     let s3bucket = new AWS.S3({
         accessKeyId: IAM_USER_KEY,
         secretAccessKey: IAM_USER_SECRET,
         Bucket: BUCKET_NAME,
     });
-    let params = {
-        Bucket: BUCKET_NAME,
-        Key: `${board._id}/${Date.now().toString()}.jpg`,
-        Body: file.data
-    };
+    if (type === 'image') {
+        params = {
+            Bucket: BUCKET_NAME,
+            Key: `${board._id}/images/${Date.now().toString()}.jpg`,
+            Body: file.data
+        };
+    }
+    else if (type === 'audio') {
+        params = {
+            Bucket: BUCKET_NAME,
+            Key: `${board._id}/audios/${Date.now().toString()}.mp3`,
+            Body: file.data
+        };
+    }
 
     let s3UploadPromise = new Promise(function (resolve, reject) {
         s3bucket.upload(params, function (err, data) {
@@ -37,19 +49,38 @@ function uploadToS3(file, board) {
                 console.log('success');
                 console.log(data);
 
-                Image.create({
-                    link: data.Location
-                }, function (err, image) {
-                    if (err) {
-                        console.log(err);
-                        resolve(-1);
-                    }
-                    if (image) {
-                        console.log("IM IN PROMISE. id = " + image._id);
-                        resolve(image);
-                    }
-                    else resolve(-1);
-                });
+                if (type === 'image') {
+                    Image.create({
+                        link: data.Location
+                    }, function (err, image) {
+                        if (err) {
+                            console.log(err);
+                            resolve(-1);
+                        }
+                        if (image) {
+                            console.log("IM IN PROMISE. id = " + image._id);
+                            resolve(image);
+                        }
+                        else resolve(-1);
+                    });
+                }
+                else if (type === 'audio') {
+                    Audio.create({
+                        link: data.Location
+                    }, function (err, audio) {
+                        if (err) {
+                            console.log(err);
+                            resolve(-1);
+                        }
+                        if (audio) {
+                            console.log("IM IN PROMISE. id = " + audio._id);
+                            resolve(audio);
+                        }
+                        else resolve(-1);
+                    })
+                }
+
+
             }
         });
     });
@@ -69,7 +100,7 @@ function deleteFromS3(path) {
         Key: path
     };
 
-    let promiseDelete =  new Promise(function (resolve, reject) {
+    let promiseDelete = new Promise(function (resolve, reject) {
         s3bucket.deleteObject(params, function (err, data) {
             if (err) {
                 reject(err);
@@ -97,43 +128,43 @@ router.post("/deleteBoard/:id", function (req, res, next) {
     let bid = req.params.id;
     let notes, images;
     Board.findOne({_id: bid}, function (err, board) {
-        if(err) return next(err);
-        if(board) {
+        if (err) return next(err);
+        if (board) {
             let author = board.author;
-            User.update({_id: author}, {$pull : {boards: board._id}}, function (err) {
-                if(err) return next(err);
+            User.update({_id: author}, {$pull: {boards: board._id}}, function (err) {
+                if (err) return next(err);
             });
 
             let notesPromise = new Promise(resolve => {
-                if(board.notes.length === 0) return resolve("There are no notes to delete");
+                if (board.notes.length === 0) return resolve("There are no notes to delete");
                 notes = board.notes;
-                for(let i = 0; i < notes.length; i++) {
+                for (let i = 0; i < notes.length; i++) {
                     Media.findOne({_id: notes[i]}, function (err, media) {
-                        if(err) return next(err);
-                        if(media) {
+                        if (err) return next(err);
+                        if (media) {
                             Note.remove({_id: media.type}, function (err) {
-                                if(err) return next(err);
+                                if (err) return next(err);
                             });
                             media.delete();
                         }
                     });
 
-                    if(i === notes.length - 1) {
+                    if (i === notes.length - 1) {
                         resolve("Notes were deleted");
                     }
                 }
             });
 
             let imagePromise = new Promise(resolve => {
-                if(board.images.length === 0) return resolve("There are no images to delete");
+                if (board.images.length === 0) return resolve("There are no images to delete");
                 images = board.images;
-                for(let j = 0; j < images.length; j++) {
+                for (let j = 0; j < images.length; j++) {
                     Media.findOne({_id: images[j]}, function (err, media) {
-                        if(err) return next(err);
-                        if(media) {
+                        if (err) return next(err);
+                        if (media) {
                             Image.findOneAndRemove({_id: media.type}, function (err, imageInst) {
-                                if(err) return next(err);
-                                if(imageInst) {
+                                if (err) return next(err);
+                                if (imageInst) {
                                     let path = parseUrl(imageInst.link);
                                     deleteFromS3(path);
                                 }
@@ -142,7 +173,7 @@ router.post("/deleteBoard/:id", function (req, res, next) {
                         }
                     });
 
-                    if(j === images.length - 1) {
+                    if (j === images.length - 1) {
                         resolve("Notes were deleted");
                     }
                 }
@@ -181,7 +212,7 @@ router.post('/saveBoard', function (req, res, next) {
         if (board) {
 
             promiseNotes = new Promise(resolve => {
-                if(notesUpdated.length === 0) resolve("There are no notes");
+                if (notesUpdated.length === 0) resolve("There are no notes");
                 for (let i = 0; i < notesUpdated.length; i++) {
                     Media.findOneAndUpdate({_id: notesUpdated[i].id}, {
                         coordinates: notesUpdated[i].coordinates,
@@ -198,17 +229,17 @@ router.post('/saveBoard', function (req, res, next) {
             });
 
             promiseImages = new Promise(resolve => {
-                if(imagesUpdated.length === 0) resolve("There are no images");
-                for(let j = 0; j < imagesUpdated.length; j++) {
+                if (imagesUpdated.length === 0) resolve("There are no images");
+                for (let j = 0; j < imagesUpdated.length; j++) {
                     Media.findOneAndUpdate({_id: imagesUpdated[j].id}, {
                         coordinates: imagesUpdated[j].coordinates,
                         rotation: imagesUpdated[j].rotation,
                         scale: imagesUpdated[j].scale
                     }, function (err) {
-                        if(err) return next(err);
+                        if (err) return next(err);
                     });
 
-                    if(j === imagesUpdated.length - 1) {
+                    if (j === imagesUpdated.length - 1) {
                         resolve("Images Updated");
                     }
                 }
@@ -248,7 +279,7 @@ router.get('/:id/getData', function (req, res, next) {
             if (err) return next(err);
             if (board) {
                 notes = board.notes;
-                if(notes.length === 0) return resolve(notesArray);
+                if (notes.length === 0) return resolve(notesArray);
                 for (let i = 0; i < notes.length; i++) {
                     let objNote = {};
                     console.log(notes[i]);
@@ -287,7 +318,7 @@ router.get('/:id/getData', function (req, res, next) {
             if (err) return next(err);
             if (board) {
                 images = board.images;
-                if(images.length === 0) return resolve(imagesArray);
+                if (images.length === 0) return resolve(imagesArray);
                 console.log("IMAGES L: " + images.length);
                 for (let j = 0; j < images.length; j++) {
                     let objImage = {};
@@ -325,7 +356,7 @@ router.get('/:id/getData', function (req, res, next) {
         .then(array => {
             console.log(array[1]);
             return res.send({notesArray: array[0], imagesArray: array[1], board: data});
-    });
+        });
 });
 
 router.post('/createNote', function (req, res, next) {
@@ -369,11 +400,30 @@ router.post('/uploadImage/:id', upload.single('photo'), function (req, res, next
     Board.findOne({_id: bid}, function (err, board) {
         if (err) return next(err);
         if (board) {
-            let image = uploadToS3(req.files.photo, board);
+            let image = uploadToS3(req.files.photo, board, 'image');
             image.then((result) => {
                 console.log("RESULT" + result._id);
 
                 res.send({imageId: result._id});
+            });
+        }
+        else {
+            return res.send({imageId: -1});
+        }
+    });
+});
+
+router.post('/uploadAudio/:id', upload.single('audio'), function (req, res, next) {
+    let bid = req.params.id;
+
+    Board.findOne({_id: bid}, function (err, board) {
+        if (err) return next(err);
+        if (board) {
+            let audio = uploadToS3(req.files.audio, board, 'audio');
+            audio.then((result) => {
+                console.log("RESULT" + result._id);
+
+                res.send({audioId: result._id});
             });
         }
         else {

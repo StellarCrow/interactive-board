@@ -16,7 +16,7 @@
               <input type="text" placeholder="Название" maxlength="20" v-model="name">
             </div>
             <div class="col-6">
-              <input type="file" :name="uploadFileName" accept="image/jpeg" class="input-file"
+              <input type="file" :name="uploadFileName" accept="image/jpeg, image/png" class="input-file"
                      id="input-file"
                      @change="onFileChange($event.target.files)">
               <label for="input-file">Выбрать файл</label>

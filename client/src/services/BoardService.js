@@ -24,5 +24,8 @@ export default {
   },
   createImage(data) {
     return Api().post(`/boards/createImage`, data);
+  },
+  uploadAudio(data, id) {
+    return Api().post(`/boards/uploadAudio/${id}`, data);
   }
 }
