@@ -49,7 +49,10 @@
         </div>
         <div class="col-8">
           <div class="konva-container" ref="container" v-bind:style="stageStyle">
-            <v-stage :config="stageSize" ref="stage">
+            <v-stage :config="stageSize" ref="stage" @mousedown="handleStageMouseDown">
+              <v-layer ref="layer">
+                <v-transformer ref="transformer" />
+              </v-layer>
             </v-stage>
           </div>
         </div>
@@ -109,13 +112,12 @@
         savedMessage: "",
         notes: [],
         images: [],
-        notesLayer: null,
-        imagesLayer: null,
+        stageLayer: null,
         stageSize: {
           width: width,
           height: height
         },
-        selectedShapeName: ''
+        selectedShapeId: ''
       }
     },
     created: function () {
@@ -194,30 +196,6 @@
         this.stageSize.width = width;
         this.stageSize.height = height;
       },
-      boundaries(pos) {
-        const stage = this.$refs.stage.getNode();
-
-        let newY, newX;
-        if (pos.y < 0) {
-          newY = 0;
-        } else if (pos.y > stage.height()) {
-          newY = stage.height()
-        } else
-          newY = pos.y;
-
-        if (pos.x < 0) {
-          newX = 0;
-        } else if (pos.x > stage.width()) {
-          newX = stage.width()
-        } else
-          newX = pos.x;
-
-        return {
-          x: newX,
-          y: newY,
-        }
-
-      },
       async noteDataFromModal(data) {
         this.noteModal = data.noteModal;
         if (data.text === "") return;
@@ -277,7 +255,7 @@
       },
       createNote(data) {
         const stage = this.$refs.stage.getNode();
-        let layer = this.notesLayer;
+        let layer = this.stageLayer;
         let group = new Konva.Group({
           draggable: true,
           name: 'noteGroup',
@@ -315,7 +293,7 @@
           fontFamily: 'Calibri',
           fill: '#000',
           width: 150,
-          padding: 20,
+          padding: 15,
           align: 'center'
         });
 
@@ -345,7 +323,7 @@
       },
       createImage(data) {
         const stage = this.$refs.stage.getNode();
-        let layer = this.imagesLayer;
+        let layer = this.stageLayer;
         let newImage, rect;
         let group = new Konva.Group({
           draggable: true,
@@ -375,6 +353,8 @@
             y: data.coordinates[1] + 10,
             name: 'image',
             image: imageObj,
+            stroke: "#72787a",
+            strokeWidth: 1,
             width: 100,
             height: 100
           });
@@ -408,7 +388,7 @@
           group.add(newImage);
           group.add(imageText);
         }
-        else if(data.imageType === 'frame') {
+        else if (data.imageType === 'frame') {
           newImage = new Konva.Image({
             x: data.coordinates[0] + 10,
             y: data.coordinates[1] + 10,
@@ -438,21 +418,63 @@
         stage.add(layer);
       },
       handleStageMouseDown(e) {
-        const stage = this.$refs.stage.getNode();
-        if (e.target === stage) {
-          console.log("Clicked on stage!");
-          stage.find('Transformer').destroy();
+        let selectedGroup;
+
+        if (e.target === e.target.getStage()) {
+          this.selectedShapeId = '';
+          this.updateTransformer();
+          return;
         }
 
-        console.log(stage.find('Transformer'));
-        stage.find('Transformer').destroy();
+        const clickedOnTransformer =
+          e.target.getParent().className === 'Transformer';
+        if (clickedOnTransformer) {
+          return;
+        }
 
-        let tr = new Konva.Transformer({
-          node: e.target.getParent()
+        const targetId = e.target.getParent().id();
+        this.stageLayer.children.forEach(function (group) {
+          if(group.id() === targetId) {
+            selectedGroup = group;
+          }
         });
-        let layer = e.target.getLayer();
-        console.log(e.target.getLayer());
-        layer.add(tr);
+
+        if(selectedGroup) {
+          this.selectedShapeId = targetId;
+        }
+        else {
+          this.selectedShapeId = '';
+        }
+
+        this.updateTransformer();
+      },
+      updateTransformer() {
+        const transformerNode = this.$refs.transformer.getStage();
+        const stage = transformerNode.getStage();
+        const { selectedShapeId } = this;
+
+        const selectedNode = stage.findOne('#' + selectedShapeId);
+        console.log(selectedNode.getClassName());
+        // do nothing if selected node is already attached
+        if (selectedNode === transformerNode.node()) {
+          return;
+        }
+
+        if(selectedNode.getClassName() === 'Layer') {
+          transformerNode.detach();
+          stage.draw();
+          return;
+        }
+
+        if (selectedNode) {
+          // attach to another node
+          transformerNode.moveToTop();
+          transformerNode.attachTo(selectedNode);
+        } else {
+          // remove transformer
+          transformerNode.detach();
+        }
+        transformerNode.getLayer().batchDraw();
       },
       parseDataFromServer(data) {
         let notes = data.notesArray;
@@ -462,8 +484,7 @@
         this.is_public = board.is_public;
         this.colorStage = board.background;
 
-        this.notesLayer = new Konva.Layer();
-        this.imagesLayer = new Konva.Layer();
+        this.stageLayer = this.$refs.layer.getNode();
 
         for (let i = 0; i < notes.length; i++) {
           this.createNote(notes[i]);
