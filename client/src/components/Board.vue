@@ -50,8 +50,8 @@
         <div class="col-8">
           <div class="konva-container" ref="container" v-bind:style="stageStyle">
             <v-stage :config="stageSize" ref="stage" @mousedown="handleStageMouseDown">
-              <v-layer ref="layer">
-                <v-transformer ref="transformer" />
+              <v-layer ref="layer" @dblclick="mouseDownOnAudio">
+                <v-transformer ref="transformer"/>
               </v-layer>
             </v-stage>
           </div>
@@ -125,7 +125,9 @@
           width: width,
           height: height
         },
-        selectedShapeId: ''
+        selectedShapeId: '',
+        selectedAudioId: '',
+        audioFile: null
       }
     },
     created: function () {
@@ -177,7 +179,7 @@
 
         this.audios.forEach(function (audio) {
           let updatedAudio = {
-            coordinates:  [audio.children[0].getAbsolutePosition().x, audio.children[0].getAbsolutePosition().y],
+            coordinates: [audio.children[0].getAbsolutePosition().x, audio.children[0].getAbsolutePosition().y],
             id: audio.id(),
             rotation: audio.rotation(),
             scale: [audio.scaleX(), audio.scaleY()],
@@ -285,7 +287,7 @@
       },
       async audioDataFromModal(data) {
         this.audioModal = data.audioModal;
-        if(data.audioFile === null) return;
+        if (data.audioFile === null) return;
 
         const id = this.$store.state.route.params.idb;
         let formData = new FormData();
@@ -301,7 +303,7 @@
 
         await BoardService.uploadAudio(formData, id)
           .then(response => {
-            if(response.data.audioId === -1) return;
+            if (response.data.audioId === -1) return;
             return BoardService.createAudio({
               audio: audio,
               bid: id,
@@ -310,7 +312,7 @@
           })
           .then((response) => {
             console.log(response.data.audioLink);
-            audio.link = response.data.imageLink;
+            audio.link = response.data.audioLink;
             audio.id = response.data.media;
           });
 
@@ -332,13 +334,13 @@
         });
 
         let imageObj = new Image();
-        if(data.audioType === 'icon-green') {
+        if (data.audioType === 'icon-green') {
           imageObj.src = imageGreen;
         }
-        else if(data.audioType === 'icon-pink') {
+        else if (data.audioType === 'icon-pink') {
           imageObj.src = imagePink;
         }
-        else if(data.audioType === 'icon-yellow') {
+        else if (data.audioType === 'icon-yellow') {
           imageObj.src = imageYellow;
         }
 
@@ -346,13 +348,16 @@
           name: 'audioRect',
           width: 120,
           height: 120,
+          strokeEnabled: false,
+          stroke: '#f3bc7b',
+          strokeWidth: 5
         });
 
         let audioImage = new Konva.Image({
           name: 'audioImage',
           image: imageObj,
           width: audioRect.width(),
-          height: audioRect.height() - 10
+          height: audioRect.height() - 10,
         });
 
         let audioName = new Konva.Text({
@@ -367,9 +372,16 @@
           align: 'center'
         });
 
+        let audioText = new Konva.Text({
+          name: 'audioText',
+          text: data.link,
+          visible: false
+        });
+
         group.add(audioRect);
         group.add(audioImage);
         group.add(audioName);
+        group.add(audioText);
         layer.add(group);
         this.audios.push(group);
         stage.draw();
@@ -423,8 +435,8 @@
 
         let rect = new Konva.Rect({
           name: 'noteRect',
-          stroke: "#e5e5e5",
-          strokeWidth: 1,
+          // stroke: "#e5e5e5",
+          // strokeWidth: 1,
           fill: data.color,
           width: noteText.width(),
           height: noteText.height(),
@@ -553,12 +565,12 @@
 
         const targetId = e.target.getParent().id();
         this.stageLayer.children.forEach(function (group) {
-          if(group.id() === targetId) {
+          if (group.id() === targetId) {
             selectedGroup = group;
           }
         });
 
-        if(selectedGroup) {
+        if (selectedGroup) {
           this.selectedShapeId = targetId;
         }
         else {
@@ -570,7 +582,7 @@
       updateTransformer() {
         const transformerNode = this.$refs.transformer.getStage();
         const stage = transformerNode.getStage();
-        const { selectedShapeId } = this;
+        const {selectedShapeId} = this;
 
         const selectedNode = stage.findOne('#' + selectedShapeId);
         console.log(selectedNode.getClassName());
@@ -579,7 +591,7 @@
           return;
         }
 
-        if(selectedNode.getClassName() === 'Layer') {
+        if (selectedNode.getClassName() === 'Layer') {
           transformerNode.detach();
           stage.draw();
           return;
@@ -594,6 +606,47 @@
           transformerNode.detach();
         }
         transformerNode.getLayer().batchDraw();
+      },
+      mouseDownOnAudio(e) {
+        let target = e.target.getParent();
+        let link = target.findOne('.audioText').text();
+        let rect = target.findOne('.audioRect');
+        let layer = this.stageLayer;
+
+        if (target.name() !== 'audioGroup')
+          return;
+
+        console.log(target.id());
+
+        if (this.audioFile === null) {
+          rect.strokeEnabled(true);
+          this.selectedAudioId = target.id();
+          this.audioFile = new Audio(link);
+          this.audioFile.play();
+        }
+        else if (this.selectedAudioId === target.id()) {
+          if (!this.audioFile.paused) {
+            this.audioFile.pause();
+            rect.strokeEnabled(false);
+            layer.draw();
+          }
+          else {
+            this.audioFile.play();
+            rect.strokeEnabled(true);
+            layer.draw();
+          }
+        }
+        else if (this.selectedAudioId !== target.id()) {
+          this.audioFile.pause();
+          let selectedGroupImage = layer.findOne('#' + this.selectedAudioId).findOne('.audioRect');
+          selectedGroupImage.strokeEnabled(false);
+
+          this.audioFile = new Audio(link);
+          this.audioFile.play();
+          this.selectedAudioId = target.id();
+          rect.strokeEnabled(true);
+          layer.draw();
+        }
       },
       parseDataFromServer(data) {
         let notes = data.notesArray;
@@ -614,7 +667,7 @@
           this.createImage(images[j]);
         }
 
-        for(let i = 0; i < audios.length; i++) {
+        for (let i = 0; i < audios.length; i++) {
           this.createAudio(audios[i]);
         }
       },
@@ -624,8 +677,7 @@
       const id = this.$store.state.route.params.idb;
       const boardData = await BoardService.getBoardData(id);
       if (boardData.data.board == null) return;
-      console.log(boardData);
-      //Just Notes for now
+      // console.log(boardData);
       this.parseDataFromServer(boardData.data);
     }
   }

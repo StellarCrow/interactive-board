@@ -586,7 +586,7 @@ router.post('/createAudio', function (req, res, next) {
             }, function (err, audioInst) {
                 if (err) return next(err);
                 if (audioInst) {
-                    return res.send({imageLink: audioInst.link, media: media._id});
+                    return res.send({audioLink: audioInst.link, media: media._id});
                 }
             });
         }
