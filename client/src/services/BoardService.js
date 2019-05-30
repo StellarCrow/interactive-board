@@ -27,5 +27,8 @@ export default {
   },
   uploadAudio(data, id) {
     return Api().post(`/boards/uploadAudio/${id}`, data);
-  }
+  },
+  createAudio(data) {
+    return Api().post(`/boards/createAudio`, data);
+  },
 }

@@ -90,6 +90,10 @@
   import AudioModal from './AudioModal'
   import BoardService from "../services/BoardService";
 
+  const imagePink = require("../assets/icons/music-icon-pink.png");
+  const imageGreen = require("../assets/icons/music-icon-green.png");
+  const imageYellow = require("../assets/icons/music-icon-yellow.png");
+
   let width = window.innerWidth;
   let height = window.innerHeight;
   export default {
@@ -275,8 +279,88 @@
         let formData = new FormData();
         formData.append('audio', data.audioFile);
 
-        let newAudio = await BoardService.uploadAudio(formData, id);
-        console.log(newAudio.data.audioId);
+        let audio = {
+          audioType: data.audioType,
+          name: data.name,
+          coordinates: [60, 20],
+          rotation: 0,
+          scale: [1, 1]
+        };
+
+        await BoardService.uploadAudio(formData, id)
+          .then(response => {
+            if(response.data.audioId === -1) return;
+            return BoardService.createAudio({
+              audio: audio,
+              bid: id,
+              audioId: response.data.audioId
+            })
+          })
+          .then((response) => {
+            console.log(response.data.audioLink);
+            audio.link = response.data.imageLink;
+            audio.id = response.data.media;
+          });
+
+        this.createAudio(audio);
+      },
+      createAudio(data) {
+        let layer = this.stageLayer;
+        const stage = this.$refs.stage.getNode();
+
+        let group = new Konva.Group({
+          x: data.coordinates[0],
+          y: data.coordinates[1],
+          draggable: true,
+          name: 'audioGroup',
+          id: data.id,
+          rotation: data.rotation,
+          scaleX: data.scale[0],
+          scaleY: data.scale[1]
+        });
+
+        let imageObj = new Image();
+        if(data.audioType === 'icon-green') {
+          imageObj.src = imageGreen;
+        }
+        else if(data.audioType === 'icon-pink') {
+          imageObj.src = imagePink;
+        }
+        else if(data.audioType === 'icon-yellow') {
+          imageObj.src = imageYellow;
+        }
+
+        let audioRect = new Konva.Rect({
+          name: 'audioRect',
+          width: 120,
+          height: 120,
+        });
+
+        let audioImage = new Konva.Image({
+          name: 'audioImage',
+          image: imageObj,
+          width: audioRect.width(),
+          height: audioRect.height() - 10
+        });
+
+        let audioName = new Konva.Text({
+          y: 110,
+          name: 'audioName',
+          text: data.name,
+          fontSize: 14,
+          fontStyle: 200,
+          fontFamily: 'Calibri',
+          fill: '#000',
+          width: audioImage.width(),
+          align: 'center'
+        });
+
+        group.add(audioRect);
+        group.add(audioImage);
+        group.add(audioName);
+        layer.add(group);
+        this.audios.push(group);
+        stage.draw();
       },
       createNote(data) {
         const stage = this.$refs.stage.getNode();
@@ -342,7 +426,7 @@
         group.add(noteText);
         layer.add(group);
         this.notes.push(group);
-        stage.add(layer);
+        stage.draw();
       },
       createImage(data) {
         const stage = this.$refs.stage.getNode();
@@ -438,7 +522,7 @@
 
         layer.add(group);
         this.images.push(group);
-        stage.add(layer);
+        stage.draw();
       },
       handleStageMouseDown(e) {
         let selectedGroup;
@@ -502,6 +586,7 @@
       parseDataFromServer(data) {
         let notes = data.notesArray;
         let images = data.imagesArray;
+        let audios = data.audiosArray;
         let board = data.board;
         this.bname = board.bname;
         this.is_public = board.is_public;
@@ -517,6 +602,9 @@
           this.createImage(images[j]);
         }
 
+        for(let i = 0; i < audios.length; i++) {
+          this.createAudio(audios[i]);
+        }
       },
     },
     async mounted() {

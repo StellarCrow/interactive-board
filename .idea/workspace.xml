@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4b0d440c-3c7b-4351-8426-193d2cdfafe3" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Board.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Board.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/ImageModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/ImageModal.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/services/BoardService.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/services/BoardService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/routes/boards.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/boards.js" afterDir="false" />
     </list>
@@ -19,47 +19,52 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Board.vue" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Board.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/src/components/Board.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="278" column="43" selection-start-line="278" selection-start-column="43" selection-end-line="278" selection-end-column="43" />
+            <state relative-caret-position="118">
+              <caret line="346" column="16" selection-start-line="346" selection-start-column="16" selection-end-line="346" selection-end-column="16" />
               <folding>
-                <element signature="e#3744#3780#0" expanded="true" />
-                <element signature="e#4142#4468#0" />
-                <element signature="e#4721#4781#0" />
-                <element signature="e#5605#6708#0" />
-                <element signature="e#6733#7049#0" />
-                <element signature="e#7070#7341#0" />
-                <element signature="e#7379#7928#0" />
-                <element signature="e#8457#8824#0" />
-                <element signature="e#9131#10878#0" />
-                <element signature="e#10904#13551#0" />
-                <element signature="e#13583#14187#0" />
-                <element signature="e#14215#15113#0" />
-                <element signature="e#15147#15753#0" />
+                <element signature="e#5878#7211#0" />
+                <element signature="e#7236#7552#0" />
+                <element signature="e#7573#7844#0" />
+                <element signature="e#7882#8527#0" />
+                <element signature="e#8566#9714#0" />
+                <element signature="e#10133#11894#0" />
+                <element signature="e#11920#14490#0" />
+                <element signature="e#14522#15261#0" />
+                <element signature="e#15289#16157#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ImageModal.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/components/ImageModal.vue">
+      <file leaf-file-name="boards.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/routes/boards.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="26" column="32" lean-forward="true" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
+            <state relative-caret-position="60">
+              <caret line="541" column="37" lean-forward="true" selection-start-line="541" selection-start-column="37" selection-end-line="541" selection-end-column="37" />
               <folding>
-                <element signature="n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" />
+                <element signature="n#!!block;n#deleteFromS3#0" />
+                <element signature="n#!!block;n#parseUrl#0" />
+                <element signature="e#3636#6406#0" />
+                <element signature="e#6462#8630#0" />
+                <element signature="e#9211#10858#0" />
+                <element signature="e#10909#12629#0" />
+                <element signature="e#12901#13883#0" />
+                <element signature="e#13969#14423#0" />
+                <element signature="e#14509#14963#0" />
+                <element signature="e#15021#16084#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BoardService.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/services/BoardService.js">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="28" column="57" lean-forward="true" selection-start-line="28" selection-start-column="57" selection-end-line="28" selection-end-column="57" />
+            <state relative-caret-position="303">
+              <caret line="28" selection-start-line="28" selection-end-line="28" />
             </state>
           </provider>
         </entry>
@@ -67,54 +72,8 @@
       <file leaf-file-name="AudioModal.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/components/AudioModal.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-170">
-              <caret line="17" column="59" selection-start-line="17" selection-start-column="59" selection-end-line="17" selection-end-column="59" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NoteModal.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/components/NoteModal.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="36" lean-forward="true" selection-start-line="2" selection-start-column="36" selection-end-line="2" selection-end-column="36" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="boards.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/server/routes/boards.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="38" column="68" lean-forward="true" selection-start-line="38" selection-start-column="68" selection-end-line="38" selection-end-column="68" />
-              <folding>
-                <element signature="n#!!block;n#deleteFromS3#0" />
-                <element signature="n#!!block;n#parseUrl#0" />
-                <element signature="e#2620#5375#0" />
-                <element signature="e#5431#7594#0" />
-                <element signature="e#7651#11802#0" />
-                <element signature="e#11859#12841#0" />
-                <element signature="e#12927#13372#0" />
-                <element signature="e#13430#14493#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Audio.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/models/Audio.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="30" lean-forward="true" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Image.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/models/Image.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="20" lean-forward="true" selection-end-line="20" selection-end-column="53" />
+            <state relative-caret-position="85">
+              <caret line="33" column="66" selection-start-line="33" selection-start-column="30" selection-end-line="33" selection-end-column="66" />
             </state>
           </provider>
         </entry>
@@ -183,11 +142,11 @@
         <option value="$PROJECT_DIR$/server/routes/index.js" />
         <option value="$PROJECT_DIR$/server/models/Media.js" />
         <option value="$PROJECT_DIR$/client/src/components/ImageModal.vue" />
-        <option value="$PROJECT_DIR$/client/src/services/BoardService.js" />
         <option value="$PROJECT_DIR$/server/models/Audio.js" />
-        <option value="$PROJECT_DIR$/client/src/components/Board.vue" />
         <option value="$PROJECT_DIR$/client/src/components/AudioModal.vue" />
+        <option value="$PROJECT_DIR$/client/src/services/BoardService.js" />
         <option value="$PROJECT_DIR$/server/routes/boards.js" />
+        <option value="$PROJECT_DIR$/client/src/components/Board.vue" />
       </list>
     </option>
   </component>
@@ -208,9 +167,9 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-11" />
-    <option name="width" value="980" />
-    <option name="height" value="1031" />
+    <option name="x" value="-12" />
+    <option name="width" value="981" />
+    <option name="height" value="1032" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -220,7 +179,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -268,6 +226,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -352,27 +311,28 @@
       <workItem from="1558864202107" duration="24963000" />
       <workItem from="1558947934552" duration="19860000" />
       <workItem from="1559036463497" duration="22652000" />
-      <workItem from="1559124805791" duration="14696000" />
+      <workItem from="1559124805791" duration="15338000" />
+      <workItem from="1559209465414" duration="8741000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="372445000" />
+    <option name="totallyTimeSpent" value="381828000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19125684" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19125684" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.11553474" side_tool="true" visible="true" weight="0.35051546" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.11787666" side_tool="true" visible="true" weight="0.31786942" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.0" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.8844653" visible="true" weight="0.35051546" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.88212335" visible="true" weight="0.31786942" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.78142077" weight="0.33848798" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.7798595" weight="0.33848798" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -401,7 +361,33 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="41" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/server/routes/boards.js</url>
+          <line>378</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/server/routes/boards.js</url>
+          <line>374</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/server/routes/boards.js</url>
+          <line>370</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/server/routes/boards.js</url>
+          <line>381</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="46" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -612,13 +598,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="28" selection-start-line="28" selection-end-line="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/styles/components/_board.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-153">
@@ -630,13 +609,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="680">
           <caret line="40" column="18" selection-start-line="40" selection-start-column="18" selection-end-line="40" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/models/Board.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="25" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -675,86 +647,98 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/NoteModal.vue">
+    <entry file="file://$PROJECT_DIR$/server/models/Image.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="36" lean-forward="true" selection-start-line="2" selection-start-column="36" selection-end-line="2" selection-end-column="36" />
+        <state relative-caret-position="204">
+          <caret line="12" column="20" selection-end-line="20" selection-end-column="53" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/services/BoardService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="28" column="57" lean-forward="true" selection-start-line="28" selection-start-column="57" selection-end-line="28" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/models/Image.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="20" lean-forward="true" selection-end-line="20" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/models/Audio.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="30" lean-forward="true" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/Board.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="278" column="43" selection-start-line="278" selection-start-column="43" selection-end-line="278" selection-end-column="43" />
-          <folding>
-            <element signature="e#3744#3780#0" expanded="true" />
-            <element signature="e#4142#4468#0" />
-            <element signature="e#4721#4781#0" />
-            <element signature="e#5605#6708#0" />
-            <element signature="e#6733#7049#0" />
-            <element signature="e#7070#7341#0" />
-            <element signature="e#7379#7928#0" />
-            <element signature="e#8457#8824#0" />
-            <element signature="e#9131#10878#0" />
-            <element signature="e#10904#13551#0" />
-            <element signature="e#13583#14187#0" />
-            <element signature="e#14215#15113#0" />
-            <element signature="e#15147#15753#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/AudioModal.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-170">
-          <caret line="17" column="59" selection-start-line="17" selection-start-column="59" selection-end-line="17" selection-end-column="59" />
+        <state relative-caret-position="228">
+          <caret line="31" column="42" selection-start-line="31" selection-start-column="42" selection-end-line="31" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/components/ImageModal.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="26" column="32" lean-forward="true" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
+        <state relative-caret-position="17">
+          <caret line="26" column="32" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
           <folding>
             <element signature="n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/server/models/Board.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="21" column="25" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/NoteModal.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="36" selection-start-line="2" selection-start-column="36" selection-end-line="2" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/models/Audio.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="30" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/AudioModal.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="33" column="66" selection-start-line="33" selection-start-column="30" selection-end-line="33" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server/routes/boards.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="38" column="68" lean-forward="true" selection-start-line="38" selection-start-column="68" selection-end-line="38" selection-end-column="68" />
+        <state relative-caret-position="60">
+          <caret line="541" column="37" lean-forward="true" selection-start-line="541" selection-start-column="37" selection-end-line="541" selection-end-column="37" />
           <folding>
             <element signature="n#!!block;n#deleteFromS3#0" />
             <element signature="n#!!block;n#parseUrl#0" />
-            <element signature="e#2620#5375#0" />
-            <element signature="e#5431#7594#0" />
-            <element signature="e#7651#11802#0" />
-            <element signature="e#11859#12841#0" />
-            <element signature="e#12927#13372#0" />
-            <element signature="e#13430#14493#0" />
+            <element signature="e#3636#6406#0" />
+            <element signature="e#6462#8630#0" />
+            <element signature="e#9211#10858#0" />
+            <element signature="e#10909#12629#0" />
+            <element signature="e#12901#13883#0" />
+            <element signature="e#13969#14423#0" />
+            <element signature="e#14509#14963#0" />
+            <element signature="e#15021#16084#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/Board.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="118">
+          <caret line="346" column="16" selection-start-line="346" selection-start-column="16" selection-end-line="346" selection-end-column="16" />
+          <folding>
+            <element signature="e#5878#7211#0" />
+            <element signature="e#7236#7552#0" />
+            <element signature="e#7573#7844#0" />
+            <element signature="e#7882#8527#0" />
+            <element signature="e#8566#9714#0" />
+            <element signature="e#10133#11894#0" />
+            <element signature="e#11920#14490#0" />
+            <element signature="e#14522#15261#0" />
+            <element signature="e#15289#16157#0" />
           </folding>
         </state>
       </provider>

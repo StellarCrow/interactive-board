@@ -256,9 +256,10 @@ router.post('/saveBoard', function (req, res, next) {
 
 router.get('/:id/getData', function (req, res, next) {
     let bid = req.params.id;
-    let notes, images;
+    let notes, images, audios;
     let notesArray = [];
     let imagesArray = [];
+    let audiosArray = [];
     let data = {};
 
     Board.findOne({_id: bid}, function (err, board) {
@@ -273,7 +274,6 @@ router.get('/:id/getData', function (req, res, next) {
         }
     });
 
-    //REJECT EMPTY OBJCTS
     let findNotes = new Promise((resolve => {
         Board.findOne({_id: bid}, function (err, board) {
             if (err) return next(err);
@@ -311,7 +311,6 @@ router.get('/:id/getData', function (req, res, next) {
             }
         });
     }));
-
 
     let findImages = new Promise((resolve => {
         Board.findOne({_id: bid}, function (err, board) {
@@ -352,10 +351,50 @@ router.get('/:id/getData', function (req, res, next) {
         });
     }));
 
-    return Promise.all([findNotes, findImages])
+    let findAudios = new Promise(resolve => {
+        Board.findOne({_id: bid}, function (err, board) {
+            if (err) return next(err);
+            if (board) {
+                audios = board.audios;
+                if (audios.length === 0) return resolve(audiosArray);
+                console.log("AUDIOS L: " + audios.length);
+                for (let j = 0; j < audios.length; j++) {
+                    let obj = {};
+                    Media.findOne({_id: audios[j]}, function (err, media) {
+                        if (err) return next(err);
+                        if (media) {
+                            console.log("AUDIOS MEDIA");
+                            obj.coordinates = media.coordinates;
+                            obj.id = media._id;
+                            obj.rotation = media.rotation;
+                            obj.scale = media.scale;
+                            console.log(obj);
+                            Audio.findOne({_id: media.type}, function (err, audio) {
+                                if (err) return next(err);
+                                if (audio) {
+                                    obj.name = audio.name;
+                                    obj.audioType = audio.type;
+                                    obj.link = audio.link;
+
+                                    audiosArray.push(obj);
+
+                                    if (j === audios.length - 1) {
+                                        console.log("IA " + audiosArray);
+                                        resolve(audiosArray);
+                                    }
+                                }
+                            })
+                        }
+                    })
+                }
+            }
+        });
+    });
+
+    return Promise.all([findNotes, findImages, findAudios])
         .then(array => {
-            console.log(array[1]);
-            return res.send({notesArray: array[0], imagesArray: array[1], board: data});
+            console.log(array[2]);
+            return res.send({notesArray: array[0], imagesArray: array[1], audiosArray: array[2], board: data});
         });
 });
 
@@ -370,7 +409,9 @@ router.post('/createNote', function (req, res, next) {
         Media.create({
             type: note._id,
             board: bid,
-            coordinates: coord
+            coordinates: coord,
+            rotation: req.body.rotation,
+            scale: req.body.scale
         }, function (err, media) {
             if (err) return next(err);
             Note.findOneAndUpdate({_id: note._id}, {
@@ -440,7 +481,9 @@ router.post('/createImage', function (req, res, next) {
     Media.create({
         type: iid,
         board: bid,
-        coordinates: image.coordinates
+        coordinates: image.coordinates,
+        rotation: image.rotation,
+        scale: image.scale
     }, function (err, media) {
         if (err) return next(err);
         if (media) {
@@ -463,6 +506,44 @@ router.post('/createImage', function (req, res, next) {
                 if (err) return next(err);
                 if (imageInst) {
                     return res.send({imageLink: imageInst.link, media: media._id});
+                }
+            });
+        }
+    })
+});
+
+router.post('/createAudio', function (req, res, next) {
+    let bid = req.body.bid;
+    let audio = req.body.audio;
+    let aid = req.body.audioId;
+
+    Media.create({
+        type: aid,
+        board: bid,
+        coordinates: audio.coordinates,
+        rotation: audio.rotation,
+        scale: audio.scale
+    }, function (err, media) {
+        if (err) return next(err);
+        if (media) {
+            Board.findOne({_id: bid}, function (err, board) {
+                if (err) return next(err);
+                if (board) {
+                    board.audios.push(media);
+                    board.save(function (err) {
+                        if (err) return next(err);
+                    });
+                }
+            });
+
+            Audio.findOneAndUpdate({_id: aid}, {
+                media: media._id,
+                name: audio.name,
+                type: audio.audioType
+            }, function (err, audioInst) {
+                if (err) return next(err);
+                if (audioInst) {
+                    return res.send({imageLink: audioInst.link, media: media._id});
                 }
             });
         }
