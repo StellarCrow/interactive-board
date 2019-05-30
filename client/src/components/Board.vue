@@ -154,6 +154,7 @@
       async saveBoard() {
         let notesUpdated = [];
         let imagesUpdated = [];
+        let audiosUpdated = [];
         const id = this.$store.state.route.params.idb;
 
         this.notes.forEach(function (note) {
@@ -174,13 +175,24 @@
           imagesUpdated.push(updatedImage);
         });
 
+        this.audios.forEach(function (audio) {
+          let updatedAudio = {
+            coordinates:  [audio.children[0].getAbsolutePosition().x, audio.children[0].getAbsolutePosition().y],
+            id: audio.id(),
+            rotation: audio.rotation(),
+            scale: [audio.scaleX(), audio.scaleY()],
+          };
+          audiosUpdated.push(updatedAudio);
+        });
+
         let data = {
           idb: id,
           is_public: this.is_public,
           name: this.bname,
           background: this.colorStage,
           notes: notesUpdated,
-          images: imagesUpdated
+          images: imagesUpdated,
+          audios: audiosUpdated
         };
 
         const response = await BoardService.saveBoard(data);

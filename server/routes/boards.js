@@ -126,7 +126,8 @@ function parseUrl(url) {
 
 router.post("/deleteBoard/:id", function (req, res, next) {
     let bid = req.params.id;
-    let notes, images;
+    let notes, images, audios;
+
     Board.findOne({_id: bid}, function (err, board) {
         if (err) return next(err);
         if (board) {
@@ -174,19 +175,43 @@ router.post("/deleteBoard/:id", function (req, res, next) {
                     });
 
                     if (j === images.length - 1) {
-                        resolve("Notes were deleted");
+                        resolve("Images were deleted");
                     }
                 }
             });
 
-            return Promise.all([notesPromise, imagePromise])
+            let audioPromise = new Promise(resolve => {
+                if (board.audios.length === 0) return resolve("There are no audios to delete");
+                audios = board.audios;
+                for (let j = 0; j < audios.length; j++) {
+                    Media.findOne({_id: audios[j]}, function (err, media) {
+                        if (err) return next(err);
+                        if (media) {
+                            Audio.findOneAndRemove({_id: media.type}, function (err, audioInst) {
+                                if (err) return next(err);
+                                if (audioInst) {
+                                    let path = parseUrl(audioInst.link);
+                                    console.log(path);
+                                    deleteFromS3(path);
+                                }
+                            });
+                            media.delete();
+                        }
+                    });
+
+                    if (j === audios.length - 1) {
+                        resolve("Audios were deleted");
+                    }
+                }
+            });
+
+            return Promise.all([notesPromise, imagePromise, audioPromise])
                 .then(array => {
-                    // let deleted = board;
                     console.log("===DELETION===");
-                    console.log(array[0], array[1]);
+                    console.log(array[0], array[1], array[2]);
                     board.delete();
                     board.save();
-                    return res.send(`${array[0]} and ${array[0]} and board deleted`);
+                    return res.send(`${array[0]} and ${array[1]} and ${array[2]} and board deleted`);
                 });
 
         }
@@ -200,7 +225,8 @@ router.post('/saveBoard', function (req, res, next) {
     let id = req.body.idb;
     let notesUpdated = req.body.notes; //Array[obj, obj]
     let imagesUpdated = req.body.images;
-    let promiseNotes, promiseImages;
+    let audiosUpdated = req.body.audios;
+    let promiseNotes, promiseImages, promiseAudios;
 
 
     Board.findOneAndUpdate({_id: id}, {
@@ -244,10 +270,27 @@ router.post('/saveBoard', function (req, res, next) {
                     }
                 }
 
-                return Promise.all([promiseNotes, promiseImages])
+                promiseAudios = new Promise(resolve => {
+                    if(audiosUpdated.length === 0) resolve('There are no audios');
+                    for(let i = 0; i < audiosUpdated.length; i++) {
+                        Media.findOneAndUpdate({_id: audiosUpdated[i].id}, {
+                            coordinates: audiosUpdated[i].coordinates,
+                            rotation: audiosUpdated[i].rotation,
+                            scale: audiosUpdated[i].scale
+                        }, function (err) {
+                            if(err) return next(err);
+                        });
+
+                        if(i === audiosUpdated.length - 1) {
+                            resolve('Audios updated');
+                        }
+                    }
+                });
+
+                return Promise.all([promiseNotes, promiseImages, promiseAudios])
                     .then(array => {
-                        console.log("UPDATED " + array[0] + "  " + array[1]);
-                        return res.send({message: `${array[0]} and ${array[1]}`});
+                        console.log("UPDATED " + array[0] + "  " + array[1] + array[2]);
+                        return res.send({message: `${array[0]} and ${array[1]} and ${array[2]}`});
                     })
             });
         }
