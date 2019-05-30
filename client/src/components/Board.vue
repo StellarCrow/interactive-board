@@ -64,7 +64,7 @@
                 <option value="all" selected="selected">Всё</option>
                 <option value="images">Изображения</option>
                 <option value="text">Текст</option>
-                <option value="audio">Аудио</option>
+                <option value="audios">Аудио</option>
               </select>
             </div>
             <div class="public-mark mb-4">
@@ -428,7 +428,8 @@
           fontStyle: 200,
           fontFamily: 'Calibri',
           fill: '#000',
-          width: 150,
+          width: 100,
+          height: 100,
           padding: 15,
           align: 'center'
         });
@@ -679,6 +680,58 @@
       if (boardData.data.board == null) return;
       // console.log(boardData);
       this.parseDataFromServer(boardData.data);
+    },
+    watch: {
+      filter: function () {
+        const layer = this.stageLayer;
+
+        if (this.filter === 'text') {
+          this.notes.forEach(note => {
+            note.show();
+          });
+          this.images.forEach(image => {
+            image.hide();
+          });
+          this.audios.forEach(audio => {
+            audio.hide();
+          });
+        }
+        else if (this.filter === 'images') {
+          this.images.forEach(image => {
+            image.show();
+          });
+          this.notes.forEach(note => {
+            note.hide();
+          });
+          this.audios.forEach(audio => {
+            audio.hide();
+          });
+        }
+        else if (this.filter === 'audios') {
+          this.audios.forEach(audio => {
+            audio.show();
+          });
+          this.notes.forEach(note => {
+            note.hide();
+          });
+          this.images.forEach(image => {
+            image.hide();
+          });
+        }
+        else {
+          this.images.forEach(image => {
+            image.show();
+          });
+          this.audios.forEach(audio => {
+            audio.show();
+          });
+          this.notes.forEach(note => {
+            note.show();
+          });
+        }
+
+        layer.draw();
+      }
     }
   }
 </script>
