@@ -318,31 +318,33 @@ router.get('/:id/getData', function (req, res, next) {
     });
 
     let findNotes = new Promise((resolve => {
-        Board.findOne({_id: bid}, function (err, board) {
+        Board.findOne({_id: bid}, async function (err, board) {
             if (err) return next(err);
             if (board) {
                 notes = board.notes;
+                console.log(notes.length);
                 if (notes.length === 0) return resolve(notesArray);
                 for (let i = 0; i < notes.length; i++) {
                     let objNote = {};
-                    console.log(notes[i]);
-                    Media.findOne({_id: notes[i]}, function (err, media) {
+                    // console.log(notes[i]);
+                    await Media.findOne({_id: notes[i]}, async function (err, media) {
                         if (err) return next(err);
                         if (media) {
                             objNote.coordinates = media.coordinates;
                             objNote.id = media._id;
                             objNote.rotation = media.rotation;
                             objNote.scale = media.scale;
-                            Note.findOne({_id: media.type}, function (err, note) {
+                            await Note.findOne({_id: media.type}, async function (err, note) {
                                 if (err) return next(err);
                                 if (note) {
                                     objNote.color = note.color;
                                     objNote.text = note.text;
 
-                                    notesArray.push(objNote);
+                                    await notesArray.push(objNote);
 
                                     if (i === notes.length - 1) {
-                                        console.log("NA: " + notesArray);
+                                        console.log(notesArray.length);
+                                        // console.log("NA: " + notesArray);
                                         resolve(notesArray);
                                         //return res.send({notesArray: notesArray, board: data});
                                     }
@@ -356,7 +358,7 @@ router.get('/:id/getData', function (req, res, next) {
     }));
 
     let findImages = new Promise((resolve => {
-        Board.findOne({_id: bid}, function (err, board) {
+        Board.findOne({_id: bid}, async function (err, board) {
             if (err) return next(err);
             if (board) {
                 images = board.images;
@@ -364,14 +366,14 @@ router.get('/:id/getData', function (req, res, next) {
                 console.log("IMAGES L: " + images.length);
                 for (let j = 0; j < images.length; j++) {
                     let objImage = {};
-                    Media.findOne({_id: images[j]}, function (err, media) {
+                    await Media.findOne({_id: images[j]}, async function (err, media) {
                         if (err) return next(err);
                         if (media) {
                             objImage.coordinates = media.coordinates;
                             objImage.id = media._id;
                             objImage.rotation = media.rotation;
                             objImage.scale = media.scale;
-                            Image.findOne({_id: media.type}, function (err, image) {
+                            await Image.findOne({_id: media.type}, async function (err, image) {
                                 if (err) return next(err);
                                 if (image) {
                                     objImage.color = image.color;
@@ -379,7 +381,7 @@ router.get('/:id/getData', function (req, res, next) {
                                     objImage.imageType = image.type;
                                     objImage.link = image.link;
 
-                                    imagesArray.push(objImage);
+                                    await imagesArray.push(objImage);
 
                                     if (j === images.length - 1) {
                                         console.log("IA " + imagesArray);
@@ -395,7 +397,7 @@ router.get('/:id/getData', function (req, res, next) {
     }));
 
     let findAudios = new Promise(resolve => {
-        Board.findOne({_id: bid}, function (err, board) {
+        Board.findOne({_id: bid}, async function (err, board) {
             if (err) return next(err);
             if (board) {
                 audios = board.audios;
@@ -403,7 +405,7 @@ router.get('/:id/getData', function (req, res, next) {
                 console.log("AUDIOS L: " + audios.length);
                 for (let j = 0; j < audios.length; j++) {
                     let obj = {};
-                    Media.findOne({_id: audios[j]}, function (err, media) {
+                    await Media.findOne({_id: audios[j]}, async function (err, media) {
                         if (err) return next(err);
                         if (media) {
                             console.log("AUDIOS MEDIA");
@@ -412,14 +414,14 @@ router.get('/:id/getData', function (req, res, next) {
                             obj.rotation = media.rotation;
                             obj.scale = media.scale;
                             console.log(obj);
-                            Audio.findOne({_id: media.type}, function (err, audio) {
+                            await Audio.findOne({_id: media.type}, async function (err, audio) {
                                 if (err) return next(err);
                                 if (audio) {
                                     obj.name = audio.name;
                                     obj.audioType = audio.type;
                                     obj.link = audio.link;
 
-                                    audiosArray.push(obj);
+                                    await audiosArray.push(obj);
 
                                     if (j === audios.length - 1) {
                                         console.log("IA " + audiosArray);

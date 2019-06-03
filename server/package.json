@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async": "^3.0.1",
     "aws-sdk": "^2.462.0",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",

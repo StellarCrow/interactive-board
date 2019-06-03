@@ -98,11 +98,11 @@
         colorFrame: "#fff",
         colors: [
           {id: "12", color: "white", num: "#fff"},
-          {id: "13", color: "red", num: "#ff0000"},
-          {id: "14", color: "pink", num: "#cc0066"},
-          {id: "15", color: "orange", num: "#ff9900"},
-          {id: "16", color: "green", num: "#33cc33"},
-          {id: "17", color: "blue", num: "#33ccff"}
+          {id: "13", color: "red", num: "#ffa1a1"},
+          {id: "14", color: "pink", num: "#ffaad5"},
+          {id: "15", color: "orange", num: "#fff2b3"},
+          {id: "16", color: "green", num: "#d6ffca"},
+          {id: "17", color: "blue", num: "#b3ecff"}
         ],
         uploadFileName: "photo",
         errorText: "",

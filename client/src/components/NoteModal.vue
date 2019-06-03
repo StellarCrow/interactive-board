@@ -49,11 +49,11 @@
         colorNote: '#fff',
         colors: [
           {id: "0", color: "white", num: "#fff"},
-          {id: "1", color: "red", num: "#ff0000"},
-          {id: "2", color: "pink", num: "#cc0066"},
-          {id: "3", color: "orange", num: "#ff9900"},
-          {id: "4", color: "green", num: "#33cc33"},
-          {id: "5", color: "blue", num: "#33ccff"}
+          {id: "1", color: "red", num: "#ffa1a1"},
+          {id: "2", color: "pink", num: "#ffaad5"},
+          {id: "3", color: "orange", num: "#fff2b3"},
+          {id: "4", color: "green", num: "#d6ffca"},
+          {id: "5", color: "blue", num: "#b3ecff"}
         ],
         text: ""
       }

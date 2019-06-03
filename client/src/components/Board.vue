@@ -50,7 +50,7 @@
         <div class="col-8">
           <div class="konva-container" ref="container" v-bind:style="stageStyle">
             <v-stage :config="stageSize" ref="stage" @mousedown="handleStageMouseDown">
-              <v-layer ref="layer" @dblclick="mouseDownOnAudio">
+              <v-layer ref="layer" @dblclick="mouseDownOnAudio" @oncontextmenu={handleContextMenu}>
                 <v-transformer ref="transformer"/>
               </v-layer>
             </v-stage>
@@ -93,6 +93,7 @@
   const imagePink = require("../assets/icons/music-icon-pink.png");
   const imageGreen = require("../assets/icons/music-icon-green.png");
   const imageYellow = require("../assets/icons/music-icon-yellow.png");
+  const notePinIcon = require("../assets/icons/note-pin-icon.png");
 
   let width = window.innerWidth;
   let height = window.innerHeight;
@@ -105,11 +106,11 @@
         colorStage: "#fcfcfc",
         colorsStage: [
           {id: "6", color: "white", num: "#fcfcfc"},
-          {id: "7", color: "black", num: "#000"},
-          {id: "8", color: "green", num: "#7bf3d8"},
-          {id: "9", color: "pink", num: "#f37bae"},
-          {id: "10", color: "orange", num: "#f3bc7b"},
-          {id: "11", color: "blue", num: "#33ccff"}
+          {id: "7", color: "black", num: "#d0d0d0"},
+          {id: "8", color: "green", num: "#d4fff5"},
+          {id: "9", color: "pink", num: "#ffdbea"},
+          {id: "10", color: "orange", num: "#ffe6c8"},
+          {id: "11", color: "blue", num: "#d9f6ff"}
         ],
         is_public: false,
         audioModal: false,
@@ -434,6 +435,13 @@
           align: 'center'
         });
 
+        if(data.text.length > 20){
+          noteText.fontSize(12);
+          noteText.width(140);
+          noteText.height(140);
+        }
+
+
         let rect = new Konva.Rect({
           name: 'noteRect',
           // stroke: "#e5e5e5",
@@ -446,9 +454,23 @@
           shadowOpacity: 0.5
         });
 
+        let imageObj = new Image();
+        imageObj.src = notePinIcon;
+
+        let notePin = new Konva.Image({
+          x: rect.width() / 4,
+          y: -10,
+          name: 'audioImage',
+          image: imageObj,
+          width: rect.width() / 3,
+          height: rect.height() / 3,
+          centeredScaling: true,
+          rotation: -20
+        });
 
         group.add(rect);
         group.add(noteText);
+        group.add(notePin);
         layer.add(group);
         this.notes.push(group);
         stage.draw();
@@ -648,6 +670,10 @@
           rect.strokeEnabled(true);
           layer.draw();
         }
+      },
+      handleContextMenu(e) {
+        console.log("CONTEXT");
+
       },
       parseDataFromServer(data) {
         let notes = data.notesArray;
