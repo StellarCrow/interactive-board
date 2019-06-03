@@ -50,7 +50,7 @@
         <div class="col-8">
           <div class="konva-container" ref="container" v-bind:style="stageStyle">
             <v-stage :config="stageSize" ref="stage" @mousedown="handleStageMouseDown">
-              <v-layer ref="layer" @dblclick="mouseDownOnAudio" @oncontextmenu={handleContextMenu}>
+              <v-layer ref="layer" @dblclick="mouseDownOnAudio">
                 <v-transformer ref="transformer"/>
               </v-layer>
             </v-stage>
@@ -94,6 +94,7 @@
   const imageGreen = require("../assets/icons/music-icon-green.png");
   const imageYellow = require("../assets/icons/music-icon-yellow.png");
   const notePinIcon = require("../assets/icons/note-pin-icon.png");
+  const settings = require("../assets/icons/026-setting.png");
 
   let width = window.innerWidth;
   let height = window.innerHeight;
@@ -435,7 +436,7 @@
           align: 'center'
         });
 
-        if(data.text.length > 20){
+        if (data.text.length > 20) {
           noteText.fontSize(12);
           noteText.width(140);
           noteText.height(140);
@@ -632,12 +633,13 @@
       },
       mouseDownOnAudio(e) {
         let target = e.target.getParent();
+        if (target.name() !== 'audioGroup')
+          return;
+
         let link = target.findOne('.audioText').text();
         let rect = target.findOne('.audioRect');
         let layer = this.stageLayer;
 
-        if (target.name() !== 'audioGroup')
-          return;
 
         console.log(target.id());
 
@@ -671,10 +673,6 @@
           layer.draw();
         }
       },
-      handleContextMenu(e) {
-        console.log("CONTEXT");
-
-      },
       parseDataFromServer(data) {
         let notes = data.notesArray;
         let images = data.imagesArray;
@@ -698,6 +696,112 @@
           this.createAudio(audios[i]);
         }
       },
+      addMenuButton() {
+        const transformerNode = this.$refs.transformer.getStage();
+        let imageObj = new Image();
+        imageObj.src = settings;
+
+        const menuButton = new Konva.Image({
+          name: 'deleteButton',
+          width: 30,
+          height: 30,
+          image: imageObj
+        });
+
+        menuButton.x(-menuButton.width() / 2);
+        menuButton.y(-menuButton.width() / 2);
+        transformerNode.add(menuButton);
+        menuButton.addEventListener('click', this.showMenuList);
+      },
+      showMenuList() {
+        const transformerNode = this.$refs.transformer.getStage();
+        let list = transformerNode.find('.menuGroup')[0];
+        list.visible() ? list.visible(false) : list.visible(true);
+        this.stageLayer.draw();
+      },
+      createMenuList() {
+        const stage = this.$refs.stage.getNode();
+        const transformerNode = this.$refs.transformer.getStage();
+        let group = new Konva.Group({
+          name: 'menuGroup',
+          visible: false
+        });
+
+        let menuItems = ["Скачать", "Переместить наверх", "Переместить вниз", "Удалить"];
+
+        for (let i = 0; i < menuItems.length; i++) {
+          let text = new Konva.Text({
+            name: menuItems[i],
+            text: menuItems[i],
+            fontSize: 12,
+            fontStyle: 200,
+            fontFamily: 'Calibri',
+            fill: '#000',
+            width: 150,
+            align: 'center',
+            padding: 5
+          });
+          text.y(text.height() * i);
+          text.x(-text.width());
+
+          let rect = new Konva.Rect({
+            name: 'menuRect',
+            x: text.x(),
+            y: text.y(),
+            fill: '#fff',
+            strokeWidth: 1,
+            stroke: '#72787a',
+            width: text.width(),
+            height: text.height()
+          });
+
+          text.addEventListener('mouseenter', function () {
+            rect.fill('#d8f9ff');
+            stage.container().style.cursor = 'pointer';
+            stage.draw();
+          });
+
+          text.addEventListener('mouseleave', function () {
+            rect.fill('#fff');
+            stage.container().style.cursor = 'default';
+            stage.draw();
+          });
+
+          if(menuItems[i] === 'Удалить') {
+            text.addEventListener('mousedown', this.deleteButtonEvent);
+          }
+          group.add(rect);
+          group.add(text);
+        }
+
+
+        transformerNode.add(group);
+      },
+      deleteButtonEvent() {
+        let selectedGroup;
+        const transformerNode = this.$refs.transformer.getStage();
+        let group = transformerNode.find('.Удалить')[0].getParent().getParent().getNode();
+        let groupId = group.id();
+
+        if (group.name() === 'noteGroup') {
+          selectedGroup = this.notes.filter(obj => {
+            return obj.id() === groupId;
+          });
+        }
+        else if (group.name() === 'imageGroup') {
+          selectedGroup = this.images.filter(obj => {
+            return obj.id() === groupId;
+          });
+        }
+        else if (group.name() === 'audioGroup') {
+          selectedGroup = this.audios.filter(obj => {
+            return obj.id() === groupId;
+          });
+        }
+        selectedGroup[0].destroy();
+        transformerNode.detach();
+        this.stageLayer.draw();
+      }
     },
     async mounted() {
       this.changeRect();
@@ -706,6 +810,8 @@
       if (boardData.data.board == null) return;
       // console.log(boardData);
       this.parseDataFromServer(boardData.data);
+      this.createMenuList();
+      this.addMenuButton();
     },
     watch: {
       filter: function () {
