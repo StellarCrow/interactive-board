@@ -81,14 +81,16 @@
     <note-modal v-show="noteModal" @close="noteDataFromModal"></note-modal>
     <image-modal v-show="imageModal" @close="imageDataFromModal"></image-modal>
     <audio-modal v-show="audioModal" @close="audioDataFromModal"></audio-modal>
+    <image-full v-show="imageFull" :link="imageFullFile" @close="imageFull = false"></image-full>
   </div>
 </template>
 
 <script>
-  import NoteModal from './NoteModal';
+  import NoteModal from './NoteModal'
   import ImageModal from './ImageModal'
   import AudioModal from './AudioModal'
-  import BoardService from "../services/BoardService";
+  import ImageFull from './ImageFull'
+  import BoardService from "../services/BoardService"
 
   const imagePink = require("../assets/icons/music-icon-pink.png");
   const imageGreen = require("../assets/icons/music-icon-green.png");
@@ -100,7 +102,7 @@
   let height = window.innerHeight;
   export default {
     name: "Board",
-    components: {NoteModal, ImageModal, AudioModal},
+    components: {NoteModal, ImageModal, AudioModal, ImageFull},
     data() {
       return {
         bname: 'Без названия',
@@ -116,7 +118,9 @@
         is_public: false,
         audioModal: false,
         imageModal: false,
+        imageFull: false,
         noteModal: false,
+        imageFullFile: '',
         filter: 'all',
         savedMessage: "",
         notes: [],
@@ -727,7 +731,7 @@
           visible: false
         });
 
-        let menuItems = ["Скачать", "Переместить наверх", "Переместить вниз", "Удалить"];
+        let menuItems = ["Удалить", "Скачать", "Переместить наверх", "Переместить вниз", "Открыть изображение"];
 
         for (let i = 0; i < menuItems.length; i++) {
           let text = new Konva.Text({
@@ -767,13 +771,21 @@
             stage.draw();
           });
 
-          if(menuItems[i] === 'Удалить') {
+          if(menuItems[i] === 'Переместить наверх') {
+            text.addEventListener('mousedown', this.moveGroupToTop);
+          }
+          else if(menuItems[i] === 'Удалить') {
             text.addEventListener('mousedown', this.deleteButtonEvent);
+          }
+          else if(menuItems[i] === 'Переместить вниз') {
+            text.addEventListener('mousedown', this.moveGroupToBottom);
+          }
+          else if(menuItems[i] === 'Открыть изображение') {
+            text.addEventListener('mousedown', this.openFullImage);
           }
           group.add(rect);
           group.add(text);
         }
-
 
         transformerNode.add(group);
       },
@@ -801,6 +813,25 @@
         selectedGroup[0].destroy();
         transformerNode.detach();
         this.stageLayer.draw();
+      },
+      moveGroupToTop() {
+        const transformerNode = this.$refs.transformer.getStage();
+        let group = transformerNode.find('.Удалить')[0].getParent().getParent().getNode();
+        group.moveToTop();
+      },
+      moveGroupToBottom() {
+        const transformerNode = this.$refs.transformer.getStage();
+        let group = transformerNode.find('.Удалить')[0].getParent().getParent().getNode();
+        group.moveToBottom();
+      },
+      openFullImage() {
+        const transformerNode = this.$refs.transformer.getStage();
+        let group = transformerNode.find('.Удалить')[0].getParent().getParent().getNode();
+        if(group.name() !== 'imageGroup')
+          return;
+        let image = group.find('.image')[0];
+        this.imageFullFile = image.image().src;
+        this.imageFull = true;
       }
     },
     async mounted() {
