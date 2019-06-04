@@ -73,7 +73,7 @@
             </div>
             <button @click="saveBoard">Сохранить</button>
             <div> {{savedMessage}}</div>
-            <button @click="test">TestCoordinates</button>
+            <button @click="test">Test</button>
           </div>
         </div>
       </div>
@@ -150,14 +150,17 @@
       }
     },
     methods: {
-      test() {
-        const stage = this.$refs.stage.getNode();
-        this.notes.forEach(function (note) {
-          console.log(note.children[0].getAbsolutePosition().x, note.children[0].getAbsolutePosition().y);
-          console.log(note.getAttr('x'), note.getAttr('y'));
-          console.log(note.getAbsolutePosition());
-          console.log(note.rotation(), note.scaleX(), note.scaleY());
-        })
+      async test() {
+        const id = this.$store.state.route.params.idb;
+        let res = await BoardService.createManyNotes(id);
+        console.log(res.data.message);
+        // const stage = this.$refs.stage.getNode();
+        // this.notes.forEach(function (note) {
+        //   console.log(note.children[0].getAbsolutePosition().x, note.children[0].getAbsolutePosition().y);
+        //   console.log(note.getAttr('x'), note.getAttr('y'));
+        //   console.log(note.getAbsolutePosition());
+        //   console.log(note.rotation(), note.scaleX(), note.scaleY());
+        // })
       },
       async saveBoard() {
         let notesUpdated = [];
@@ -336,7 +339,28 @@
           id: data.id,
           rotation: data.rotation,
           scaleX: data.scale[0],
-          scaleY: data.scale[1]
+          scaleY: data.scale[1],
+          dragBoundFunc: function (pos) {
+            let newY, newX;
+            if (pos.y < -50) {
+              newY = -50;
+            } else if (pos.y > stage.height()) {
+              newY = stage.height()
+            } else
+              newY = pos.y;
+
+            if (pos.x < -50) {
+              newX = -50;
+            } else if (pos.x > stage.width()) {
+              newX = stage.width()
+            } else
+              newX = pos.x;
+
+            return {
+              x: newX,
+              y: newY,
+            }
+          }
         });
 
         let imageObj = new Image();
@@ -390,7 +414,7 @@
         group.add(audioText);
         layer.add(group);
         this.audios.push(group);
-        stage.draw();
+        stage.batchDraw();
       },
       createNote(data) {
         const stage = this.$refs.stage.getNode();
@@ -403,28 +427,28 @@
           id: data.id,
           rotation: data.rotation,
           scaleX: data.scale[0],
-          scaleY: data.scale[1]
-          // dragBoundFunc: function (pos) {
-          //   let newY, newX;
-          //   if (pos.y < -50) {
-          //     newY = -50;
-          //   } else if (pos.y > stage.height()) {
-          //     newY = stage.height()
-          //   } else
-          //     newY = pos.y;
-          //
-          //   if (pos.x < -50) {
-          //     newX = -50;
-          //   } else if (pos.x > stage.width()) {
-          //     newX = stage.width()
-          //   } else
-          //     newX = pos.x;
-          //
-          //   return {
-          //     x: newX,
-          //     y: newY,
-          //   }
-          // }
+          scaleY: data.scale[1],
+          dragBoundFunc: function (pos) {
+            let newY, newX;
+            if (pos.y < -50) {
+              newY = -50;
+            } else if (pos.y > stage.height()) {
+              newY = stage.height()
+            } else
+              newY = pos.y;
+
+            if (pos.x < -50) {
+              newX = -50;
+            } else if (pos.x > stage.width()) {
+              newX = stage.width()
+            } else
+              newX = pos.x;
+
+            return {
+              x: newX,
+              y: newY,
+            }
+          }
         });
 
         let noteText = new Konva.Text({
@@ -478,7 +502,7 @@
         group.add(notePin);
         layer.add(group);
         this.notes.push(group);
-        stage.draw();
+        stage.batchDraw();
       },
       createImage(data) {
         const stage = this.$refs.stage.getNode();
@@ -492,7 +516,28 @@
           id: data.id,
           rotation: data.rotation,
           scaleX: data.scale[0],
-          scaleY: data.scale[1]
+          scaleY: data.scale[1],
+          dragBoundFunc: function (pos) {
+            let newY, newX;
+            if (pos.y < -50) {
+              newY = -50;
+            } else if (pos.y > stage.height()) {
+              newY = stage.height()
+            } else
+              newY = pos.y;
+
+            if (pos.x < -50) {
+              newX = -50;
+            } else if (pos.x > stage.width()) {
+              newX = stage.width()
+            } else
+              newX = pos.x;
+
+            return {
+              x: newX,
+              y: newY,
+            }
+          }
         });
 
         let imageObj = new Image();
@@ -505,7 +550,6 @@
             width: 100,
             height: 100
           });
-          console.log(newImage);
           group.add(newImage);
         }
         else if (data.imageType === 'polaroid') {
@@ -574,7 +618,7 @@
 
         layer.add(group);
         this.images.push(group);
-        stage.draw();
+        stage.batchDraw();
       },
       handleStageMouseDown(e) {
         let selectedGroup;
@@ -621,7 +665,7 @@
 
         if (selectedNode.getClassName() === 'Layer') {
           transformerNode.detach();
-          stage.draw();
+          stage.batchDraw();
           return;
         }
 
@@ -657,12 +701,12 @@
           if (!this.audioFile.paused) {
             this.audioFile.pause();
             rect.strokeEnabled(false);
-            layer.draw();
+            layer.batchDraw();
           }
           else {
             this.audioFile.play();
             rect.strokeEnabled(true);
-            layer.draw();
+            layer.batchDraw();
           }
         }
         else if (this.selectedAudioId !== target.id()) {
@@ -674,7 +718,7 @@
           this.audioFile.play();
           this.selectedAudioId = target.id();
           rect.strokeEnabled(true);
-          layer.draw();
+          layer.batchDraw();
         }
       },
       parseDataFromServer(data) {
@@ -721,7 +765,7 @@
         const transformerNode = this.$refs.transformer.getStage();
         let list = transformerNode.find('.menuGroup')[0];
         list.visible() ? list.visible(false) : list.visible(true);
-        this.stageLayer.draw();
+        this.stageLayer.batchDraw();
       },
       createMenuList() {
         const stage = this.$refs.stage.getNode();
@@ -762,13 +806,13 @@
           text.addEventListener('mouseenter', function () {
             rect.fill('#d8f9ff');
             stage.container().style.cursor = 'pointer';
-            stage.draw();
+            stage.batchDraw();
           });
 
           text.addEventListener('mouseleave', function () {
             rect.fill('#fff');
             stage.container().style.cursor = 'default';
-            stage.draw();
+            stage.batchDraw();
           });
 
           if(menuItems[i] === 'Переместить наверх') {
@@ -893,7 +937,7 @@
           });
         }
 
-        layer.draw();
+        layer.batchDraw();
       }
     }
   }

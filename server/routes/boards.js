@@ -124,6 +124,43 @@ function parseUrl(url) {
     return parsed.pathname;
 }
 
+router.post('/:id/createManyNotes', function (req, res, next) {
+    let bid = req.params.id;
+    for(let i = 0; i < 200; i++) {
+        Note.create({
+            text: "Заметка",
+            color: "#fff"
+        }, function (err, note) {
+            if (err) return next(err);
+            Media.create({
+                type: note._id,
+                board: bid,
+                coordinates: [i * 4, 0]
+            }, function (err, media) {
+                if (err) return next(err);
+                Note.findOneAndUpdate({_id: note._id}, {
+                    media: media._id
+                }, function (err) {
+                    if (err) return next(err);
+                });
+
+                Board.findOne({_id: bid}, function (err, board) {
+                    if (err) return next(err);
+                    if (board) {
+                        board.notes.push(media);
+                        board.save(function (err) {
+                            if (err) return next(err);
+                        });
+
+                        if(i === 200)
+                            return res.send({message: "Created"});
+                    }
+                });
+            })
+        })
+    }
+});
+
 router.post("/deleteBoard/:id", function (req, res, next) {
     let bid = req.params.id;
     let notes, images, audios;
