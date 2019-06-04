@@ -833,8 +833,9 @@
 
         transformerNode.add(group);
       },
-      deleteButtonEvent() {
+      async deleteButtonEvent() {
         let selectedGroup;
+        const id = this.$store.state.route.params.idb;
         const transformerNode = this.$refs.transformer.getStage();
         let group = transformerNode.find('.Удалить')[0].getParent().getParent().getNode();
         let groupId = group.id();
@@ -843,6 +844,7 @@
           selectedGroup = this.notes.filter(obj => {
             return obj.id() === groupId;
           });
+          await BoardService.deleteNote({noteId: selectedGroup[0].id(), bid: id});
         }
         else if (group.name() === 'imageGroup') {
           selectedGroup = this.images.filter(obj => {

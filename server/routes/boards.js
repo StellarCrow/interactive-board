@@ -632,4 +632,21 @@ router.post('/createAudio', function (req, res, next) {
     })
 });
 
+router.post('/deleteNote', async function (req, res, next) {
+   let bid = req.body.bid;
+   let mediaId = req.body.noteId;
+    await Media.findOne({_id: mediaId}, function (err, media) {
+        if (err) return next(err);
+        if (media) {
+            Note.remove({_id: media.type}, function (err) {
+                if (err) return next(err);
+            });
+            media.delete();
+        }
+    });
+
+    await Board.findOneAndUpdate({_id: bid}, { $pull: { notes: { $in: [mediaId]}}});
+    res.send({message: "Note was deleted"});
+});
+
 module.exports = router;

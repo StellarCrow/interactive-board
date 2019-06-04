@@ -31,6 +31,9 @@ export default {
   createAudio(data) {
     return Api().post(`/boards/createAudio`, data);
   },
+  deleteNote(data) {
+    return Api().post(`/boards/deleteNote`, data);
+  },
   createManyNotes(bid) {
     return Api().post(`/boards/${bid}/createManyNotes`);
   }
