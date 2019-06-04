@@ -649,4 +649,48 @@ router.post('/deleteNote', async function (req, res, next) {
     res.send({message: "Note was deleted"});
 });
 
+router.post('/deleteImage', async function (req, res, next) {
+    let bid = req.body.bid;
+    let mediaId = req.body.imageId;
+
+    await Media.findOne({_id: mediaId}, function (err, media) {
+        if (err) return next(err);
+        if (media) {
+            Image.findOneAndRemove({_id: media.type}, function (err, imageInst) {
+                if (err) return next(err);
+                if (imageInst) {
+                    let path = parseUrl(imageInst.link);
+                    deleteFromS3(path);
+                }
+            });
+            media.delete();
+        }
+    });
+
+    await Board.findOneAndUpdate({_id: bid}, { $pull: { images: { $in: [mediaId]}}});
+    res.send({message: "Image was deleted"});
+});
+
+router.post('/deleteAudio', async function (req, res, next) {
+    let bid = req.body.bid;
+    let mediaId = req.body.audioId;
+
+    await Media.findOne({_id: mediaId}, function (err, media) {
+        if (err) return next(err);
+        if (media) {
+            Audio.findOneAndRemove({_id: media.type}, function (err, audio) {
+                if (err) return next(err);
+                if (audio) {
+                    let path = parseUrl(audio.link);
+                    deleteFromS3(path);
+                }
+            });
+            media.delete();
+        }
+    });
+
+    await Board.findOneAndUpdate({_id: bid}, { $pull: { audios: { $in: [mediaId]}}});
+    res.send({message: "Audio was deleted"});
+});
+
 module.exports = router;

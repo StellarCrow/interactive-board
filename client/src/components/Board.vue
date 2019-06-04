@@ -850,11 +850,13 @@
           selectedGroup = this.images.filter(obj => {
             return obj.id() === groupId;
           });
+          await BoardService.deleteImage({imageId: selectedGroup[0].id(), bid: id});
         }
         else if (group.name() === 'audioGroup') {
           selectedGroup = this.audios.filter(obj => {
             return obj.id() === groupId;
           });
+          await BoardService.deleteAudio({audioId: selectedGroup[0].id(), bid: id});
         }
         selectedGroup[0].destroy();
         transformerNode.detach();

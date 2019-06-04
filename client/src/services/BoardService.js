@@ -34,6 +34,12 @@ export default {
   deleteNote(data) {
     return Api().post(`/boards/deleteNote`, data);
   },
+  deleteImage(data) {
+    return Api().post(`/boards/deleteImage`, data);
+  },
+  deleteAudio(data) {
+    return Api().post(`/boards/deleteAudio`, data);
+  },
   createManyNotes(bid) {
     return Api().post(`/boards/${bid}/createManyNotes`);
   }
