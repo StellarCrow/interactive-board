@@ -37,34 +37,98 @@
   transform: perspective(1px) translateY(-50%);
 }
 
-$steps: 5;
-$gradient-color: $secondary-color;
-$amount: 10;
-
-@for $i from 0 through $steps {
-  .menu__item:nth-child(#{$i}){
-    background-color: #{darken($gradient-color, $i * $amount)};
-  }
-}
-
-@for $i from 0 through $steps {
-  .hue, .menu__item:nth-child(#{$i}){
-    background-color: #{adjust-hue($gradient-color, $i * 8)};
-  }
-}
+//$steps: 5;
+//$gradient-color: $secondary-color;
+//$amount: 10;
+//
+//@for $i from 0 through $steps {
+//  .menu__item:nth-child(#{$i}){
+//    background-color: #{darken($gradient-color, $i * $amount)};
+//  }
+//}
+//
+//@for $i from 0 through $steps {
+//  .hue, .menu__item:nth-child(#{$i}){
+//    background-color: #{adjust-hue($gradient-color, $i * 8)};
+//  }
+//}
 
 .menu {
   font-weight: $light;
+  height: 100%;
+
+  li {
+    height: 30%;
+    margin-bottom: 5%;
+  }
+
+  &__bg {
+    @include transition(0.3);
+    @include border-radius(50%);
+    width: 50%;
+    height: auto;
+    padding-top: 50%;
+    position: relative;
+    margin: 0 auto;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__bg-maincolor {
+    background-color: $main-color;
+    &:hover {
+      background-color: #65C9AE;
+    }
+  }
+
+  &__bg-secondarycolor {
+    background-color: $secondary-color;
+    &:hover {
+      background-color: #C96C8F;
+    }
+  }
+
+  &__bg-tertiarycolor {
+    background-color: $tertiary-color;
+    &:hover {
+      background-color: #C9996A;
+    }
+  }
 
   &__item {
-    @include transition(0.3);
-    padding: 0.5em 1em;
-    color: white;
+    @include border-radius(50%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-top: 100%;
+    height: auto;
 
     &:hover {
       color: black;
     }
   }
+}
+
+.menu__item-note {
+  background: url("../assets/icons/note.png") no-repeat center top / cover;
+
+}
+
+.menu__item-image {
+  background: url("../assets/icons/image.png") no-repeat center top / cover;
+
+}
+
+.menu__item-audio {
+  background: url("../assets/icons/audio.png") no-repeat center top / cover;
+}
+
+.menu__item-note, .menu__item-image, .menu__item-audio {
+  background-size: 70%;
+  background-position: 50% 50%;
 }
 
 .input-large {
@@ -75,9 +139,8 @@ $amount: 10;
 
 .konva-container {
   //box-shadow: 0 0 1px #ddd, 0 2px 2px;
-  border: 2px solid $gray-color--light;
+  border: 1px solid $secondary-color;
 }
-
 
 .color-label {
   @include border-radius(50%, 50%);

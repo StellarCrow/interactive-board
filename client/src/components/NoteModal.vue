@@ -31,7 +31,7 @@
             <div class="col-12">
               <div class="d-flex justify-content-center">
                 <button @click="save">Сохранить</button>
-                <button @click="save" class="button-cancel ml-3">Закрыть</button>
+                <button @click="close" class="button-cancel ml-3">Закрыть</button>
               </div>
             </div>
           </div>
@@ -64,6 +64,14 @@
           noteModal: false,
           text: this.text,
           color: this.colorNote
+        });
+
+        this.text = "";
+      },
+      close () {
+        this.$emit('close', {
+          noteModal: false,
+          text: ""
         });
 
         this.text = "";

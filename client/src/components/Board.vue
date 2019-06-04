@@ -3,13 +3,7 @@
     <div class="container-fluid">
       <div class="row justify-content-center mb-3">
         <div class="col-3">
-          <ul class="d-flex justify-content-center pt-4 mb-0">
-            <div v-for="color in colorsStage" :key="color.id">
-              <input type="radio" name="stage" v-model="colorStage" :value="color.num"
-                     v-bind:id="color.id">
-              <label class="color-label" :for="color.id" :style="{background: color.num }"></label>
-            </div>
-          </ul>
+
         </div>
         <div class="col-4 text-center">
           <div class="board-name">
@@ -19,39 +13,43 @@
         </div>
         <div class="col-3">
           <ul class="d-flex justify-content-center pt-4 mb-0">
-            <li>
-              <input type="radio" id="color-dots" v-model="colorStage" :value="'../assets/textures/dots.jpg'">
-              <label class="color-label color-label--dots" for="color-dots"></label>
-            </li>
-            <li>
-              <input type="radio" id="color-dots2" v-model="colorStage" :value="'../assets/textures/dots2.jpg'">
-              <label class="color-label color-label--dots2" for="color-dots2"></label>
-            </li>
-            <li>
-              <input type="radio" id="color-grid" v-model="colorStage" :value="'../assets/textures/grid.png'">
-              <label class="color-label color-label--grid" for="color-grid"></label>
-            </li>
-            <li>
-              <input type="radio" id="color-line" v-model="colorStage" :value="'../assets/textures/line.jpg'">
-              <label class="color-label color-label--line" for="color-line"></label>
-            </li>
+            <div v-for="color in colorsStage" :key="color.id">
+              <input type="radio" name="stage" v-model="colorStage" :value="color.num"
+                     v-bind:id="color.id">
+              <label class="color-label" :for="color.id" :style="{background: color.num }"></label>
+            </div>
           </ul>
         </div>
       </div>
       <div class="row p-0">
         <div class="col-2 p-0">
-          <ul class="menu">
-            <li class="menu__item hue"><a v-on:click="noteModal = true">Добавить заметку</a></li>
-            <li class="menu__item hue"><a v-on:click="imageModal = true">Добавить фото</a></li>
-            <li class="menu__item hue"><a v-on:click="audioModal = true">Добавить аудио</a></li>
-            <li class="menu__item hue"><a>Добавить документ</a></li>
+          <ul class="menu text-center">
+            <li>
+              <div class="menu__bg menu__bg-maincolor" v-on:click="noteModal = true">
+                <div class="menu__item menu__item-note"></div>
+              </div>
+              <p>Добавить заметку</p>
+            </li>
+            <li>
+              <div class="menu__bg menu__bg-secondarycolor" v-on:click="imageModal = true">
+                <div class="menu__item menu__item-image"></div>
+              </div>
+              <p>Добавить фото</p>
+            </li>
+            <li>
+              <div class="menu__bg menu__bg-tertiarycolor" v-on:click="audioModal = true">
+                <div class="menu__item menu__item-audio">
+                </div>
+              </div>
+              <p>Добавить аудио</p>
+            </li>
           </ul>
         </div>
         <div class="col-8">
           <div class="konva-container" ref="container" v-bind:style="stageStyle">
             <v-stage :config="stageSize" ref="stage" @mousedown="handleStageMouseDown">
               <v-layer ref="layer" @dblclick="mouseDownOnAudio">
-                <v-transformer ref="transformer"/>
+                <v-transformer ref="transformer" :config="transformer"></v-transformer>
               </v-layer>
             </v-stage>
           </div>
@@ -130,6 +128,13 @@
         stageSize: {
           width: width,
           height: height
+        },
+        transformer: {
+          anchorSize: 10,
+          anchorCornerRadius: 5,
+          anchorStroke: '#F3BC7B',
+          borderStroke: '#F3BC7B',
+          borderDash: [3, 3]
         },
         selectedShapeId: '',
         selectedAudioId: '',
@@ -797,7 +802,7 @@
             x: text.x(),
             y: text.y(),
             fill: '#fff',
-            strokeWidth: 1,
+            strokeWidth: 0.5,
             stroke: '#72787a',
             width: text.width(),
             height: text.height()
@@ -815,16 +820,16 @@
             stage.batchDraw();
           });
 
-          if(menuItems[i] === 'Переместить наверх') {
+          if (menuItems[i] === 'Переместить наверх') {
             text.addEventListener('mousedown', this.moveGroupToTop);
           }
-          else if(menuItems[i] === 'Удалить') {
+          else if (menuItems[i] === 'Удалить') {
             text.addEventListener('mousedown', this.deleteButtonEvent);
           }
-          else if(menuItems[i] === 'Переместить вниз') {
+          else if (menuItems[i] === 'Переместить вниз') {
             text.addEventListener('mousedown', this.moveGroupToBottom);
           }
-          else if(menuItems[i] === 'Открыть изображение') {
+          else if (menuItems[i] === 'Открыть изображение') {
             text.addEventListener('mousedown', this.openFullImage);
           }
           group.add(rect);
@@ -875,7 +880,7 @@
       openFullImage() {
         const transformerNode = this.$refs.transformer.getStage();
         let group = transformerNode.find('.Удалить')[0].getParent().getParent().getNode();
-        if(group.name() !== 'imageGroup')
+        if (group.name() !== 'imageGroup')
           return;
         let image = group.find('.image')[0];
         this.imageFullFile = image.image().src;
