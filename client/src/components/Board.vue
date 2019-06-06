@@ -38,8 +38,7 @@
             </li>
             <li>
               <div class="menu__bg menu__bg-tertiarycolor" v-on:click="audioModal = true">
-                <div class="menu__item menu__item-audio">
-                </div>
+                <div class="menu__item menu__item-audio"></div>
               </div>
               <p>Добавить аудио</p>
             </li>
@@ -55,24 +54,34 @@
           </div>
         </div>
         <div class="col-2">
-          <div class="">
-            <div class="filter mb-4">
-              <label for="select-filter">Отображать только: </label>
-              <select name="filter" id="select-filter" v-model="filter">
-                <option value="all" selected="selected">Всё</option>
-                <option value="images">Изображения</option>
-                <option value="text">Текст</option>
-                <option value="audios">Аудио</option>
-              </select>
-            </div>
-            <div class="public-mark mb-4">
-              Публичная:
-              <input type="checkbox" v-model="is_public">
-            </div>
-            <button @click="saveBoard">Сохранить</button>
-            <div> {{savedMessage}}</div>
-            <button @click="test">Test</button>
-          </div>
+          <ul class="menu text-center">
+            <li>
+              <div class="filter">
+                <label for="select-filter">Отображать только: </label>
+                <select class="select-board" name="filter" id="select-filter" v-model="filter">
+                  <option value="all" selected="selected">Все объекты</option>
+                  <option value="text">Текст</option>
+                  <option value="images">Изображения</option>
+                  <option value="audios">Аудио</option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <div class="menu__bg menu__bg-secondarycolor">
+                <input type="checkbox" id="is-public" v-model="is_public" hidden>
+                <label for="is-public" class="menu__item menu__item-public label-public"></label>
+              </div>
+              <p v-if="is_public">
+                Публичная
+              </p>
+              <p v-else>Приватная</p>
+            </li>
+            <li>
+              <button @click="saveBoard" class="button-add">Сохранить</button>
+              <div> {{savedMessage}}</div>
+              <!--<button @click="test">Test</button>-->
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -505,6 +514,7 @@
         group.add(rect);
         group.add(noteText);
         group.add(notePin);
+        //group.cache();
         layer.add(group);
         this.notes.push(group);
         stage.batchDraw();
@@ -526,15 +536,15 @@
             let newY, newX;
             if (pos.y < -50) {
               newY = -50;
-            } else if (pos.y > stage.height()) {
-              newY = stage.height()
+            } else if (pos.y > stage.height() - 20) {
+              newY = stage.height() - 20
             } else
               newY = pos.y;
 
             if (pos.x < -50) {
               newX = -50;
-            } else if (pos.x > stage.width()) {
-              newX = stage.width()
+            } else if (pos.x > stage.width() - 20) {
+              newX = stage.width() - 20
             } else
               newX = pos.x;
 

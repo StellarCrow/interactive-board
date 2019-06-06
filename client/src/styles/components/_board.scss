@@ -37,6 +37,12 @@
   transform: perspective(1px) translateY(-50%);
 }
 
+.konva-container {
+  //box-shadow: 0 0 1px #ddd, 0 2px 2px;
+  border: 1px solid $secondary-color;
+}
+
+
 //$steps: 5;
 //$gradient-color: $secondary-color;
 //$amount: 10;
@@ -62,8 +68,12 @@
     margin-bottom: 5%;
   }
 
+  li:last-child {
+    margin-bottom: 0;
+  }
+
   &__bg {
-    @include transition(0.3);
+    @include transition(0.3s);
     @include border-radius(50%);
     width: 50%;
     height: auto;
@@ -126,20 +136,32 @@
   background: url("../assets/icons/audio.png") no-repeat center top / cover;
 }
 
-.menu__item-note, .menu__item-image, .menu__item-audio {
+
+.menu__item-note, .menu__item-image, .menu__item-audio, .menu__item-public, .menu__item-public:hover {
   background-size: 70%;
   background-position: 50% 50%;
+}
+
+
+.label-public {
+  &:hover {
+    cursor: pointer;
+  }
+}
+input[type='checkbox'] {
+  + .label-public {
+    background: url("../assets/icons/private.png") no-repeat center top / cover;
+  }
+
+  &:checked + .label-public {
+    background: url("../assets/icons/public.png") no-repeat center top / cover;
+  }
 }
 
 .input-large {
   text-align: center;
   font-size: $header-subtitle;
   padding: 0;
-}
-
-.konva-container {
-  //box-shadow: 0 0 1px #ddd, 0 2px 2px;
-  border: 1px solid $secondary-color;
 }
 
 .color-label {
@@ -179,4 +201,33 @@
 
 .color-label--grid {
   background: url("../assets/textures/grid.png") center top / cover;
+}
+
+.select-board {
+  @include border-top-radius(2em);
+  @include transition(0.3s);
+  border: 1px solid $tertiary-color;
+  background-color: $tertiary-color;
+  font-weight: $light;
+  text-align: center;
+  padding: 0.5em 1em;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+
+  &:hover {
+    cursor: pointer;
+    background-color: #ffe3ad;
+  }
+
+  option {
+    font-weight: $light;
+    padding: 1em 0.5em;
+
+    &:hover {
+      background-color: $tertiary-color !important;
+    }
+  }
 }
