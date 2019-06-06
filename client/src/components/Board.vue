@@ -849,7 +849,7 @@
         transformerNode.add(group);
       },
       async deleteButtonEvent() {
-        let selectedGroup;
+        let selectedGroup, index;
         const id = this.$store.state.route.params.idb;
         const transformerNode = this.$refs.transformer.getStage();
         let group = transformerNode.find('.Удалить')[0].getParent().getParent().getNode();
@@ -859,17 +859,26 @@
           selectedGroup = this.notes.filter(obj => {
             return obj.id() === groupId;
           });
+          this.notes = this.notes.filter(obj => {
+            return obj.id() !== groupId;
+          });
           await BoardService.deleteNote({noteId: selectedGroup[0].id(), bid: id});
         }
         else if (group.name() === 'imageGroup') {
           selectedGroup = this.images.filter(obj => {
             return obj.id() === groupId;
           });
+          this.images = this.images.filter(obj => {
+            return obj.id() !== groupId;
+          });
           await BoardService.deleteImage({imageId: selectedGroup[0].id(), bid: id});
         }
         else if (group.name() === 'audioGroup') {
           selectedGroup = this.audios.filter(obj => {
             return obj.id() === groupId;
+          });
+          this.audios = this.audios.filter(obj => {
+            return obj.id() !== groupId;
           });
           await BoardService.deleteAudio({audioId: selectedGroup[0].id(), bid: id});
         }

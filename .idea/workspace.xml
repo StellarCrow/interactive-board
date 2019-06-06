@@ -4,10 +4,6 @@
     <list default="true" id="4b0d440c-3c7b-4351-8426-193d2cdfafe3" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Board.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Board.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/HelloWorld.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Toolbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Toolbar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/styles/basics/_base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/styles/basics/_base.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/styles/components/_board.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/styles/components/_board.scss" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -24,8 +20,8 @@
       <file leaf-file-name="Board.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/src/components/Board.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="76" column="37" lean-forward="true" selection-start-line="76" selection-start-column="37" selection-end-line="76" selection-end-column="37" />
+            <state relative-caret-position="222">
+              <caret line="879" column="51" lean-forward="true" selection-start-line="879" selection-start-column="51" selection-end-line="879" selection-end-column="51" />
               <folding>
                 <element signature="n#div#1;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
                 <element signature="n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
@@ -39,6 +35,14 @@
                 <element signature="e#10630#11582#0" />
                 <element signature="e#11608#13921#0" />
                 <element signature="e#13946#16215#0" />
+                <element signature="e#16241#19321#0" />
+                <element signature="e#19353#20094#0" />
+                <element signature="e#20122#20994#0" />
+                <element signature="e#21022#22323#0" />
+                <element signature="e#22357#22985#0" />
+                <element signature="e#23009#23514#0" />
+                <element signature="e#23537#23775#0" />
+                <element signature="e#23800#25905#0" />
               </folding>
             </state>
           </provider>
@@ -215,6 +219,11 @@
               <item name="styles" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="interactive-board" type="b2602c69:ProjectViewProjectNode" />
+              <item name="interactive-board" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -312,25 +321,25 @@
       <workItem from="1559552002885" duration="17160000" />
       <workItem from="1559635238384" duration="19853000" />
       <workItem from="1559720856227" duration="10854000" />
-      <workItem from="1559808146901" duration="6899000" />
+      <workItem from="1559808146901" duration="8753000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="465412000" />
+    <option name="totallyTimeSpent" value="467266000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
+    <frame x="-7" y="-7" width="1295" height="695" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19125684" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19125684" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.12568305" side_tool="true" visible="true" weight="0.33333334" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.0" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.87431693" visible="true" weight="0.33333334" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.87431693" visible="true" weight="0.33333334" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.7798595" weight="0.33848798" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -361,7 +370,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="57" />
+      <option name="time" value="58" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -689,8 +698,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/components/Board.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="76" column="37" lean-forward="true" selection-start-line="76" selection-start-column="37" selection-end-line="76" selection-end-column="37" />
+        <state relative-caret-position="222">
+          <caret line="879" column="51" lean-forward="true" selection-start-line="879" selection-start-column="51" selection-end-line="879" selection-end-column="51" />
           <folding>
             <element signature="n#div#1;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
             <element signature="n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
@@ -704,6 +713,14 @@
             <element signature="e#10630#11582#0" />
             <element signature="e#11608#13921#0" />
             <element signature="e#13946#16215#0" />
+            <element signature="e#16241#19321#0" />
+            <element signature="e#19353#20094#0" />
+            <element signature="e#20122#20994#0" />
+            <element signature="e#21022#22323#0" />
+            <element signature="e#22357#22985#0" />
+            <element signature="e#23009#23514#0" />
+            <element signature="e#23537#23775#0" />
+            <element signature="e#23800#25905#0" />
           </folding>
         </state>
       </provider>
