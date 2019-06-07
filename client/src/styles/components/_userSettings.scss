@@ -1,0 +1,97 @@
+@import "../basics/base";
+
+.note {
+  background-color: #fff;
+  padding: 1em 2em;
+  border: 1px solid $note-color;
+  -webkit-box-shadow: 0px -2px 9px -1px rgba(0,0,0,0.21);
+  -moz-box-shadow: 0px -2px 9px -1px rgba(0,0,0,0.21);
+  box-shadow: 0px -2px 9px -1px rgba(0,0,0,0.21);
+
+  &__title {
+    margin-bottom: 1em;
+  }
+
+  &__name {
+    margin-bottom: 1em;
+    input {
+      margin: 0 auto;
+      font-size: $subtitle;
+    }
+  }
+
+  &__container {
+    height: 20vh;
+    width: 20vh;
+    margin-left: 5%;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  &__item {
+    @include border-radius(50%);
+    width: auto;
+    height: 100%;
+    padding-top: 50%;
+    position: relative;
+    margin: 0 auto;
+  }
+}
+
+.label-avatar {
+  @include border-radius(50%);
+  @include transition(0.3s);
+  border: 1px solid $tertiary-color;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-top: 100%;
+  height: auto;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $tertiary-color--light;
+  }
+}
+
+input[type='radio'] {
+  &:checked + .label-avatar {
+    border: 3px solid $main-color;
+    background-color: $tertiary-color--light;
+  }
+}
+
+
+.label-avatar-1 {
+  background: url("../assets/icons/avatars/boy-1.png") no-repeat center top / cover;
+}
+
+.label-avatar-2 {
+  background: url("../assets/icons/avatars/boy-2.png") no-repeat center top / cover;
+}
+
+.label-avatar-3 {
+  background: url("../assets/icons/avatars/boy-3.png") no-repeat center top / cover;
+}
+
+.label-avatar-4 {
+  background: url("../assets/icons/avatars/girl-1.png") no-repeat center top / cover;
+}
+
+.label-avatar-5 {
+  background: url("../assets/icons/avatars/girl-2.png") no-repeat center top / cover;
+}
+
+.label-avatar-6 {
+  background: url("../assets/icons/avatars/girl-3.png") no-repeat center top / cover;
+}
+
+.label-avatar-1, .label-avatar-2, .label-avatar-3,
+.label-avatar-4, .label-avatar-5, .label-avatar-6 {
+  background-size: 100%;
+  background-position: 50% 100%;
+}
+

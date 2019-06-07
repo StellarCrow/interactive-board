@@ -8,12 +8,12 @@ let UserSchema = new Schema ({
         unique: true,
         required: true
     },
-    firstName: String,
-    lastName: String,
+    fullName: String,
     password: {
         type: String,
         required: true
     },
+    avatar: String,
     boards: [{type: Schema.Types.ObjectId, ref: 'Board'}],
     email: {
         type: String,

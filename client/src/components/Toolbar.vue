@@ -46,6 +46,6 @@
   @import "../styles/basics/base";
 
   .navbar-color {
-    background-color: $main-color;
+    background-color: $tertiary-color--light;
   }
 </style>
