@@ -70,4 +70,26 @@ router.post('/:id/createBoard', function (req, res, next) {
     })
 });
 
+
+router.post('/update', function (req, res, next) {
+   let id = req.body.id;
+   let fullName = req.body.fullName;
+   let description = req.body.description;
+   let avatar = req.body.avatar;
+
+   User.findOneAndUpdate({_id: id}, {
+       fullName: fullName,
+       description: description,
+       avatar: avatar
+   }, function (err, user) {
+       if(err) return next(err);
+       if(user) {
+           return res.send({message: "Успешно обновлено"})
+       }
+       else {
+           return res.send({message: "Ошибка при сохранении."})
+       }
+   })
+});
+
 module.exports = router;

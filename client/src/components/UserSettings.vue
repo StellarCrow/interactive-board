@@ -68,12 +68,12 @@
         <div class="col-5">
           <div class="note">
             <div class="note__name d-flex">
-              <div class="align-self-end">Имя: </div>
-              <input type="text" :value="username" :placeholder="username">
+              <label for="name" class="align-self-end">Имя: </label>
+              <input type="text" maxlength="50" id="name" v-model="fullName" :placeholder="fullName">
             </div>
             <div class="note__about">
-              <div class="m-0">О себе:</div>
-              <textarea maxlength="500" rows="16" v-text="description" :placeholder="description"></textarea>
+              <label for="textarea" class="m-0">О себе:</label>
+              <textarea maxlength="500" rows="16" id="textarea" v-model="description" :placeholder="description"></textarea>
             </div>
           </div>
         </div>
@@ -100,9 +100,19 @@
       }
     },
     methods: {
-      saveProfile() {
-
-      }
+      async saveProfile() {
+        const uid = this.$store.state.route.params.id;
+        let message = await BoardService.updateUser({
+          id: uid,
+          fullName: this.fullName,
+          description: this.description,
+          avatar: this.avatar
+        });
+        this.savedMessage = message.data.message;
+      },
+      navigateTo(router) {
+        this.$router.push(router)
+      },
     },
     async mounted() {
       const uid = this.$store.state.route.params.id;
