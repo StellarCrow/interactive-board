@@ -2,7 +2,7 @@ import Api from '../services/Api'
 
 export default {
   getBoards (userId) {
-    return Api().get(`/users/${userId}`);
+    return Api().get(`/users/${userId}/getBoards`);
   },
   createBoard(userId) {
     return Api().post(`/users/${userId}/createBoard`);

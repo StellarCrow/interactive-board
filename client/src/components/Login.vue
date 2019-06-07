@@ -55,4 +55,5 @@
 
 <style lang="scss" scoped>
   @import "../styles/components/register";
+
 </style>

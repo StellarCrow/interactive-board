@@ -6,13 +6,27 @@ let User = require('../models/User');
 let Board = require('../models/Board');
 
 router.get('/:id', function (req, res, next) {
+   let id = req.params.id;
+
+   User.findById(id, function (err, user) {
+       if(err) return next(err);
+       if(user) {
+           return res.send(user);
+       }
+       else {
+           return res.sendStatus(404);
+       }
+   })
+});
+
+router.get('/:id/getBoards', async function (req, res, next) {
     let objects = {
         boards: null,
         user: null
-    }
+    };
     let id = req.params.id;
     console.log("USER PAGE PARAMS ID " + id);
-    Board.find({author: id}, function (err, boards) {
+    await Board.find({author: id}, function (err, boards) {
         if(err) return next(err);
         if(boards) {
             objects.boards = boards;

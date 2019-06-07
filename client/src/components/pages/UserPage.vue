@@ -6,7 +6,8 @@
           <div class="d-flex justify-content-center">
             <h1>Мой профиль</h1>
             <div>
-              <a><img class="icon" title="Изменить профиль" src="@/assets/icons/026-setting.png" alt='Settings'></a>
+              <a><img class="icon" title="Изменить профиль" src="@/assets/icons/026-setting.png" alt='Settings'
+                      @click="navigateTo({name: 'UserSettings', params: {id: user._id}})"></a>
             </div>
           </div>
 
@@ -47,7 +48,7 @@
                   </span>
                 </div>
                 <a @click="deleteBoard(board._id, index)"><img class="icon" title="Удалить доску"
-                                                        src="@/assets/icons/trash.png" alt="Delete Board"></a>
+                                                               src="@/assets/icons/trash.png" alt="Delete Board"></a>
               </div>
               <div class="board__bottom">
                 <a v-on:click="navigateTo({name: 'Board', params: {id: user._id, idb: board._id}})">

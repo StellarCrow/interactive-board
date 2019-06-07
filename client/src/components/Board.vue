@@ -849,7 +849,7 @@
         transformerNode.add(group);
       },
       async deleteButtonEvent() {
-        let selectedGroup, index;
+        let selectedGroup;
         const id = this.$store.state.route.params.idb;
         const transformerNode = this.$refs.transformer.getStage();
         let group = transformerNode.find('.Удалить')[0].getParent().getParent().getNode();
