@@ -61,7 +61,7 @@
               <div> {{savedMessage}}</div>
             </div>
             <div class="ml-3">
-              <button @click="navigateTo()" class="button-cancel">Назад</button>
+              <button @click="navigateTo({name: 'UserPage', params: {id: id}})" class="button-cancel">Назад</button>
             </div>
           </div>
         </div>
@@ -96,14 +96,14 @@
         password: '',
         description: '',
         avatar: '',
-        savedMessage: ''
+        savedMessage: '',
+        id: ''
       }
     },
     methods: {
       async saveProfile() {
-        const uid = this.$store.state.route.params.id;
         let message = await BoardService.updateUser({
-          id: uid,
+          id: this.id,
           fullName: this.fullName,
           description: this.description,
           avatar: this.avatar
@@ -115,8 +115,8 @@
       },
     },
     async mounted() {
-      const uid = this.$store.state.route.params.id;
-      let user = await BoardService.getUser(uid);
+      this.id = this.$store.state.route.params.id;
+      let user = await BoardService.getUser(this.id);
       this.fullName = user.data.fullName;
       this.username = user.data.username;
       this.email = user.data.email;

@@ -13,7 +13,10 @@ let UserSchema = new Schema ({
         type: String,
         required: true
     },
-    avatar: String,
+    avatar: {
+        type: String,
+        default: 'boy-1'
+    },
     boards: [{type: Schema.Types.ObjectId, ref: 'Board'}],
     email: {
         type: String,

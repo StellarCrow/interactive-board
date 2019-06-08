@@ -9,46 +9,85 @@
   &__avatar img {
     @include border-radius(50%);
     border: 1px solid $main-color;
-    width: 25%;
+    width: 30%;
     height: auto;
-    padding: 2%;
   }
 }
 
 
-.board {
-  @include border-radius(0.5em);
-  margin-left: 2em;
-  border: 1px solid $gray-color--light;
 
-  &__top {
-    border-bottom: 1px solid $gray-color--light;
-    padding: 2% 1%;
-  }
+//.board {
+//  @include border-radius(0.5em);
+//  margin-left: 2em;
+//  border: 1px solid $gray-color--light;
+//
+//  &__top {
+//    border-bottom: 1px solid $gray-color--light;
+//    padding: 2% 1%;
+//  }
+//
+//  &:first-child {
+//    margin-left: 0;
+//  }
+//
+//  &__name {
+//    font-weight: $bold;
+//  }
+//
+//  &__public {
+//    font-weight: $light;
+//    color: $gray-color--light;
+//    font-size: $text;
+//  }
+//
+//  &__image {
+//    width: 100%;
+//    height: auto;
+//  }
+//}
+
+.button-add-board {
+  @include border-radius(50%);
+  width: 10vh;
+  height: 10vh;
+  padding: 1em;
+}
+
+.board {
+  @include border-radius(5%, 5%);
+  border: 3px solid $note-color;
+  background-color: #fff;
+  padding: 1% 2%;
+  width: 25%;
+  -webkit-box-shadow: 0px -2px 9px -1px rgba(0,0,0,0.21);
+  -moz-box-shadow: 0px -2px 9px -1px rgba(0,0,0,0.21);
+  box-shadow: 0px -2px 9px -1px rgba(0,0,0,0.21);
+
+  margin-left: 2%;
 
   &:first-child {
     margin-left: 0;
   }
 
+  &__pin {
+    img {
+      width: 25%;
+      height: auto;
+      margin: 0 auto;
+    }
+  }
+
   &__name {
-    font-weight: $bold;
+    font-weight: $medium;
+    font-size: $subtitle;
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   &__public {
-    font-weight: $light;
-    color: $gray-color--light;
-    font-size: $text;
-  }
-
-  &__image {
-    width: 100%;
+    width: 50%;
     height: auto;
   }
-}
-
-.button-add {
-  @include border-radius(50%);
-  padding: 1em;
-  margin-left: 2em;
 }
 

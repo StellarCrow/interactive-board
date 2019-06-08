@@ -511,10 +511,11 @@
           rotation: -20
         });
 
+        rect.cache();
         group.add(rect);
         group.add(noteText);
         group.add(notePin);
-        //group.cache();
+        // group.cache();
         layer.add(group);
         this.notes.push(group);
         stage.batchDraw();
