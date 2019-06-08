@@ -843,6 +843,9 @@
           else if (menuItems[i] === 'Открыть изображение') {
             text.addEventListener('mousedown', this.openFullImage);
           }
+          else if(menuItems[i] === 'Скачать') {
+            text.addEventListener('mousedown', this.downloadMedia)
+          }
           group.add(rect);
           group.add(text);
         }
@@ -905,6 +908,33 @@
         let image = group.find('.image')[0];
         this.imageFullFile = image.image().src;
         this.imageFull = true;
+      },
+      downloadMedia() {
+        const transformerNode = this.$refs.transformer.getStage();
+        let group = transformerNode.find('.Скачать')[0].getParent().getParent().getNode();
+
+        if(group.name() === 'noteGroup') {
+          let dataURL = group.toDataURL();
+          this.downloadURI(dataURL, 'note.png');
+        }
+        if(group.name() === 'imageGroup') {
+          let imageInGroup = group.find('.image')[0];
+          let src = imageInGroup.image().src;
+          this.downloadURI(src, 'image.png');
+        }
+        if(group.name() === 'audioGroup') {
+          let link = group.findOne('.audioText').text();
+          this.downloadURI(link, 'audio.mp3');
+        }
+
+      },
+      downloadURI(dataURL, name) {
+        let link = document.createElement('a');
+        link.download = name;
+        link.href = dataURL;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       }
     },
     async mounted() {
