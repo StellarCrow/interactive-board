@@ -124,6 +124,15 @@ function parseUrl(url) {
     return parsed.pathname;
 }
 
+router.get('/getPublic', function (req, res, next) {
+    Board.find({is_public: true}).populate('author').exec(function (err, boards) {
+        if(err) return next(err);
+        if(boards) {
+            res.send({boards: boards});
+        }
+    })
+});
+
 router.post('/:id/createManyNotes', function (req, res, next) {
     let bid = req.params.id;
     for(let i = 0; i < 200; i++) {

@@ -6,5 +6,8 @@ export default {
   },
   updateUser (data) {
     return Api().post(`/users/update`, data);
+  },
+  getAllUsers () {
+    return Api().get('/users/getAll');
   }
 }

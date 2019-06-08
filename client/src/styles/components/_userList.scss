@@ -1,0 +1,22 @@
+@import "../basics/base";
+
+.user {
+  background-color: #fff;
+  padding: 1em 2em;
+  border: 1px solid $note-color;
+  -webkit-box-shadow: 0px -2px 9px -1px rgba(0,0,0,0.21);
+  -moz-box-shadow: 0px -2px 9px -1px rgba(0,0,0,0.21);
+  box-shadow: 0px -2px 9px -1px rgba(0,0,0,0.21);
+
+  &__avatar {
+    @include border-radius(50%);
+    border: 1px solid $tertiary-color;
+    width: 30%;
+
+    img {
+      @include border-radius(50%);
+      width: 100%;
+      height: auto;
+    }
+  }
+}

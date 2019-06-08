@@ -9,7 +9,7 @@ let BoardSchema = new Schema({
     },
     author: {
         type: Schema.Types.ObjectId,
-        ref: 'UserSchema',
+        ref: 'User',
         required: true
     },
     is_public: {

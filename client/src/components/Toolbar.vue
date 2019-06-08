@@ -12,7 +12,7 @@
           <router-link class="nav-link" :to="{ name: 'UserPage', params: { id: this.$store.state.user._id }}">{{this.$store.state.user.username}}</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Чужие доски</a>
+          <a class="nav-link" @click="navigateTo({path: '/users/'})">Чужие доски</a>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">

@@ -42,5 +42,8 @@ export default {
   },
   createManyNotes(bid) {
     return Api().post(`/boards/${bid}/createManyNotes`);
+  },
+  getPublicBoards() {
+    return Api().get(`/boards/getPublic`);
   }
 }

@@ -5,6 +5,16 @@ const router = express.Router();
 let User = require('../models/User');
 let Board = require('../models/Board');
 
+
+router.get('/getAll', function (req, res, next) {
+    User.find({}, function (err, users) {
+        if(err) return next(err);
+        if(users) {
+            return res.send({users: users});
+        }
+    })
+});
+
 router.get('/:id', function (req, res, next) {
    let id = req.params.id;
 
