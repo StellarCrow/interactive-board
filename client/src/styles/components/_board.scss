@@ -231,3 +231,19 @@ input[type='checkbox'] {
     }
   }
 }
+
+.board-text {
+  @include border-radius(2em);
+  @include transition(0.3s);
+  border: 1px solid $main-color;
+  font-size: $subtitle;
+  font-weight: $light;
+  color: $gray-color--dark;
+  padding: 0.5em 0.8em;
+  background-color: $main-color;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $main-color--light;
+  }
+}

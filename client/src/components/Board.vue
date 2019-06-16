@@ -3,16 +3,15 @@
     <div class="container-fluid">
       <div class="row justify-content-center mb-3">
         <div class="col-3">
-
         </div>
         <div class="col-4 text-center">
           <div class="board-name">
             <input type="text" class="input-large" name="board-name" maxlength="25" :placeholder="bname"
-                   v-model="bname">
+                   v-model="bname" :disabled="this.$store.state.user._id !== this.$store.state.route.params.id">
           </div>
         </div>
         <div class="col-3">
-          <ul class="d-flex justify-content-center pt-4 mb-0">
+          <ul class="d-flex justify-content-center pt-4 mb-0" v-if="this.$store.state.user._id === this.$store.state.route.params.id">
             <div v-for="color in colorsStage" :key="color.id">
               <input type="radio" name="stage" v-model="colorStage" :value="color.num"
                      v-bind:id="color.id">
@@ -23,7 +22,7 @@
       </div>
       <div class="row p-0">
         <div class="col-2 p-0">
-          <ul class="menu text-center">
+          <ul class="menu text-center" v-if="this.$store.state.user._id === this.$store.state.route.params.id">
             <li>
               <div class="menu__bg menu__bg-maincolor" v-on:click="noteModal = true">
                 <div class="menu__item menu__item-note"></div>
@@ -45,7 +44,7 @@
           </ul>
         </div>
         <div class="col-8">
-          <div class="konva-container" ref="container" v-bind:style="stageStyle">
+          <div class="konva-container" ref="container" v-bind:style="{height: '70vh', background: this.colorStage}">
             <v-stage :config="stageSize" ref="stage" @mousedown="handleStageMouseDown">
               <v-layer ref="layer" @dblclick="mouseDownOnAudio">
                 <v-transformer ref="transformer" :config="transformer"></v-transformer>
@@ -77,8 +76,12 @@
               <p v-else>Приватная</p>
             </li>
             <li>
-              <button @click="saveBoard" class="button-add">Сохранить</button>
+              <button @click="saveBoard" class="button-add" v-if="this.$store.state.user._id === this.$store.state.route.params.id">Сохранить</button>
               <div> {{savedMessage}}</div>
+              <div class="mt-5" v-if="this.$store.state.user._id !== this.$store.state.route.params.id">
+                Автор:
+                <div class="board-text mt-2" @click="toUserPage">{{author}}</div>
+              </div>
               <!--<button @click="test">Test</button>-->
             </li>
           </ul>
@@ -122,6 +125,7 @@
           {id: "10", color: "orange", num: "#ffe6c8"},
           {id: "11", color: "blue", num: "#d9f6ff"}
         ],
+        author: '',
         is_public: false,
         audioModal: false,
         imageModal: false,
@@ -154,27 +158,9 @@
       window.addEventListener('resize', this.changeRect);
       this.changeRect();
     },
-    computed: {
-      stageStyle: function () {
-        if (this.colorStage.length > 8) {
-          console.log('url("' + this.colorStage + '")');
-          return {height: '70vh', background: `url("${this.colorStage}")`}
-        }
-        else return {height: '70vh', background: this.colorStage}
-      }
-    },
     methods: {
-      async test() {
-        const id = this.$store.state.route.params.idb;
-        let res = await BoardService.createManyNotes(id);
-        console.log(res.data.message);
-        // const stage = this.$refs.stage.getNode();
-        // this.notes.forEach(function (note) {
-        //   console.log(note.children[0].getAbsolutePosition().x, note.children[0].getAbsolutePosition().y);
-        //   console.log(note.getAttr('x'), note.getAttr('y'));
-        //   console.log(note.getAbsolutePosition());
-        //   console.log(note.rotation(), note.scaleX(), note.scaleY());
-        // })
+      toUserPage() {
+        this.$router.push({path: '/users/' + this.$store.state.route.params.id});
       },
       async saveBoard() {
         let notesUpdated = [];
@@ -412,8 +398,7 @@
           fontStyle: 200,
           fontFamily: 'Calibri',
           fill: '#000',
-          width: audioImage.width(),
-          align: 'center'
+          width: audioImage.width()
         });
 
         let audioText = new Konva.Text({
@@ -478,7 +463,7 @@
           align: 'center'
         });
 
-        if (data.text.length > 20) {
+        if (data.text.length > 25) {
           noteText.fontSize(12);
           noteText.width(140);
           noteText.height(140);
@@ -742,9 +727,11 @@
         let images = data.imagesArray;
         let audios = data.audiosArray;
         let board = data.board;
-        this.bname = board.bname;
+        this.bname = board.bname || 'Без названия';
         this.is_public = board.is_public;
-        this.colorStage = board.background;
+        this.colorStage = board.background || '#fcfcfc';
+        this.author = board.author;
+
 
         this.stageLayer = this.$refs.layer.getNode();
 
@@ -784,6 +771,7 @@
         this.stageLayer.batchDraw();
       },
       createMenuList() {
+        let menuItems;
         const stage = this.$refs.stage.getNode();
         const transformerNode = this.$refs.transformer.getStage();
         let group = new Konva.Group({
@@ -791,7 +779,12 @@
           visible: false
         });
 
-        let menuItems = ["Удалить", "Скачать", "Переместить наверх", "Переместить вниз", "Открыть изображение"];
+        if(this.$store.state.user._id !== this.$store.state.route.params.id) {
+           menuItems = ["Открыть изображение"];
+        }
+        else {
+           menuItems = ["Удалить", "Скачать", "Наверх", "Вниз", "Изображение"];
+        }
 
         for (let i = 0; i < menuItems.length; i++) {
           let text = new Konva.Text({
@@ -831,16 +824,16 @@
             stage.batchDraw();
           });
 
-          if (menuItems[i] === 'Переместить наверх') {
+          if (menuItems[i] === 'Наверх') {
             text.addEventListener('mousedown', this.moveGroupToTop);
           }
           else if (menuItems[i] === 'Удалить') {
             text.addEventListener('mousedown', this.deleteButtonEvent);
           }
-          else if (menuItems[i] === 'Переместить вниз') {
+          else if (menuItems[i] === 'Вниз') {
             text.addEventListener('mousedown', this.moveGroupToBottom);
           }
-          else if (menuItems[i] === 'Открыть изображение') {
+          else if (menuItems[i] === 'Изображение') {
             text.addEventListener('mousedown', this.openFullImage);
           }
           else if(menuItems[i] === 'Скачать') {
@@ -892,17 +885,17 @@
       },
       moveGroupToTop() {
         const transformerNode = this.$refs.transformer.getStage();
-        let group = transformerNode.find('.Удалить')[0].getParent().getParent().getNode();
+        let group = transformerNode.findOne('.Наверх').getParent().getParent().getNode();
         group.moveToTop();
       },
       moveGroupToBottom() {
         const transformerNode = this.$refs.transformer.getStage();
-        let group = transformerNode.find('.Удалить')[0].getParent().getParent().getNode();
+        let group = transformerNode.findOne('.Вниз').getParent().getParent().getNode();
         group.moveToBottom();
       },
       openFullImage() {
         const transformerNode = this.$refs.transformer.getStage();
-        let group = transformerNode.find('.Удалить')[0].getParent().getParent().getNode();
+        let group = transformerNode.findOne('.Изображение').getParent().getParent().getNode();
         if (group.name() !== 'imageGroup')
           return;
         let image = group.find('.image')[0];

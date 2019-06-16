@@ -1,5 +1,11 @@
 @import "../basics/base";
 
-h1 {
-  color: $accent-color;
+.form {
+  padding: 5% 10%;
+  background-color: #fff;
+  border: 1px solid $tertiary-color;
+}
+
+.bg {
+  background: url("../assets/images/2.svg") no-repeat center top / cover;
 }

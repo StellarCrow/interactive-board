@@ -79,6 +79,10 @@ input {
   }
 }
 
+input[type='text']:disabled {
+  background: #fff;
+}
+
 input[type="radio"] {
   display: none;
 }
@@ -113,7 +117,3 @@ textarea {
   margin-bottom: 10%;
 }
 
-.icon {
-  width: 2vw;
-  height: auto;
-}

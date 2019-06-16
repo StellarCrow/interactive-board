@@ -6,11 +6,15 @@
           <div class="col-5">
             <div class="header">
               <ul class="">
-                <li>
-                  <router-link to="/registration" v-if="!this.$store.state.isUserLoggedIn">Регистрация</router-link>
+                <li class="mb-4">
+                  <router-link to="/registration" v-if="!this.$store.state.isUserLoggedIn">
+                    <font-awesome-icon icon="user-plus" class="icon" title="Регистрация"></font-awesome-icon>
+                  </router-link>
                 </li>
                 <li>
-                  <router-link to="/login" v-if="!this.$store.state.isUserLoggedIn">Войти</router-link>
+                  <router-link to="/login" v-if="!this.$store.state.isUserLoggedIn">
+                    <font-awesome-icon icon="sign-in-alt" class="icon" title="Войти"></font-awesome-icon>
+                  </router-link>
                 </li>
               </ul>
             </div>
@@ -69,7 +73,7 @@
               </div>
               <div class="vertical-line"></div>
               <div class="activity__title">
-                Сохраняй текстовые файлы
+                Добавляй текст
               </div>
               <div class="activity__desc">
                 Пишешь книги? Или стихи? Возможно у тебя есть готовый сценарий для фильма? Сохраняй на доске свои
@@ -139,7 +143,8 @@
           <div class="col-5">
             <div class="section-description">
               В первую очередь это платформа для творчества совершенно разного направления. Ты можешь компоновать и
-              совершенно оригинально оформлять свои творения. Можешь показать свою доску друзьям или оставить её приватной.
+              совершенно оригинально оформлять свои творения. Можешь показать свою доску друзьям или оставить её
+              приватной.
             </div>
           </div>
         </div>
@@ -156,11 +161,23 @@
 </template>
 
 <script>
+  import { UserPlus } from '@fortawesome/free-solid-svg-icons'
+
   export default {
-    name: 'MainPage'
+    name: 'MainPage',
   }
 </script>
 
 <style lang="scss" scoped>
   @import "../../styles/partials/main-page";
+
+  .icon {
+    @include transition(0.3s);
+    font-size: $title;
+    color: $gray-color--dark;
+
+    &:hover {
+      color: $gray-color;
+    }
+  }
 </style>

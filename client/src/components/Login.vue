@@ -1,21 +1,23 @@
 <template>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-2">
-        <button v-on:click="isVisible = !isVisible">Войти</button>
+  <div class="bg">
+    <div class="container padding">
+      <div class="row justify-content-center">
+        <div class="col-3 text-center">
+          <h2>Войти в аккаунт</h2>
+        </div>
       </div>
-    </div>
-    <div v-if="isVisible" class="row justify-content-center">
-      <div class="col-6">
-        <form class="form">
-          <div class="form-group">
-            <input type="text" placeholder="Username" class="form__input" v-model="username" required>
-          </div>
-          <div class="form-group">
-            <input type="password" placeholder="Пароль" class="form__input" v-model="password" required>
-          </div>
-          <button v-on:click="login">Подтвердить</button>
-        </form>
+      <div class="row justify-content-center">
+        <div class="col-5 text-center">
+          <form class="form">
+            <div class="form-group">
+              <input type="text" placeholder="Username" class="form__input" v-model="username" required>
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Пароль" class="form__input" v-model="password" required>
+            </div>
+            <button v-on:click="login">Подтвердить</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -55,5 +57,12 @@
 
 <style lang="scss" scoped>
   @import "../styles/components/register";
+
+  .padding {
+    padding-top: 12%;
+    padding-bottom: 17%;
+  }
+
+
 
 </style>

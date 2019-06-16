@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-5 text-center">
-          <div class="">
+          <div>
             <div class="">
               <a>
                 <img class="icon" title="Изменить профиль" src="@/assets/icons/026-setting.png" alt='Settings'
@@ -23,11 +23,13 @@
               </div>
             </div>
           </div>
-
-
         </div>
-        <div class="col-6">
-
+        <div class="col-6 align-self-center">
+            <div class="user-info">
+              <div class="user-info__desc">
+                {{description}}
+              </div>
+            </div>
         </div>
       </div>
       <div class="row">
@@ -51,6 +53,9 @@
               <!--</div>-->
               <div class="board__name" v-on:click="navigateTo({name: 'Board', params: {id: user._id, idb: board._id}})">
                 {{board.name}}
+              </div>
+              <div class="board__image">
+                <img src="../../assets/images/board.png" alt="board-image">
               </div>
               <div class="d-flex justify-content-around">
                 <div class="board__public">

@@ -29,8 +29,7 @@ router.get('/', function(req, res) {
 router.post('/registration', function (req, res) {
     let userData = {
         username: req.body.username,
-        firstName: req.body.firstName || "",
-        lastName: req.body.lastName || "",
+        fullName: req.body.fullName || "",
         email: req.body.email,
         password: req.body.password
     };

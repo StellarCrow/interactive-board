@@ -58,7 +58,6 @@ function uploadToS3(file, board, type) {
                             resolve(-1);
                         }
                         if (image) {
-                            console.log("IM IN PROMISE. id = " + image._id);
                             resolve(image);
                         }
                         else resolve(-1);
@@ -73,7 +72,6 @@ function uploadToS3(file, board, type) {
                             resolve(-1);
                         }
                         if (audio) {
-                            console.log("IM IN PROMISE. id = " + audio._id);
                             resolve(audio);
                         }
                         else resolve(-1);
@@ -144,7 +142,7 @@ router.post('/:id/createManyNotes', function (req, res, next) {
             Media.create({
                 type: note._id,
                 board: bid,
-                coordinates: [i * 4, 0]
+                coordinates: [i * 4, 50]
             }, function (err, media) {
                 if (err) return next(err);
                 Note.findOneAndUpdate({_id: note._id}, {
@@ -351,17 +349,22 @@ router.get('/:id/getData', function (req, res, next) {
     let audiosArray = [];
     let data = {};
 
-    Board.findOne({_id: bid}, function (err, board) {
-        if (err) return next(err);
-        if (board) {
-            data.bname = board.name;
-            data.is_public = board.is_public;
-            data.background = board.background;
-        }
-        else {
-            return res.send({board: null});
-        }
+    let boardData = new Promise(resolve => {
+        Board.findOne({_id: bid}).populate('author').exec(function (err, board) {
+            if (err) return next(err);
+            if (board) {
+                data.bname = board.name;
+                data.is_public = board.is_public;
+                data.background = board.background;
+                data.author = board.author.username;
+                resolve(data);
+            }
+            else {
+                return res.send({board: null});
+            }
+        });
     });
+
 
     let findNotes = new Promise((resolve => {
         Board.findOne({_id: bid}, async function (err, board) {
@@ -482,10 +485,10 @@ router.get('/:id/getData', function (req, res, next) {
         });
     });
 
-    return Promise.all([findNotes, findImages, findAudios])
+    return Promise.all([findNotes, findImages, findAudios, boardData])
         .then(array => {
             console.log(array[2]);
-            return res.send({notesArray: array[0], imagesArray: array[1], audiosArray: array[2], board: data});
+            return res.send({notesArray: array[0], imagesArray: array[1], audiosArray: array[2], board: array[3]});
         });
 });
 
@@ -578,11 +581,11 @@ router.post('/createImage', function (req, res, next) {
     }, function (err, media) {
         if (err) return next(err);
         if (media) {
-            Board.findOne({_id: bid}, function (err, board) {
+            Board.findOne({_id: bid}, async function (err, board) {
                 if (err) return next(err);
                 if (board) {
                     board.images.push(media);
-                    board.save(function (err) {
+                    await board.save(function (err) {
                         if (err) return next(err);
                     });
                 }

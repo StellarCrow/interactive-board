@@ -4,7 +4,6 @@
   padding: 2% 0;
 }
 
-
 .user-info {
   &__avatar img {
     @include border-radius(50%);
@@ -12,9 +11,16 @@
     width: 30%;
     height: auto;
   }
+
+  &__desc {
+    font-size: $subtitle;
+    font-weight: $light;
+    font-style: italic;
+
+    padding: 5% 5%;
+    border-left: 3px dashed #000;
+  }
 }
-
-
 
 //.board {
 //  @include border-radius(0.5em);
@@ -59,9 +65,9 @@
   background-color: #fff;
   padding: 1% 2%;
   width: 25%;
-  -webkit-box-shadow: 0px -2px 9px -1px rgba(0,0,0,0.21);
-  -moz-box-shadow: 0px -2px 9px -1px rgba(0,0,0,0.21);
-  box-shadow: 0px -2px 9px -1px rgba(0,0,0,0.21);
+  -webkit-box-shadow: 0px -2px 9px -1px rgba(0, 0, 0, 0.21);
+  -moz-box-shadow: 0px -2px 9px -1px rgba(0, 0, 0, 0.21);
+  box-shadow: 0px -2px 9px -1px rgba(0, 0, 0, 0.21);
 
   margin-left: 2%;
 
@@ -80,14 +86,29 @@
   &__name {
     font-weight: $medium;
     font-size: $subtitle;
+    margin-bottom: 1em;
     &:hover {
       cursor: pointer;
     }
   }
 
-  &__public {
-    width: 50%;
-    height: auto;
+  &__image {
+    margin-bottom: 1em;
+    img {
+      width: 100%;
+      height: auto;
+    }
   }
+
+
+  &__public {
+    width: auto;
+    height: 10%;
+  }
+}
+
+.icon {
+  width: 2vw;
+  height: auto;
 }
 

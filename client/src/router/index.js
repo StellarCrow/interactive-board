@@ -32,7 +32,7 @@ export default new Router({
       path: '/users/:id',
       name: 'UserPage',
       component: UserPage,
-      meta: {requiresAuth: true}
+      //meta: {requiresAuth: true}
     },
     {
       path: '/users/:id/board/:idb',

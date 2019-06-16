@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light navbar-color">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-color">
     <a class="navbar-brand" v-on:click="navigateTo({name: 'MainPage'})">Home</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -15,10 +15,10 @@
           <a class="nav-link" @click="navigateTo({path: '/users/'})">Чужие доски</a>
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
+      <!--<form class="form-inline my-2 my-lg-0">-->
+        <!--<input class="form-control mr-sm-2" type="search" placeholder="Search">-->
+        <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+      <!--</form>-->
       <button class="btn btn-outline-success my-2 my-sm-0 ml-5" v-on:click="logout">Выйти</button>
     </div>
   </nav>
@@ -46,6 +46,6 @@
   @import "../styles/basics/base";
 
   .navbar-color {
-    background-color: $tertiary-color--light;
+    //background-color: $tertiary-color--light;
   }
 </style>
