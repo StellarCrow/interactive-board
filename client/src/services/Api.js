@@ -1,7 +1,8 @@
 import axios from 'axios'
+const url = 'https://interactive-board.herokuapp.com/';
 
 export default () => {
   return axios.create({
-    baseURL: `http://localhost:8081`
+    baseURL: url
   })
 }

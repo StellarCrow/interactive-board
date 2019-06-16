@@ -6,6 +6,7 @@ const busboy = require('connect-busboy');
 const busboyBodyParser = require('busboy-body-parser');
 const cors = require('cors');
 const createError = require('http-errors');
+const path = require('path');
 // const history = require('connect-history-api-fallback');
 
 let indexRouter = require('../routes/index');
@@ -21,6 +22,8 @@ app.use(busboyBodyParser());
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(express.static(path.join(__dirname, '../../client/dist')));
+
 app.use(async (req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
@@ -28,17 +31,11 @@ app.use(async (req, res, next) => {
     next();
 });
 
-// const staticFileMiddleware = express.static('./client/index.html');
-// app.use(staticFileMiddleware);
-// app.use(history({
-//     disableDotRule: true,
-//     verbose: true
-// }));
-// app.use(staticFileMiddleware);
-
 app.use('/', indexRouter);
 app.use('/users/', usersRouter);
 app.use('/boards/', boardsRouter);
+
+
 
 
 

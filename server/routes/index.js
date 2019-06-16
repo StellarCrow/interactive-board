@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-mongoose.connect('mongodb://localhost:27017/test-board',  { useNewUrlParser: true });
+mongoose.connect('mongodb://interactive:board2425@ds137857.mlab.com:37857/interactive-board-db',  { useNewUrlParser: true });
 
 console.log(mongoose.connection.readyState);
 
