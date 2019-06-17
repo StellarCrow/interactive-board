@@ -12,11 +12,14 @@ let Audio = require('../models/Audio');
 let Media = require('../models/Media');
 let Board = require('../models/Board');
 
-const config = require('../config/config');
+// const config = require('../config/config');
 
 const BUCKET_NAME = 'interactive-board';
-const IAM_USER_KEY = config.iamUser;
-const IAM_USER_SECRET = config.iamSecret;
+const IAM_USER_KEY =  process.env.IAM_USER;
+const IAM_USER_SECRET =  process.env.IAM_SECRET;
+
+// const IAM_USER_KEY = config.iamUser;
+// const IAM_USER_SECRET = config.iamSecret;
 
 function uploadToS3(file, board, type) {
     let params;
