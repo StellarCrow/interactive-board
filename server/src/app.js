@@ -55,11 +55,13 @@ app.use(function(err, req, res) {
 });
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../../client/dist')));
+
+    app.get(/.*/, function (req, res) {
+        res.sendFile(__dirname + '../../client/dist/index.html');
+    });
 }
 
-app.get('*', function (req, res) {
-    res.sendFile(__dirname + '../../client/dist/index.html');
-});
+
 
 app.listen(process.env.PORT || 8081);
 
