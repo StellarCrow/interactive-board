@@ -15,7 +15,7 @@ let boardsRouter = require('../routes/boards');
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(busboy());
 app.use(busboyBodyParser());
 
@@ -35,16 +35,13 @@ app.use('/users/', usersRouter);
 app.use('/boards/', boardsRouter);
 
 
-
-
-
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res) {
+app.use(function (err, req, res) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -54,14 +51,12 @@ app.use(function(err, req, res) {
     res.render('error');
 });
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../../client/dist/')));
 
-    app.get(/.*/, function (req, res) {
-        res.sendFile(__dirname + '../../client/dist/index.html');
-    });
-}
+app.use(express.static(path.join(__dirname, '../../client/dist/')));
 
+app.get(/.*/, function (req, res) {
+    res.sendFile(__dirname + '../../client/dist/index.html');
+});
 
 
 app.listen(process.env.PORT || 8081);
