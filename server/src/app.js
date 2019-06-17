@@ -55,6 +55,9 @@ app.use(function(err, req, res) {
 });
 
 app.use(express.static(path.join(__dirname, '../../client/dist')));
+app.get(/.*/, function (req, res) {
+    res.sendFile(__dirname + '../../client/dist/index.html');
+});
 
 app.listen(process.env.PORT || 8081);
 
