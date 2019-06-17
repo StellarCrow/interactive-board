@@ -22,7 +22,6 @@ app.use(busboyBodyParser());
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, '../../client/dist')));
 
 app.use(async (req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -54,6 +53,8 @@ app.use(function(err, req, res) {
     res.status(err.status || 500);
     res.render('error');
 });
+
+app.use(express.static(path.join(__dirname, '../../client/dist')));
 
 app.listen(process.env.PORT || 8081);
 
