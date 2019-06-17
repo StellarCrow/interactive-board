@@ -89,23 +89,23 @@
 
 <script>
   export default {
-    name: "ImageModal",
-    data() {
+    name: 'ImageModal',
+    data () {
       return {
-        name: "Название",
-        imageType: "simple",
+        name: 'Название',
+        imageType: 'simple',
         image: null,
         colorFrame: "#fff",
         colors: [
-          {id: "12", color: "white", num: "#fff"},
-          {id: "13", color: "red", num: "#ffa1a1"},
-          {id: "14", color: "pink", num: "#ffaad5"},
-          {id: "15", color: "orange", num: "#fff2b3"},
-          {id: "16", color: "green", num: "#d6ffca"},
-          {id: "17", color: "blue", num: "#b3ecff"}
+          {id: '12', color: 'white', num: '#fff'},
+          {id: '13', color: 'red', num: '#ffa1a1'},
+          {id: '14', color: 'pink', num: '#ffaad5'},
+          {id: '15', color: 'orange', num: '#fff2b3'},
+          {id: '16', color: 'green', num: '#d6ffca'},
+          {id: '17', color: 'blue', num: '#b3ecff'}
         ],
-        uploadFileName: "photo",
-        errorText: "",
+        uploadFileName: 'photo',
+        errorText: '',
         errorDialog: null,
         maxSize: 5120,
         imageFile: null
@@ -113,21 +113,21 @@
     },
     props: {
       // Use "value" here to enable compatibility with v-model
-      value: Object,
+      value: Object
     },
     methods: {
-      reset() {
+      reset () {
         // reset form to initial state
-        this.errorText = "";
-        this.imageFile = null;
-        this.errorDialog = null;
-        this.image = null;
+        this.errorText = ""
+        this.imageFile = null
+        this.errorDialog = null
+        this.image = null
       },
-      close: function() {
+      close: function () {
         this.$emit('close', {
           imageModal: false,
           imageFile: null
-        });
+        })
       },
       save: function () {
         this.$emit('close', {
@@ -136,32 +136,32 @@
           imageType: this.imageType,
           color: this.colorFrame,
           name: this.name
-        });
+        })
       },
-      onFileChange(file) {
-        const {maxSize} = this;
-        let imageFile = file[0];
+      onFileChange (file) {
+        const {maxSize} = this
+        let imageFile = file[0]
 
-        //check if user actually selected a file
+        // check if user actually selected a file
         if (file.length > 0) {
-          let size = imageFile.size / maxSize / maxSize;
+          let size = imageFile.size / maxSize / maxSize
           if (size > 1) {
             // check whether the size is greater than the size limit
-            this.errorDialog = true;
+            this.errorDialog = true
             this.errorText = 'Your file is too big! Please select an image under 5MB'
           } else {
-            //turn file into image URL
-            console.log(imageFile);
+            // turn file into image URL
+            console.log(imageFile)
 
-            let imageURL = URL.createObjectURL(imageFile);
-            this.imageFile = imageFile;
-            this.image = imageURL;
+            let imageURL = URL.createObjectURL(imageFile)
+            this.imageFile = imageFile
+            this.image = imageURL
           }
         }
       }
     },
-    mounted() {
-      this.reset();
+    mounted () {
+      this.reset()
     }
   }
 </script>

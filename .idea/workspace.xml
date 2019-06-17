@@ -3,6 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="4b0d440c-3c7b-4351-8426-193d2cdfafe3" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/client/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/.eslintrc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AudioModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AudioModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Board.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Board.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/ImageFull.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/ImageFull.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/ImageModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/ImageModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/NoteModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/NoteModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Register.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Toolbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Toolbar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UsersList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UsersList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/pages/MainPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/MainPage.vue" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -16,49 +26,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MainPage.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/components/pages/MainPage.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
-              <caret line="174" column="30" selection-start-line="174" selection-start-column="30" selection-end-line="174" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Register.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/components/Register.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="26" column="18" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="18" />
+            <state relative-caret-position="705">
+              <caret line="72" column="48" lean-forward="true" selection-start-line="72" selection-start-column="48" selection-end-line="72" selection-end-column="48" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/main.js">
+      <file leaf-file-name="AudioModal.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/src/components/AudioModal.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="16" column="37" selection-start-line="16" selection-start-column="37" selection-end-line="16" selection-end-column="37" />
-              <folding>
-                <element signature="e#140#161#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="153">
+              <caret line="105" column="38" lean-forward="true" selection-start-line="105" selection-start-column="38" selection-end-line="105" selection-end-column="38" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/routes/index.js">
+      <file leaf-file-name="ImageFull.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/src/components/ImageFull.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="49" selection-start-line="6" selection-start-column="49" selection-end-line="6" selection-end-column="49" />
+            <state relative-caret-position="255">
+              <caret line="24" column="10" lean-forward="true" selection-start-line="24" selection-start-column="10" selection-end-line="24" selection-end-column="10" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="webpack.prod.conf.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/build/webpack.prod.conf.js">
+      <file leaf-file-name="NoteModal.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/src/components/NoteModal.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2270" />
+            <state relative-caret-position="136">
+              <caret line="76" column="22" lean-forward="true" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
+            </state>
           </provider>
         </entry>
       </file>
@@ -66,10 +66,7 @@
         <entry file="file://$PROJECT_DIR$/client/.eslintrc.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="195">
-              <caret line="30" column="36" lean-forward="true" selection-start-line="30" selection-start-column="36" selection-end-line="30" selection-end-column="36" />
-              <folding>
-                <marker date="1560764040961" expanded="true" signature="911:981" ph="..." />
-              </folding>
+              <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -120,10 +117,6 @@
         <option value="$PROJECT_DIR$/server/models/Audio.js" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/client/src/components/js/images.js" />
-        <option value="$PROJECT_DIR$/client/src/components/AudioModal.vue" />
-        <option value="$PROJECT_DIR$/client/src/components/ImageModal.vue" />
-        <option value="$PROJECT_DIR$/client/src/components/ImageFull.vue" />
-        <option value="$PROJECT_DIR$/client/src/components/NoteModal.vue" />
         <option value="$PROJECT_DIR$/client/src/App.vue" />
         <option value="$PROJECT_DIR$/client/src/styles/components/_userSetitings.js" />
         <option value="$PROJECT_DIR$/client/src/styles/setup/_variables.scss" />
@@ -135,19 +128,14 @@
         <option value="$PROJECT_DIR$/client/src/styles/components/_userList.scss" />
         <option value="$PROJECT_DIR$/client/src/services/BoardService.js" />
         <option value="$PROJECT_DIR$/server/models/Board.js" />
-        <option value="$PROJECT_DIR$/client/src/components/UsersList.vue" />
         <option value="$PROJECT_DIR$/client/src/styles/components/_board.scss" />
-        <option value="$PROJECT_DIR$/client/src/components/Toolbar.vue" />
-        <option value="$PROJECT_DIR$/client/src/components/Login.vue" />
         <option value="$PROJECT_DIR$/client/src/styles/components/_register.scss" />
         <option value="$PROJECT_DIR$/client/src/styles/basics/_base.scss" />
         <option value="$PROJECT_DIR$/client/src/styles/partials/_user-page.scss" />
         <option value="$PROJECT_DIR$/client/src/components/pages/UserPage.vue" />
-        <option value="$PROJECT_DIR$/client/src/components/Board.vue" />
         <option value="$PROJECT_DIR$/server/routes/boards.js" />
         <option value="$PROJECT_DIR$/client/src/router/index.js" />
         <option value="$PROJECT_DIR$/client/src/main.js" />
-        <option value="$PROJECT_DIR$/client/src/components/pages/MainPage.vue" />
         <option value="$PROJECT_DIR$/server/routes/index.js" />
         <option value="$PROJECT_DIR$/client/dist/index.html" />
         <option value="$PROJECT_DIR$/client/vue.config.js" />
@@ -155,7 +143,16 @@
         <option value="$PROJECT_DIR$/server/src/app.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/client/package.json" />
+        <option value="$PROJECT_DIR$/client/src/components/pages/MainPage.vue" />
+        <option value="$PROJECT_DIR$/client/src/components/Login.vue" />
+        <option value="$PROJECT_DIR$/client/src/components/AudioModal.vue" />
+        <option value="$PROJECT_DIR$/client/src/components/ImageFull.vue" />
+        <option value="$PROJECT_DIR$/client/src/components/NoteModal.vue" />
         <option value="$PROJECT_DIR$/client/src/components/Register.vue" />
+        <option value="$PROJECT_DIR$/client/src/components/Toolbar.vue" />
+        <option value="$PROJECT_DIR$/client/src/components/UsersList.vue" />
+        <option value="$PROJECT_DIR$/client/src/components/ImageModal.vue" />
+        <option value="$PROJECT_DIR$/client/src/components/Board.vue" />
         <option value="$PROJECT_DIR$/client/.eslintrc.js" />
       </list>
     </option>
@@ -337,25 +334,25 @@
       <workItem from="1560372943781" duration="1167000" />
       <workItem from="1560498756112" duration="2054000" />
       <workItem from="1560680065805" duration="14174000" />
-      <workItem from="1560759110680" duration="3016000" />
+      <workItem from="1560759110680" duration="4655000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="543701000" />
+    <option name="totallyTimeSpent" value="545340000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13895394" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13895394" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.12724434" side_tool="true" weight="0.33333334" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.0" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.87275565" visible="true" weight="0.290378" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.87275565" visible="true" weight="0.31786942" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.7798595" weight="0.33848798" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -390,21 +387,10 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/client/test/unit/specs/HelloWorld.spec.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/HelloWorld.vue" />
     <entry file="file://$PROJECT_DIR$/client/src/styles/global.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/ImageModal.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="14" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
         </state>
       </provider>
     </entry>
@@ -493,24 +479,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/UsersList.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="24" lean-forward="true" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/styles/components/_board.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4097">
           <caret line="241" column="23" selection-start-line="241" selection-start-column="23" selection-end-line="241" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/Toolbar.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="59" selection-start-line="1" selection-start-column="59" selection-end-line="1" selection-end-column="59" />
         </state>
       </provider>
     </entry>
@@ -560,20 +532,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="86" column="1" lean-forward="true" selection-start-line="86" selection-start-column="1" selection-end-line="86" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/Board.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1156">
-          <caret line="310" column="10" lean-forward="true" selection-start-line="310" selection-start-column="10" selection-end-line="310" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/NoteModal.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="51" column="47" selection-start-line="51" selection-start-column="41" selection-end-line="51" selection-end-column="47" />
+          <folding>
+            <element signature="n#!!block;n#uploadToS3#0" />
+            <element signature="n#!!block;n#deleteFromS3#0" />
+            <element signature="n#!!block;n#parseUrl#0" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -581,13 +544,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/Login.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="65" selection-start-line="65" selection-end-line="65" />
+          <folding>
+            <marker date="1560246731044" expanded="true" signature="576:683" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -690,25 +649,81 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/components/pages/MainPage.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="174" column="30" selection-start-line="174" selection-start-column="30" selection-end-line="174" selection-end-column="30" />
+        <state relative-caret-position="17">
+          <caret line="165" column="20" lean-forward="true" selection-start-line="165" selection-start-column="20" selection-end-line="165" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/Login.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="50" column="48" lean-forward="true" selection-start-line="50" selection-start-column="48" selection-end-line="50" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/AudioModal.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="105" column="38" lean-forward="true" selection-start-line="105" selection-start-column="38" selection-end-line="105" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/ImageFull.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="24" column="10" lean-forward="true" selection-start-line="24" selection-start-column="10" selection-end-line="24" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/NoteModal.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="76" column="22" lean-forward="true" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/Board.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="376" column="40" lean-forward="true" selection-start-line="376" selection-start-column="40" selection-end-line="376" selection-end-column="40" />
+          <folding>
+            <element signature="e#4377#4412#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/ImageModal.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="162" column="12" selection-start-line="162" selection-start-column="12" selection-end-line="162" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/UsersList.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-93">
+          <caret line="34" column="53" lean-forward="true" selection-start-line="34" selection-start-column="53" selection-end-line="34" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/Toolbar.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="31" column="32" lean-forward="true" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/components/Register.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="26" column="18" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="18" />
+        <state relative-caret-position="705">
+          <caret line="72" column="48" lean-forward="true" selection-start-line="72" selection-start-column="48" selection-end-line="72" selection-end-column="48" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/.eslintrc.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
-          <caret line="30" column="36" lean-forward="true" selection-start-line="30" selection-start-column="36" selection-end-line="30" selection-end-column="36" />
-          <folding>
-            <marker date="1560764040961" expanded="true" signature="911:981" ph="..." />
-          </folding>
+          <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
         </state>
       </provider>
     </entry>

@@ -32,22 +32,22 @@
 </template>
 
 <script>
-  import BoardService from "../services/BoardService";
+  import BoardService from '../services/BoardService'
   export default {
-    name: "UsersList",
-    data() {
+    name: 'UsersList',
+    data () {
       return {
         boards: []
       }
     },
     methods: {
-      navigateTo(router) {
+      navigateTo (router) {
         this.$router.push(router)
       }
     },
-    async mounted() {
-      let boards = await BoardService.getPublicBoards();
-      this.boards = boards.data.boards;
+    async mounted () {
+      let boards = await BoardService.getPublicBoards()
+      this.boards = boards.data.boards
     }
 
   }

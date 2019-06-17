@@ -16,13 +16,13 @@
 
 <script>
   export default {
-    name: "ImageFull",
+    name: 'ImageFull',
     props: ['link'],
     methods: {
-      close() {
+      close () {
         this.$emit('close', {
           imageFull: false
-        });
+        })
       }
     }
   }

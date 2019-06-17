@@ -26,14 +26,14 @@
 
 <script>
   export default {
-    name: "Toolbar",
+    name: 'Toolbar',
     methods: {
-      navigateTo(route) {
-        this.$router.push(route);
+      navigateTo (route) {
+        this.$router.push(route)
       },
-      logout() {
-            this.$store.commit('setToken', null);
-            this.$store.commit('setUser', null);
+      logout () {
+            this.$store.commit('setToken', null)
+            this.$store.commit('setUser', null)
             this.$router.push({
               name: 'MainPage'
             })

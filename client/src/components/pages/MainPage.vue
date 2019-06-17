@@ -161,10 +161,9 @@
 </template>
 
 <script>
-  import { UserPlus } from '@fortawesome/free-solid-svg-icons'
 
   export default {
-    name: 'MainPage',
+    name: 'MainPage'
   }
 </script>
 

@@ -76,20 +76,20 @@
 
 <script>
     export default {
-        name: "AudioModal",
+        name: 'AudioModal',
       data() {
-          return  {
+          return {
             audioFile: null,
             audioType: 'icon-green',
             name: 'Название'
           }
       },
       methods: {
-        close: function() {
+        close: function () {
           this.$emit('close', {
             imageModal: false,
             audioFile: null
-          });
+          })
         },
         save: function () {
           this.$emit('close', {
@@ -97,13 +97,13 @@
             audioFile: this.audioFile,
             audioType: this.audioType,
             name: this.name
-          });
+          })
         },
-        onFileChange(file) {
-          let audioFile = file[0];
+        onFileChange (file) {
+          let audioFile = file[0]
 
-          if(file.length > 0) {
-            this.audioFile = audioFile;
+          if (file.length > 0) {
+            this.audioFile = audioFile
           }
         }
       }

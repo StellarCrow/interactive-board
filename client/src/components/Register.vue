@@ -42,8 +42,8 @@
   import AuthenticationService from '../services/AuthenticationService'
 
   export default {
-    name: "Register",
-    data() {
+    name: 'Register',
+    data () {
       return {
         username: '',
         email: '',
@@ -58,7 +58,7 @@
       }
     },
     methods: {
-      async register() {
+      async register () {
         try {
           const response = await AuthenticationService.register({
             email: this.email,
@@ -66,11 +66,11 @@
             password: this.password,
             fullName: this.fullName
           });
-          this.$store.commit('setToken', response.data.token);
-          this.$store.commit('setUser', response.data.user);
-          this.$router.push({path: `/users/${response.data.user._id}`});
+          this.$store.commit('setToken', response.data.token)
+          this.$store.commit('setUser', response.data.user)
+          this.$router.push({path: `/users/${response.data.user._id}`})
         } catch (error) {
-          this.error = error.response.data.error;
+          this.error = error.response.data.error
         }
       }
     },

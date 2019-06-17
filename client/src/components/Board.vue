@@ -100,30 +100,31 @@
   import ImageModal from './ImageModal'
   import AudioModal from './AudioModal'
   import ImageFull from './ImageFull'
-  import BoardService from "../services/BoardService"
+  import BoardService from '../services/BoardService'
 
-  const imagePink = require("../assets/icons/music-icon-pink.png");
-  const imageGreen = require("../assets/icons/music-icon-green.png");
-  const imageYellow = require("../assets/icons/music-icon-yellow.png");
-  const notePinIcon = require("../assets/icons/note-pin-icon.png");
-  const settings = require("../assets/icons/026-setting.png");
+  const imagePink = require('../assets/icons/music-icon-pink.png')
+  const imageGreen = require('../assets/icons/music-icon-green.png')
+  const imageYellow = require('../assets/icons/music-icon-yellow.png')
+  const notePinIcon = require('../assets/icons/note-pin-icon.png')
+  const settings = require('../assets/icons/026-setting.png')
 
-  let width = window.innerWidth;
-  let height = window.innerHeight;
+  let width = window.innerWidth
+  let height = window.innerHeight
+
   export default {
-    name: "Board",
+    name: 'Board',
     components: {NoteModal, ImageModal, AudioModal, ImageFull},
-    data() {
+    data () {
       return {
         bname: 'Без названия',
-        colorStage: "#fcfcfc",
+        colorStage: '#fcfcfc',
         colorsStage: [
-          {id: "6", color: "white", num: "#fcfcfc"},
-          {id: "7", color: "black", num: "#d0d0d0"},
-          {id: "8", color: "green", num: "#d4fff5"},
-          {id: "9", color: "pink", num: "#ffdbea"},
-          {id: "10", color: "orange", num: "#ffe6c8"},
-          {id: "11", color: "blue", num: "#d9f6ff"}
+          {id: '6', color: 'white', num: '#fcfcfc'},
+          {id: '7', color: 'black', num: '#d0d0d0'},
+          {id: '8', color: 'green', num: '#d4fff5'},
+          {id: '9', color: 'pink', num: '#ffdbea'},
+          {id: '10', color: 'orange', num: '#ffe6c8'},
+          {id: '11', color: 'blue', num: '#d9f6ff'}
         ],
         author: '',
         is_public: false,
@@ -133,7 +134,7 @@
         noteModal: false,
         imageFullFile: '',
         filter: 'all',
-        savedMessage: "",
+        savedMessage: '',
         notes: [],
         images: [],
         audios: [],
@@ -155,35 +156,35 @@
       }
     },
     created: function () {
-      window.addEventListener('resize', this.changeRect);
-      this.changeRect();
+      window.addEventListener('resize', this.changeRect)
+      this.changeRect()
     },
     methods: {
-      toUserPage() {
-        this.$router.push({path: '/users/' + this.$store.state.route.params.id});
+      toUserPage () {
+        this.$router.push({path: '/users/' + this.$store.state.route.params.id})
       },
-      async saveBoard() {
-        let notesUpdated = [];
-        let imagesUpdated = [];
-        let audiosUpdated = [];
-        const id = this.$store.state.route.params.idb;
+      async saveBoard () {
+        let notesUpdated = []
+        let imagesUpdated = []
+        let audiosUpdated = []
+        const id = this.$store.state.route.params.idb
 
         this.notes.forEach(function (note) {
-          let updatedNote = {};
-          updatedNote.coordinates = [note.children[0].getAbsolutePosition().x, note.children[0].getAbsolutePosition().y];
-          updatedNote.rotation = note.rotation();
-          updatedNote.scale = [note.scaleX(), note.scaleY()];
-          updatedNote.id = note.id();
-          notesUpdated.push(updatedNote);
-        });
+          let updatedNote = {}
+          updatedNote.coordinates = [note.children[0].getAbsolutePosition().x, note.children[0].getAbsolutePosition().y]
+          updatedNote.rotation = note.rotation()
+          updatedNote.scale = [note.scaleX(), note.scaleY()]
+          updatedNote.id = note.id()
+          notesUpdated.push(updatedNote)
+        })
 
         this.images.forEach(function (image) {
-          let updatedImage = {};
-          updatedImage.coordinates = [image.children[0].getAbsolutePosition().x, image.children[0].getAbsolutePosition().y];
-          updatedImage.id = image.id();
-          updatedImage.rotation = image.rotation();
-          updatedImage.scale = [image.scaleX(), image.scaleY()];
-          imagesUpdated.push(updatedImage);
+          let updatedImage = {}
+          updatedImage.coordinates = [image.children[0].getAbsolutePosition().x, image.children[0].getAbsolutePosition().y]
+          updatedImage.id = image.id()
+          updatedImage.rotation = image.rotation()
+          updatedImage.scale = [image.scaleX(), image.scaleY()]
+          imagesUpdated.push(updatedImage)
         });
 
         this.audios.forEach(function (audio) {
@@ -191,9 +192,9 @@
             coordinates: [audio.children[0].getAbsolutePosition().x, audio.children[0].getAbsolutePosition().y],
             id: audio.id(),
             rotation: audio.rotation(),
-            scale: [audio.scaleX(), audio.scaleY()],
-          };
-          audiosUpdated.push(updatedAudio);
+            scale: [audio.scaleX(), audio.scaleY()]
+          }
+          audiosUpdated.push(updatedAudio)
         });
 
         let data = {
@@ -204,39 +205,38 @@
           notes: notesUpdated,
           images: imagesUpdated,
           audios: audiosUpdated
-        };
+        }
 
-        const response = await BoardService.saveBoard(data);
-        console.log(response.data);
-        this.savedMessage = "Сохранено " + this.getCurrentDate();
+        const response = await BoardService.saveBoard(data)
+        console.log(response.data)
+        this.savedMessage = 'Сохранено ' + this.getCurrentDate()
       },
-      getCurrentDate() {
-        let date = new Date();
-        let yyyy = date.getFullYear();
-        let mmm = date.getMonth() + 1;
-        let ddd = date.getDate();
-        let hh = date.getHours();
-        let mm = date.getMinutes();
-        let ss = date.getSeconds();
+      getCurrentDate () {
+        let date = new Date()
+        let yyyy = date.getFullYear()
+        let mmm = date.getMonth() + 1
+        let ddd = date.getDate()
+        let hh = date.getHours()
+        let mm = date.getMinutes()
+        let ss = date.getSeconds()
 
         return `${ddd}/${mmm}/${yyyy} ${hh}:${mm}:${ss}`
       },
-      changeRect() {
-        const container = this.$refs.container;
-        if (!container)
-          return;
+      changeRect () {
+        const container = this.$refs.container
+        if (!container) return
 
-        const height = container.offsetHeight;
-        const width = container.offsetWidth;
+        const height = container.offsetHeight
+        const width = container.offsetWidth
 
-        this.stageSize.width = width;
-        this.stageSize.height = height;
+        this.stageSize.width = width
+        this.stageSize.height = height
       },
-      async noteDataFromModal(data) {
-        this.noteModal = data.noteModal;
-        if (data.text === "") return;
+      async noteDataFromModal (data) {
+        this.noteModal = data.noteModal
+        if (data.text === "") return
 
-        const id = this.$store.state.route.params.idb;
+        const id = this.$store.state.route.params.idb
         const newNote = await BoardService.createNote({
           boardId: id,
           text: data.text,
@@ -244,8 +244,8 @@
           coordinates: [20, 20],
           rotation: 0,
           scale: [1, 1]
-        });
-        console.log(newNote.data);
+        })
+        console.log(newNote.data)
         let noteData = {
           id: newNote.data.id,
           text: data.text,
@@ -253,33 +253,33 @@
           coordinates: [20, 20],
           rotation: 0,
           scale: [1, 1]
-        };
+        }
 
-        this.createNote(noteData);
+        this.createNote(noteData)
       },
-      async imageDataFromModal(data) {
-        this.imageModal = data.imageModal;
-        if (data.imageFile == null) return;
+      async imageDataFromModal (data) {
+        this.imageModal = data.imageModal
+        if (data.imageFile == null) return
 
-        const id = this.$store.state.route.params.idb;
-        let image = {};
+        const id = this.$store.state.route.params.idb
+        let image = {}
 
-        image.imageType = data.imageType;
-        image.color = data.color;
-        image.name = data.name;
-        image.coordinates = [40, 20];
-        image.rotation = 0;
-        image.scale = [1, 1];
+        image.imageType = data.imageType
+        image.color = data.color
+        image.name = data.name
+        image.coordinates = [40, 20]
+        image.rotation = 0
+        image.scale = [1, 1]
 
-        let formData = new FormData();
-        formData.append('photo', data.imageFile);
+        let formData = new FormData()
+        formData.append('photo', data.imageFile)
 
         await BoardService.uploadImage(formData, id)
           .then((response) => {
             if (response.data.imageId === -1) {
-              return console.log("imageId -1 " + response.data.imageId);
+              return console.log('imageId -1 ' + response.data.imageId)
             }
-            console.log("image ID " + response.data.imageId);
+            console.log('image ID ' + response.data.imageId)
             return BoardService.createImage({
               image: image,
               bid: id,
@@ -287,20 +287,20 @@
             })
           })
           .then((response) => {
-            console.log(response.data.imageLink);
-            image.link = response.data.imageLink;
-            image.id = response.data.media;
-          });
+            console.log(response.data.imageLink)
+            image.link = response.data.imageLink
+            image.id = response.data.media
+          })
 
-        this.createImage(image);
+        this.createImage(image)
       },
-      async audioDataFromModal(data) {
-        this.audioModal = data.audioModal;
-        if (data.audioFile === null) return;
+      async audioDataFromModal (data) {
+        this.audioModal = data.audioModal
+        if (data.audioFile === null) return
 
-        const id = this.$store.state.route.params.idb;
-        let formData = new FormData();
-        formData.append('audio', data.audioFile);
+        const id = this.$store.state.route.params.idb
+        let formData = new FormData()
+        formData.append('audio', data.audioFile)
 
         let audio = {
           audioType: data.audioType,
@@ -308,11 +308,11 @@
           coordinates: [60, 20],
           rotation: 0,
           scale: [1, 1]
-        };
+        }
 
         await BoardService.uploadAudio(formData, id)
           .then(response => {
-            if (response.data.audioId === -1) return;
+            if (response.data.audioId === -1) return
             return BoardService.createAudio({
               audio: audio,
               bid: id,
@@ -320,16 +320,16 @@
             })
           })
           .then((response) => {
-            console.log(response.data.audioLink);
-            audio.link = response.data.audioLink;
-            audio.id = response.data.media;
-          });
+            console.log(response.data.audioLink)
+            audio.link = response.data.audioLink
+            audio.id = response.data.media
+          })
 
-        this.createAudio(audio);
+        this.createAudio(audio)
       },
-      createAudio(data) {
-        let layer = this.stageLayer;
-        const stage = this.$refs.stage.getNode();
+      createAudio (data) {
+        let layer = this.stageLayer
+        const stage = this.$refs.stage.getNode()
 
         let group = new Konva.Group({
           x: data.coordinates[0],
@@ -343,18 +343,18 @@
           dragBoundFunc: function (pos) {
             let newY, newX;
             if (pos.y < -50) {
-              newY = -50;
+              newY = -50
             } else if (pos.y > stage.height()) {
               newY = stage.height()
             } else
-              newY = pos.y;
+              newY = pos.y
 
             if (pos.x < -50) {
-              newX = -50;
+              newX = -50
             } else if (pos.x > stage.width()) {
               newX = stage.width()
             } else
-              newX = pos.x;
+              newX = pos.x
 
             return {
               x: newX,
@@ -363,15 +363,15 @@
           }
         });
 
-        let imageObj = new Image();
+        let imageObj = new Image()
         if (data.audioType === 'icon-green') {
-          imageObj.src = imageGreen;
+          imageObj.src = imageGreen
         }
         else if (data.audioType === 'icon-pink') {
-          imageObj.src = imagePink;
+          imageObj.src = imagePink
         }
         else if (data.audioType === 'icon-yellow') {
-          imageObj.src = imageYellow;
+          imageObj.src = imageYellow
         }
 
         let audioRect = new Konva.Rect({

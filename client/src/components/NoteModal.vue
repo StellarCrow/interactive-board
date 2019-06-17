@@ -43,19 +43,19 @@
 
 <script>
   export default {
-    name: "NoteModal",
-    data() {
+    name: 'NoteModal',
+    data () {
       return {
         colorNote: '#fff',
         colors: [
-          {id: "0", color: "white", num: "#fff"},
-          {id: "1", color: "red", num: "#ffa1a1"},
-          {id: "2", color: "pink", num: "#ffaad5"},
-          {id: "3", color: "orange", num: "#fff2b3"},
-          {id: "4", color: "green", num: "#d6ffca"},
-          {id: "5", color: "blue", num: "#b3ecff"}
+          {id: '0', color: 'white', num: '#fff'},
+          {id: '1', color: 'red', num: '#ffa1a1'},
+          {id: '2', color: 'pink', num: '#ffaad5'},
+          {id: '3', color: 'orange', num: '#fff2b3'},
+          {id: '4', color: 'green', num: '#d6ffca'},
+          {id: '5', color: 'blue', num: '#b3ecff'}
         ],
-        text: ""
+        text: ''
       }
     },
     methods: {
@@ -64,17 +64,17 @@
           noteModal: false,
           text: this.text,
           color: this.colorNote
-        });
+        })
 
         this.text = "";
       },
       close () {
         this.$emit('close', {
           noteModal: false,
-          text: ""
-        });
+          text: ''
+        })
 
-        this.text = "";
+        this.text = ''
       }
     }
   }

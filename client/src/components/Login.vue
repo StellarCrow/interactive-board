@@ -27,8 +27,8 @@
   import AuthenticationService from '../services/AuthenticationService'
 
   export default {
-    name: "Login",
-    data() {
+    name: 'Login',
+    data () {
       return {
         username: '',
         password: '',
@@ -37,18 +37,18 @@
       }
     },
     methods: {
-      async login() {
+      async login () {
         try {
           const response = await AuthenticationService.login({
             username: this.username,
             password: this.password
-          });
-          console.log(response.data.token);
-          this.$store.commit('setToken', response.data.token);
-          this.$store.commit('setUser', response.data.user);
-          this.$router.push({ path: `/users/${response.data.user._id}`});
+          })
+          console.log(response.data.token)
+          this.$store.commit('setToken', response.data.token)
+          this.$store.commit('setUser', response.data.user)
+          this.$router.push({ path: `/users/${response.data.user._id}`})
         } catch (error) {
-          this.error = error.response.data.error;
+          this.error = error.response.data.error
         }
       }
     }
