@@ -22,10 +22,6 @@ function jwtSignUser(user) {
     });
 }
 
-router.get('/', function(req, res) {
-    res.render(__dirname + '../../client/dist/index.html');
-    // res.send("Hallo!");
-});
 
 router.post('/registration', function (req, res) {
     let userData = {
