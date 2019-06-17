@@ -9,7 +9,7 @@ module.exports = {
 
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './client/dist/',
     proxyTable: {
       '/': {
         target: "http://localhost:8081/",
