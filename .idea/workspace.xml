@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4b0d440c-3c7b-4351-8426-193d2cdfafe3" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/.eslintrc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Register.vue" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -28,7 +25,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Register.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Register.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/components/Register.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="229">
@@ -65,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".eslintrc.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name=".eslintrc.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/.eslintrc.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
-              <caret line="30" column="35" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
+            <state relative-caret-position="314">
+              <caret line="33" column="28" lean-forward="true" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -155,8 +152,8 @@
         <option value="$PROJECT_DIR$/server/src/app.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/client/package.json" />
-        <option value="$PROJECT_DIR$/client/.eslintrc.js" />
         <option value="$PROJECT_DIR$/client/src/components/Register.vue" />
+        <option value="$PROJECT_DIR$/client/.eslintrc.js" />
       </list>
     </option>
   </component>
@@ -337,25 +334,25 @@
       <workItem from="1560372943781" duration="1167000" />
       <workItem from="1560498756112" duration="2054000" />
       <workItem from="1560680065805" duration="14174000" />
-      <workItem from="1560759110680" duration="1425000" />
+      <workItem from="1560759110680" duration="2398000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="542110000" />
+    <option name="totallyTimeSpent" value="543083000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13895394" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13895394" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.12724434" side_tool="true" weight="0.33333334" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.0" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.87275565" visible="true" weight="0.290378" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.87275565" visible="true" weight="0.290378" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.7798595" weight="0.33848798" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -688,13 +685,6 @@
         <state relative-caret-position="-2270" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/.eslintrc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="30" column="35" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/components/pages/MainPage.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="110">
@@ -706,6 +696,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="229">
           <caret line="26" column="18" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/.eslintrc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="33" column="28" lean-forward="true" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
         </state>
       </provider>
     </entry>

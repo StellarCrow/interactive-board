@@ -28,6 +28,9 @@ module.exports = {
     "indent": "off",
     "avoidEscape": true,
     "omitLastInOneLineBlock": true,
-    "no-multiple-empty-lines": "off"
+    "no-multiple-empty-lines": "off",
+    "quotes": "off",
+    "semi": "off",
+    "no-multi-spaces": "off"
   }
 }
