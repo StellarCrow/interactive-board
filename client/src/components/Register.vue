@@ -25,9 +25,6 @@
               <input type="password" placeholder="Повторите пароль" class="form__input" v-model="repeatPassword"
                      required>
             </div>
-            <div class="form-group">
-              {{message}}
-            </div>
             <button v-on:click="register">Подтвердить</button>
           </form>
         </div>
@@ -78,15 +75,15 @@
       }
     },
     computed: {
-      message: function () {
-        if (this.password !== this.repeatPassword) {
-          this.passValid = false;
-          return this.message = "Пароли не совпадают!"
-        }
-        else {
-          this.passValid = true;
-        }
-      }
+      // message: function () {
+      //   if (this.password !== this.repeatPassword) {
+      //     this.passValid = false;
+      //     return this.message = "Пароли не совпадают!"
+      //   }
+      //   else {
+      //     this.passValid = true;
+      //   }
+      // }
     }
   }
 </script>
